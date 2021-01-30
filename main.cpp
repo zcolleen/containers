@@ -44,28 +44,36 @@ public:
 };
 
 
+
+
 int main()
 {
+	std::list<int> list1;
+	ft::list<int> lis1;
 
 
-//	std::allocator<Some_class> allocator;
-//	ft::list<int> list(10, 20);
-//	std::list<int> list1(static_cast<size_t>(first), static_cast<value_type>(last));
-//	std::list<int>::iterator it = list1.begin();
+//	std::cout << allocator.max_size() / sizeof(int) << std::endl;
 
-	std::vector<int> f(10);
 
-	std::list<int> list1(f.begin(), f.end());
-//	ft::list<int> list(10, 0);
-	ft::list<int> l(f.begin(), f.end());
+//	list1.assign(1, 10);
+//	list1.assign(2, 11);
+//	list1.assign(2, 15);
 
-//	std::vector<int> a(10, 30);
-//
-//	std::vector<int>::iterator it = a.begin();
-//
-//	std::list<int> list2(it, a.end());
-//
-//	std::cout << *list2.begin() << std::endl;
+	int16_t a = 2;
+	int b = 200;
+	std::string str = "string";
+	ft::list<int> list2(a, b);
+	std::list<int> list(a, b);
+	std::list<int>::iterator it = list.begin();
+
+	std::list<int>::iterator iter = it;
+
+	iter--;
+	std::cout << *iter << std::endl;
+
+	if (iter != it)
+		std::cout << "go" << std::endl;
+	ft::list<int> list3;
 
 
 	return 0;
