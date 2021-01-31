@@ -66,6 +66,8 @@ int main()
 	std::list<int> list(a, b);
 	std::list<int>::iterator it = list.begin();
 
+	std::list<int>::iterator *itera = &it;
+
 	std::list<int>::iterator iter = it;
 
 	iter--;

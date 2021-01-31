@@ -42,6 +42,7 @@ namespace ft
 		}
 		//end of constructors
 
+
 	private:
 		//struct for element of list
 		typedef struct Node
@@ -57,9 +58,10 @@ namespace ft
 		//iterator
 		class iterator {
 		private:
+			explicit iterator(node *ptr) : ptr(ptr) {}
 			node *ptr;
 		public:
-			iterator() {}
+			iterator() : ptr(NULL) {}
 			iterator(const iterator &iter) { *this = iter; }
 			iterator &operator=(const iterator &iter) { ptr = iter.ptr; return (*this); }
 			bool operator==(const iterator &iter) { return (ptr == iter.ptr); }
@@ -72,8 +74,17 @@ namespace ft
 				ptr = ptr->_prev;
 				return (*this);
 			}
+			iterator operator++(int ) {
+				iterator old_value(*this);
+				this++;
+				return (old_value);
+			}
+			iterator operator--(int ) {
+				iterator old_value(*this);
+				this--;
+				return (old_value);
+			}
 			T &operator*() { return (ptr->_element); }
-
 		};
 
 		list& operator=( const list& other ) {
@@ -133,9 +144,16 @@ namespace ft
 		size_type max_size() const {
 			return (std::numeric_limits<size_type>::max() / sizeof(node));
 		}
-
-
 		void clear() { delete_list(); }
+		iterator begin() {
+			return (iterator (_head));
+		}
+	//	const_iterator begin() const;
+		iterator end() {
+			if (!empty())
+				return (_tail->_next);
+		return (begin());
+		}
 
 		//destructor
 		~list() {
@@ -175,6 +193,7 @@ namespace ft
 			{
 				_head = init_element(*first);
 				elem = _head;
+				_tail = _head;
 				while (++first != last)
 				{
 					tmp = init_element(*first);
@@ -194,6 +213,7 @@ namespace ft
 			{
 				_head = init_element(value);
 				elem = _head;
+				_tail = _head;
 				while (--count > 0)
 				{
 					tmp = init_element(value);
