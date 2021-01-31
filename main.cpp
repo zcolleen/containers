@@ -48,35 +48,13 @@ public:
 
 int main()
 {
-	std::list<int> list1;
-	ft::list<int> lis1;
+	ft::list<int> a((size_t)1, 10);
+	ft::list<int>::iterator it = a.begin();
 
-
-//	std::cout << allocator.max_size() / sizeof(int) << std::endl;
-
-
-//	list1.assign(1, 10);
-//	list1.assign(2, 11);
-//	list1.assign(2, 15);
-
-	int16_t a = 2;
-	int b = 200;
-	std::string str = "string";
-	ft::list<int> list2(a, b);
-	std::list<int> list(a, b);
-	std::list<int>::iterator it = list.begin();
-
-	std::list<int>::iterator *itera = &it;
-
-	std::list<int>::iterator iter = it;
-
-	iter--;
-	std::cout << *iter << std::endl;
-
-	if (iter != it)
-		std::cout << "go" << std::endl;
-	ft::list<int> list3;
-
-
+	while (true)
+	{
+//		std::cout << *it << std::endl;
+		it++;
+	}
 	return 0;
 }

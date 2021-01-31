@@ -48,6 +48,7 @@ namespace ft
 		typedef struct Node
 		{
 			explicit Node(const T &element) : _element(element) {}
+			Node() {}
 			value_type _element;
 			struct Node *_next;
 			struct Node *_prev;
@@ -58,11 +59,11 @@ namespace ft
 		//iterator
 		class iterator {
 		private:
-			explicit iterator(node *ptr) : ptr(ptr) {}
 			node *ptr;
 		public:
 			iterator() : ptr(NULL) {}
 			iterator(const iterator &iter) { *this = iter; }
+			explicit iterator(node *ptr) : ptr(ptr) {}
 			iterator &operator=(const iterator &iter) { ptr = iter.ptr; return (*this); }
 			bool operator==(const iterator &iter) { return (ptr == iter.ptr); }
 			bool operator!=(const iterator &iter) { return (!(*this == iter)); }
@@ -76,12 +77,14 @@ namespace ft
 			}
 			iterator operator++(int ) {
 				iterator old_value(*this);
-				this++;
+				if (ptr)
+					ptr = ptr->_next;
 				return (old_value);
 			}
 			iterator operator--(int ) {
 				iterator old_value(*this);
-				this--;
+				if (ptr)
+					ptr = ptr->_prev;
 				return (old_value);
 			}
 			T &operator*() { return (ptr->_element); }
@@ -93,29 +96,24 @@ namespace ft
 				return (*this);
 
 			node *header_ptr = other._head;
-			node *first_ptr;
-			node *second_ptr;
+			node *tmp = NULL;
+			node *elem = NULL;
 
-			for (node *tmp = _head; tmp != NULL; tmp = tmp->_next)
-				delete tmp;
+			delete_list();
 
-			if (header_ptr != NULL)
+			if (other._head)
 			{
-				_head = init_element(header_ptr->_element);
+				init_head(other._head->_element);
+				elem = _head;
 				header_ptr = header_ptr->_next;
+				while (header_ptr != other._tail->_next)
+				{
+					ptr_reassignment(&elem, &tmp, header_ptr->_element);
+					header_ptr = header_ptr->_next;
+				}
+				init_tail(tmp);
 			}
-			second_ptr = _head;
-			while (header_ptr != NULL)
-			{
-				first_ptr = init_element(header_ptr->_element);
-				second_ptr->_next = first_ptr;
-				first_ptr->_prev = second_ptr;
-				second_ptr = first_ptr;
-				header_ptr = header_ptr->_next;
-			}
-			_tail = first_ptr;
 			return (*this);
-
 		}
 
 		void assign( size_type count, const T& value ) {
@@ -127,7 +125,6 @@ namespace ft
 		void assign( InputIt first, InputIt last ) {
 			delete_list();
 			assignment_templ(first, last);
-			print_list();
 		}
 
 		reference front() { return (_head->_element); }
@@ -137,8 +134,11 @@ namespace ft
 		bool empty() const { return (_head == NULL); }
 		size_type size() const {
 			size_type size = 0;
-			for (node *tmp = _head; tmp != NULL; tmp = tmp->_next)
-				++size;
+			if (_head)
+			{
+				for (node *tmp = _head; tmp != _tail->_next; tmp = tmp->_next)
+					++size;
+			}
 			return (size);
 		}
 		size_type max_size() const {
@@ -150,8 +150,9 @@ namespace ft
 		}
 	//	const_iterator begin() const;
 		iterator end() {
+
 			if (!empty())
-				return (_tail->_next);
+				return (iterator (_tail->_next));
 		return (begin());
 		}
 
@@ -166,6 +167,14 @@ namespace ft
 		node *_tail;
 		allocator_type _allocator;
 
+		node *init_element() {
+ 			node *new_node = new node;
+
+			new_node->_next = NULL;
+			new_node->_prev = NULL;
+			return (new_node);
+
+		}
 		node *init_element(const T &elem) {
 
 			node *new_node = new node(elem);
@@ -177,10 +186,21 @@ namespace ft
 
 		void delete_list() {
 
-			for (node *tmp = _head; tmp != NULL; tmp = tmp->_next)
-				delete tmp;
+			if (_head)
+			{
+				for (node *tmp = _head; tmp != _tail->_next; tmp = tmp->_next)
+					delete tmp;
+				delete _tail->_next;
+			}
 			_head = NULL;
 			_tail = NULL;
+		}
+
+		void ptr_reassignment(node **elem, node **tmp, const T &value) {
+			*tmp = init_element(value);
+			(*elem)->_next = *tmp;
+			(*tmp)->_prev = *elem;
+			*elem = *tmp;
 		}
 
 		template< class InputIt >
@@ -191,46 +211,78 @@ namespace ft
 
 			if (first != last)
 			{
-				_head = init_element(*first);
+				init_head(*first);
 				elem = _head;
-				_tail = _head;
 				while (++first != last)
-				{
-					tmp = init_element(*first);
-					elem->_next = tmp;
-					tmp->_prev = elem;
-					elem = tmp;
-				}
-				_tail = tmp;
+					ptr_reassignment(&elem, &tmp, *first);
+				init_tail(tmp);
 			}
+		}
+		void init_head(const T& value) {
+//			node *ptr;
+
+			_head = init_element(value);
+//			ptr = init_element();
+//			ptr->_next = _head;
+//			_head->_prev = ptr;
+		}
+		void init_tail(node *tail_elem) {
+			node *ptr;
+
+			if (tail_elem)
+				_tail = tail_elem;
+			else
+				_tail = _head;
+			ptr = init_element();
+			ptr->_prev = _tail;
+			_tail->_next = ptr;
+			_tail->_prev = _tail->_next;
+			ptr->_next = _head;
+			_head->_prev = ptr;
+
+//			if (tail_elem)
+//			{
+//				_tail = tail_elem;
+//				ptr = init_element();
+//				ptr->_prev = _tail;
+//				_tail->_next = ptr;
+//				ptr->_next = _head;
+//				_head->_prev = ptr;
+//			}
+//			else {
+//				_tail = _head;
+//				ptr = init_element();
+//				ptr->_prev = _tail;
+//				_tail->_next = ptr;
+//				_tail->_prev = ptr;
+//				ptr->_next = _tail;
+//			}
 		}
 		void assignment(size_type count, const T& value) {
 
-			node *tmp;
-			node *elem;
+			node *tmp = NULL;
+			node *elem = NULL;
 
 			if (count > 0)
 			{
-				_head = init_element(value);
+				init_head(value);
 				elem = _head;
-				_tail = _head;
 				while (--count > 0)
-				{
-					tmp = init_element(value);
-					elem->_next = tmp;
-					tmp->_prev = elem;
-					elem = tmp;
-				}
-				_tail = tmp;
+					ptr_reassignment(&elem, &tmp, value);
+				init_tail(tmp);
 			}
 		}
 		void print_list() {
 
 			node *tmp = _head;
-			while (tmp != NULL) {
+			if (tmp)
+			{
+				while (tmp != _tail->_next)
+				{
 
-				std::cout << tmp->_element << std::endl;
-				tmp = tmp->_next;
+					std::cout << tmp->_element << std::endl;
+					tmp = tmp->_next;
+				}
 			}
 		}
 
