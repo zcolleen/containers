@@ -90,6 +90,8 @@ namespace ft
 			T &operator*() { return (ptr->_element); }
 		};
 
+		typedef iterator iterator;
+
 		list& operator=( const list& other ) {
 
 			if (this == &other)
@@ -150,12 +152,37 @@ namespace ft
 		}
 	//	const_iterator begin() const;
 		iterator end() {
-
 			if (!empty())
 				return (iterator (_tail->_next));
 		return (begin());
 		}
 
+		iterator insert(iterator pos, const T& value) {
+
+			iterator it = begin();
+			node *ptr = _head;
+
+			while (it != pos)
+			{
+				ptr = ptr->_next;
+				it++;
+			}
+			node *new_element = init_element(value);
+			if (it == end())
+				_tail = new_element;
+			if (it == begin())
+				_head = new_element;
+			if (ptr == NULL)
+				init_tail(ptr);
+			else
+			{
+				new_element->_next = ptr;
+				new_element->_prev = ptr->_prev;
+				ptr->_prev->_next = new_element;
+				ptr->_prev = new_element;
+			}
+			return (iterator(new_element));
+		}
 		//destructor
 		~list() {
 			delete_list();
