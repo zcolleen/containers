@@ -48,13 +48,16 @@ public:
 
 int main()
 {
-	ft::list<int> a((size_t)1, 10);
+	ft::list<int> a((size_t)5, 10);
 	ft::list<int>::iterator it = a.begin();
+	ft::list<int>::iterator it_end = a.end();
 
-	while (true)
+	it--;
+	it_end--;
+	while (it != it_end)
 	{
-//		std::cout << *it << std::endl;
-		it++;
+		std::cout << *it_end << std::endl;
+		it_end--;
 	}
 	return 0;
 }

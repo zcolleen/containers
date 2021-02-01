@@ -219,12 +219,7 @@ namespace ft
 			}
 		}
 		void init_head(const T& value) {
-//			node *ptr;
-
 			_head = init_element(value);
-//			ptr = init_element();
-//			ptr->_next = _head;
-//			_head->_prev = ptr;
 		}
 		void init_tail(node *tail_elem) {
 			node *ptr;
@@ -236,27 +231,8 @@ namespace ft
 			ptr = init_element();
 			ptr->_prev = _tail;
 			_tail->_next = ptr;
-			_tail->_prev = _tail->_next;
 			ptr->_next = _head;
 			_head->_prev = ptr;
-
-//			if (tail_elem)
-//			{
-//				_tail = tail_elem;
-//				ptr = init_element();
-//				ptr->_prev = _tail;
-//				_tail->_next = ptr;
-//				ptr->_next = _head;
-//				_head->_prev = ptr;
-//			}
-//			else {
-//				_tail = _head;
-//				ptr = init_element();
-//				ptr->_prev = _tail;
-//				_tail->_next = ptr;
-//				_tail->_prev = ptr;
-//				ptr->_next = _tail;
-//			}
 		}
 		void assignment(size_type count, const T& value) {
 
