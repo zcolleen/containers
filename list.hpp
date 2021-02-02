@@ -70,7 +70,7 @@ namespace ft
 
 	public:
 		//iterator
-		class iterator {
+		typedef class iterator {
 		private:
 			node *ptr;
 		public:
@@ -81,11 +81,13 @@ namespace ft
 			bool operator==(const iterator &iter) { return (ptr == iter.ptr); }
 			bool operator!=(const iterator &iter) { return (!(*this == iter)); }
 			iterator &operator++() {
-				ptr = ptr->_next;
+				if (ptr)
+					ptr = ptr->_next;
 				return (*this);
 			}
 			iterator &operator--() {
-				ptr = ptr->_prev;
+				if (ptr)
+					ptr = ptr->_prev;
 				return (*this);
 			}
 			iterator operator++(int ) {
@@ -101,9 +103,7 @@ namespace ft
 				return (old_value);
 			}
 			T &operator*() { return (ptr->_element); }
-		};
-
-		typedef iterator iterator;
+		}								iterator;
 
 		list& operator=( const list& other ) {
 
@@ -211,7 +211,12 @@ namespace ft
 		iterator erase( iterator pos ) {
 			if (pos == end())
 				return (end());
-			if (pos == end()--)
+			if (pos == begin() && _head == _tail)
+			{
+				delete_list();
+				return (iterator(_head));
+			}
+			if (pos == --end())
 				_tail = _tail->_prev;
 			if (pos == begin())
 				_head = _head->_next;
@@ -222,11 +227,37 @@ namespace ft
 			delete ptr;
 			return (iterator(tmp));
 		}
+		iterator erase( iterator first, iterator last ) {
+			while (first != last)
+			{
+				if (first == begin() && _head == _tail)
+					return (erase(first));
+				first = erase(first);
+			}
+			return (last);
+		}
+		void pop_back() {
+			erase(--end());
+		}
+		void pop_front() {
+			erase(begin());
+		}
+		void resize( size_type count, T value = T() ) {
+			if (count > size())
+			{
+				while (count-- != size())
+					pop_back();
+			}
+			else
+			{
+				while (count++ != size())
+					push_back(value);
+			}
+		}
 		//destructor
 		~list() {
 			delete_list();
 		}
-
 	private:
 
 		node *_head;

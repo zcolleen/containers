@@ -63,31 +63,33 @@ int main()
 //	pos++;
 //	pos++;
 
-	list.insert(pos, 1, 7);
-	list.push_front(26);
-//	list.push_front(29);
+//	list.insert(pos, 1, 7);
+//	list.push_front(26);
+	list.push_front(29);
+//	pos = list.begin();
 	list.push_back(12);
-//	list.push_back(18);
+	list.push_back(18);
 
 	pos = list.begin();
+	
 	pos++;
-	list.erase(pos);
-
+	pos = list.erase(pos, list.end());
 	std::cout << "Size: " << list.size() << std::endl;
 
 	it = list.begin();
 	while (it != list.end())
 	{
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
 		it++;
 	}
+	std::cout << std::endl;
 //	la.erase(la.end());
 	while (iter != list2.end())
 	{
-		std::cout << *iter << std::endl;
+		std::cout << *iter << " ";
 		iter++;
 	}
-
+	std::cout << std::endl;
 // 	ft::list<int> a((size_t)0, 10);
 // 	std::list<int> b((size_t)0, 10);
 // 	ft::list<int>::iterator it = a.begin();
