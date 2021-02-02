@@ -12,51 +12,16 @@ namespace ft
 	class list
 	{
 
-private:
-	template <bool Cond, typename Result=void>
-		struct enable_if { };
+	private:
+		template <bool Cond, typename Result = void>
+			struct enable_if { };
 
 		template <typename Result>
-		struct enable_if<true, Result> {
-    		typedef Result type;
-		};
-		
-    	template <class> struct _is_integral_impl : public false_type {};
-
-		template<> struct _is_integral_impl<bool> : public true_type {};
-		template<> struct _is_integral_impl<char> : public true_type {};
-		template<> struct _is_integral_impl<wchar_t> : public true_type {};
+			struct enable_if<true, Result> {
+    			typedef Result type;
+			};
 
 
-
-		template<> struct _is_integral_impl<unsigned char> : public true_type {};
-		template<> struct _is_integral_impl<unsigned short int> : public true_type {};
-		template<> struct _is_integral_impl<unsigned int> : public true_type {};
-		template<> struct _is_integral_impl<unsigned long int> : public true_type {};
-
-		#ifdef LLONG_MAX
-		template<> struct _is_integral_impl<unsigned long long int> : public true_type {};
-		#endif
-
-		template<> struct _is_integral_impl<signed char> : public true_type {};
-		template<> struct _is_integral_impl<short int> : public true_type {};
-		template<> struct _is_integral_impl<int> : public true_type {};
-		template<> struct _is_integral_impl<long int> : public true_type {};
-
-		#ifdef LLONG_MAX
-		template<> struct _is_integral_impl<long long int> : public true_type {};
-		#endif
-
-		template <class _Tp> struct _is_integral : public _is_integral_impl<_Tp> {};
-
-		template<> struct _is_integral<char16_t> : public true_type {};
-		template<> struct _is_integral<char32_t> : public true_type {};
-
-		template<> struct _is_integral<int64_t> : public true_type {};
-		template<> struct _is_integral<uint64_t> : public true_type {};
-
-template <class _Tp>
-struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> {};
 	public:
 
 		//typedefs
@@ -72,8 +37,8 @@ struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> 
 		//constructors
 		list() : _head(NULL), _tail(NULL) {}
 		explicit list( const Allocator& alloc) : _head(NULL), _tail(NULL), _allocator(alloc) {}
-		template< class InputIt, typename = typename enable_if< !std::is_integral<InputIt>::value >::type >
-		list(InputIt first, InputIt last, const Allocator& alloc = Allocator()) :
+		template< class InputIt >
+		list(InputIt first, InputIt last, const Allocator& alloc = Allocator(), typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0) :
 				_head(NULL), _tail(NULL), _allocator(alloc) {
 
 				assignment_templ(first, last);
@@ -172,7 +137,7 @@ struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> 
 		}
 
 		template< class InputIt >
-		void assign( InputIt first, InputIt last ) {
+		void assign( InputIt first, InputIt last, typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0) {
 			delete_list();
 			assignment_templ(first, last);
 		}
@@ -207,18 +172,11 @@ struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> 
 
 		iterator insert(iterator pos, const T& value) {
 
-			iterator it = begin();
-			node *ptr = _head;
-
-			while (it != pos)
-			{
-				ptr = ptr->_next;
-				it++;
-			}
+			node *ptr = count_iter(pos, begin(), _head);
 			node *new_element = init_element(value);
-			if (it == end())
+			if (pos == end())
 				_tail = new_element;
-			if (it == begin())
+			if (pos == begin())
 				_head = new_element;
 			if (ptr == NULL)
 				init_tail(ptr);
@@ -230,6 +188,39 @@ struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> 
 				ptr->_prev = new_element;
 			}
 			return (iterator(new_element));
+		}
+		void insert( iterator pos, size_type count, const T& value ) {
+			while (count-- > 0)
+				insert(pos, value);
+		}
+		template< class InputIt >
+		void insert( iterator pos, InputIt first, InputIt last,
+			   typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0) {
+			while (first != last)
+			{
+				insert(pos, *first);
+				first++;
+			}
+		}
+		void push_back( const T& value ) {
+			insert(end(), value);
+		}
+		void push_front( const T& value ) {
+			insert(begin(), value);
+		}
+		iterator erase( iterator pos ) {
+			if (pos == end())
+				return (end());
+			if (pos == end()--)
+				_tail = _tail->_prev;
+			if (pos == begin())
+				_head = _head->_next;
+			node *ptr = count_iter(pos, begin(), _head);
+			node *tmp = ptr->_next;
+			ptr->_next->_prev = ptr->_prev;
+			ptr->_prev->_next = ptr->_next;
+			delete ptr;
+			return (iterator(tmp));
 		}
 		//destructor
 		~list() {
@@ -259,6 +250,15 @@ struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> 
 			return (new_node);
 		}
 
+		node *count_iter(iterator pos, iterator it, node *ptr) {
+
+			while (it != pos)
+			{
+				ptr = ptr->_next;
+				it++;
+			}
+			return (ptr);
+		}
 		void delete_list() {
 
 			if (_head)
@@ -336,8 +336,6 @@ struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> 
 				}
 			}
 		}
-
-
 	};
 }
 

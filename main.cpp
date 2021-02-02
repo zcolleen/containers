@@ -44,9 +44,11 @@ public:
 };
 
 
+
+
 int main()
 {
-	int a = 2;
+	int a = 0;
 
 	ft::list<int> list(a, 10);
 	std::vector<int> vector(4, 3);
@@ -56,19 +58,36 @@ int main()
 	ft::list<int> list2(vector.begin(), vector.end());
 	ft::list<int>::iterator it = list.begin();
 	ft::list<int>::iterator iter = list2.begin();
+	ft::list<int>::iterator pos = it;
+//	pos++;
+//	pos++;
+//	pos++;
 
-//std::cout << typeid(unsigned) << std::endl;
+	list.insert(pos, 1, 7);
+	list.push_front(26);
+//	list.push_front(29);
+	list.push_back(12);
+//	list.push_back(18);
 
+	pos = list.begin();
+	pos++;
+	list.erase(pos);
+
+	std::cout << "Size: " << list.size() << std::endl;
+
+	it = list.begin();
 	while (it != list.end())
 	{
 		std::cout << *it << std::endl;
 		it++;
 	}
+//	la.erase(la.end());
 	while (iter != list2.end())
 	{
 		std::cout << *iter << std::endl;
 		iter++;
 	}
+
 // 	ft::list<int> a((size_t)0, 10);
 // 	std::list<int> b((size_t)0, 10);
 // 	ft::list<int>::iterator it = a.begin();
