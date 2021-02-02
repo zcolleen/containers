@@ -44,26 +44,47 @@ public:
 };
 
 
-
-
 int main()
 {
-	ft::list<int> a((size_t)0, 10);
-	std::list<int> b((size_t)0, 10);
-	ft::list<int>::iterator it = a.begin();
-//	ft::list<int>::iterator it_end = a.end();
-	std::list<int>::iterator iter;
+	int a = 2;
 
+	ft::list<int> list(a, 10);
+	std::vector<int> vector(4, 3);
 
-	//it++;
-//	it++;
-	it = a.insert(it, 5);
-	std::cout << "Size: " << a.size() << std::endl;
-//	it = a.begin();
-	while (it != a.end())
+	std::list<int> la(vector.begin(), vector.end());
+
+	ft::list<int> list2(vector.begin(), vector.end());
+	ft::list<int>::iterator it = list.begin();
+	ft::list<int>::iterator iter = list2.begin();
+
+//std::cout << typeid(unsigned) << std::endl;
+
+	while (it != list.end())
 	{
 		std::cout << *it << std::endl;
 		it++;
 	}
+	while (iter != list2.end())
+	{
+		std::cout << *iter << std::endl;
+		iter++;
+	}
+// 	ft::list<int> a((size_t)0, 10);
+// 	std::list<int> b((size_t)0, 10);
+// 	ft::list<int>::iterator it = a.begin();
+// //	ft::list<int>::iterator it_end = a.end();
+// 	std::list<int>::iterator iter;
+
+
+// 	//it++;
+// //	it++;
+// 	it = a.insert(it, 5);
+// 	std::cout << "Size: " << a.size() << std::endl;
+// //	it = a.begin();
+// 	while (it != a.end())
+// 	{
+// 		std::cout << *it << std::endl;
+// 		it++;
+// 	}
 	return 0;
 }

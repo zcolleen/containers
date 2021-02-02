@@ -12,6 +12,51 @@ namespace ft
 	class list
 	{
 
+private:
+	template <bool Cond, typename Result=void>
+		struct enable_if { };
+
+		template <typename Result>
+		struct enable_if<true, Result> {
+    		typedef Result type;
+		};
+		
+    	template <class> struct _is_integral_impl : public false_type {};
+
+		template<> struct _is_integral_impl<bool> : public true_type {};
+		template<> struct _is_integral_impl<char> : public true_type {};
+		template<> struct _is_integral_impl<wchar_t> : public true_type {};
+
+
+
+		template<> struct _is_integral_impl<unsigned char> : public true_type {};
+		template<> struct _is_integral_impl<unsigned short int> : public true_type {};
+		template<> struct _is_integral_impl<unsigned int> : public true_type {};
+		template<> struct _is_integral_impl<unsigned long int> : public true_type {};
+
+		#ifdef LLONG_MAX
+		template<> struct _is_integral_impl<unsigned long long int> : public true_type {};
+		#endif
+
+		template<> struct _is_integral_impl<signed char> : public true_type {};
+		template<> struct _is_integral_impl<short int> : public true_type {};
+		template<> struct _is_integral_impl<int> : public true_type {};
+		template<> struct _is_integral_impl<long int> : public true_type {};
+
+		#ifdef LLONG_MAX
+		template<> struct _is_integral_impl<long long int> : public true_type {};
+		#endif
+
+		template <class _Tp> struct _is_integral : public _is_integral_impl<_Tp> {};
+
+		template<> struct _is_integral<char16_t> : public true_type {};
+		template<> struct _is_integral<char32_t> : public true_type {};
+
+		template<> struct _is_integral<int64_t> : public true_type {};
+		template<> struct _is_integral<uint64_t> : public true_type {};
+
+template <class _Tp>
+struct is_integral : public detail::_is_integral<typename remove_cv<_Tp>::type> {};
 	public:
 
 		//typedefs
@@ -27,7 +72,7 @@ namespace ft
 		//constructors
 		list() : _head(NULL), _tail(NULL) {}
 		explicit list( const Allocator& alloc) : _head(NULL), _tail(NULL), _allocator(alloc) {}
-		template< class InputIt >
+		template< class InputIt, typename = typename enable_if< !std::is_integral<InputIt>::value >::type >
 		list(InputIt first, InputIt last, const Allocator& alloc = Allocator()) :
 				_head(NULL), _tail(NULL), _allocator(alloc) {
 
@@ -44,6 +89,9 @@ namespace ft
 
 
 	private:
+
+	
+
 		//struct for element of list
 		typedef struct Node
 		{
