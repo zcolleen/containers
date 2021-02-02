@@ -245,14 +245,23 @@ namespace ft
 		void resize( size_type count, T value = T() ) {
 			if (count > size())
 			{
-				while (count-- != size())
-					pop_back();
+				while (count != size())
+					push_back(value);
 			}
 			else
 			{
-				while (count++ != size())
-					push_back(value);
+				while (count != size())
+					pop_back();
 			}
+		}
+		void swap( list& other ) {
+			node *tmp_head = _head;
+			node *tmp_tail = _tail;
+
+			_head = other._head;
+			other._head = tmp_head;
+			_tail = other._tail;
+			other._tail = tmp_tail;
 		}
 		//destructor
 		~list() {
