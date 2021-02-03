@@ -263,6 +263,44 @@ namespace ft
 			_tail = other._tail;
 			other._tail = tmp_tail;
 		}
+		void reverse() {
+			if (_head ==  NULL)
+				return;
+			node *tmp = _head;
+			node *tmp_save = tmp;
+
+			while (tmp != _tail)
+				ptr_reverse(&tmp, &tmp_save);
+			for (int i = 0; i < 2; ++i)
+				ptr_reverse(&tmp, &tmp_save);
+			tmp = _tail;
+			_tail = _head;
+			_head = tmp;
+		}
+		void sort() {
+
+			if (_head == NULL)
+				return;
+			node *tmp = _head;
+			node *tmp_next = tmp;
+
+			while (tmp != _tail->_prev)
+			{
+				tmp_next = tmp->_next;
+				if (tmp_next->_element < tmp->_element)
+				{
+					swap(tmp, tmp_next);
+					continue;
+				}
+				tmp = tmp_next;
+			}
+		}
+//		void merge( list& other ) {
+//
+//			if (&other == this)
+//				return;
+//
+//		}
 		//destructor
 		~list() {
 			delete_list();
@@ -310,7 +348,23 @@ namespace ft
 			_head = NULL;
 			_tail = NULL;
 		}
+		void swap(node *first, node *second) {
 
+			node *tmp;
+
+			if (first == _head)
+				_head = second;
+			if (second == _tail)
+				_tail = first;
+			tmp = first->_prev;
+
+			tmp->_next = second;
+			second->_prev = tmp;
+			first->_prev = second;
+			first->_next = second->_next;
+			second->_next->_prev = first;
+			second->_next = first;
+		}
 		void ptr_reassignment(node **elem, node **tmp, const T &value) {
 			*tmp = init_element(value);
 			(*elem)->_next = *tmp;
@@ -318,6 +372,12 @@ namespace ft
 			*elem = *tmp;
 		}
 
+		void ptr_reverse(node **tmp, node **tmp_save) {
+			*tmp_save = (*tmp)->_next;
+			(*tmp)->_next = (*tmp)->_prev;
+			(*tmp)->_prev = *tmp_save;
+			*tmp = *tmp_save;
+		}
 		template< class InputIt >
 		void assignment_templ(InputIt first, InputIt last) {
 

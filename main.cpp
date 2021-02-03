@@ -77,14 +77,16 @@ int main()
 
 	ft::list<int> list2(vector.begin(), vector.end());
 	ft::list<int>::iterator it = list.begin();
-	ft::list<int>::iterator iter = list2.begin();
-	ft::list<int>::iterator pos = it;
+//	ft::list<int>::iterator iter = list2.begin();
+//	ft::list<int>::iterator pos = it;
 
 
 
 	list.push_front(29);
 	list.push_back(12);
 	list.push_back(18);
+	list.push_back(87);
+	list.push_front(77);
 
 
 	std::cout << "Size: " << list.size() << std::endl;
@@ -99,6 +101,11 @@ int main()
 	list2.swap(list);
 	print(list2.begin(), list2.end(), "List2: ");
 	print(list.begin(), list.end(), "List: ");
+	list2.reverse();
+//	list2.reverse();
+	print(list2.begin(), list2.end(), "Reversed list: ");
+	list2.sort();
+	print(list2.begin(), list2.end(), "Sorted list: ");
 //	print(iter, list2.end());
 	return 0;
 }
