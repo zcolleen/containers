@@ -218,9 +218,7 @@ namespace ft
 				_head = _head->_next;
 			node *ptr = count_iter(pos, begin(), _head);
 			node *tmp = ptr->_next;
-			ptr->_next->_prev = ptr->_prev;
-			ptr->_prev->_next = ptr->_next;
-			delete ptr;
+			remove_element(ptr);
 			return (iterator(tmp));
 		}
 		iterator erase( iterator first, iterator last ) {
@@ -274,39 +272,49 @@ namespace ft
 			_head = tmp;
 		}
 		void sort() {
-
-			node *tmp;
-
-			for (size_type i = 0; i < size(); ++i)
-			{
-				tmp = _head;
-				while (tmp != _tail)
-				{
-					if (tmp->_next->_element < tmp->_element)
-					{
-						swap(tmp, tmp->_next);
-						continue;
-					}
-					tmp = tmp->_next;
-				}
-			}
+			sort(comparator);
 		}
 		template< class Compare >
 		void sort( Compare comp ) {
 			node *tmp;
+			bool break_flag;
 
 			for (size_type i = 0; i < size(); ++i)
 			{
+				break_flag = true;
 				tmp = _head;
 				while (tmp != _tail)
 				{
 					if (comp(tmp->_next->_element, tmp->_element))
 					{
+						break_flag = false;
 						swap(tmp, tmp->_next);
 						continue;
 					}
 					tmp = tmp->_next;
 				}
+				if (break_flag)
+					break;
+			}
+		}
+		void unique() {
+			unique(predicate);
+		}
+		template< class BinaryPredicate >
+		void unique( BinaryPredicate p ) {
+			node *tmp;
+
+			tmp = _head;
+			while (tmp != _tail)
+			{
+				if (p(tmp->_element, tmp->_next->_element))
+				{
+					if (tmp->_next == _tail)
+						_tail = tmp;
+					remove_element(tmp->_next);
+					continue;
+				}
+				tmp = tmp->_next;
 			}
 		}
 //		void merge( list& other ) {
@@ -362,6 +370,13 @@ namespace ft
 			_head = NULL;
 			_tail = NULL;
 		}
+
+		static bool comparator(const T &a, const T &b) {
+			return (a < b);
+		}
+		static bool predicate(const T &a, const T &b) {
+			return (a == b);
+		}
 		void swap(node *first, node *second) {
 
 			node *tmp;
@@ -378,6 +393,11 @@ namespace ft
 			first->_next = second->_next;
 			second->_next->_prev = first;
 			second->_next = first;
+		}
+		void remove_element(node *ptr) {
+			ptr->_next->_prev = ptr->_prev;
+			ptr->_prev->_next = ptr->_next;
+			delete ptr;
 		}
 		void ptr_reassignment(node **elem, node **tmp, const T &value) {
 			*tmp = init_element(value);

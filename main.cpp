@@ -68,6 +68,11 @@ void print(T first, T last, std::string str)
 	std::cout << std::endl;
 }
 
+bool p(const int &a, const int &b)
+{
+	return (a < b);
+}
+
 int main()
 {
 	int a = 0;
@@ -81,27 +86,34 @@ int main()
 
 
 
-	list.push_front(29);
-	list.push_front(30);
+	list.push_front(16);
 	list.push_front(15);
-	list.push_front(32);
-	list.push_back(33);
-	list_def.push_front(29);
-	list_def.push_front(30);
+	list.push_front(14);
+	list.push_front(13);
+	list.push_front(12);
+	list_def.push_front(16);
 	list_def.push_front(15);
-	list_def.push_front(32);
-	list_def.push_back(33);
-
+	list_def.push_front(14);
+	list_def.push_front(13);
+	list_def.push_front(12);
+	list.clear();
+	list.push_back(4);
+	list.push_back(4);
+	list.push_back(19);
+	list.push_back(20);
+	list.push_back(20);
+	list.push_back(20);
+	list.push_back(21);
 
 	std::cout << "Size: " << list.size() << std::endl;
 
-//	list.sort();
+	list.unique();
 	print(list.begin(), list.end(), "Ascending: ");
-	list.sort(std::less<int>());
+//	list.sort(std::less<int>());
 //	list_def.sort();
-	print(list_def.begin(), list_def.end(), "Def list sorted: ");
-	list_def.sort(std::less<int>());
-	print(list.begin(), list.end(), "Descending sort: ");
-	print(list_def.begin(), list_def.end(), "Def list: ");
+//	print(list_def.begin(), list_def.end(), "Def list sorted: ");
+//	list_def.sort(std::less<int>());
+//	print(list.begin(), list.end(), "Descending sort: ");
+//	print(list_def.begin(), list_def.end(), "Def list: ");
 	return 0;
 }
