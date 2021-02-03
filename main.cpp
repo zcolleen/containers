@@ -107,7 +107,9 @@ int main()
 
 	std::cout << "Size: " << list.size() << std::endl;
 
-	list.unique();
+	list.clear();
+	list.push_back(10);
+	list.remove(0);
 	print(list.begin(), list.end(), "Ascending: ");
 //	list.sort(std::less<int>());
 //	list_def.sort();

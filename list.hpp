@@ -14,12 +14,10 @@ namespace ft
 
 	private:
 		template <bool Cond, typename Result = void>
-			struct enable_if { };
+			struct enable_if {};
 
 		template <typename Result>
-			struct enable_if<true, Result> {
-    			typedef Result type;
-			};
+			struct enable_if<true, Result> { typedef Result type; };
 
 	public:
 
@@ -37,18 +35,12 @@ namespace ft
 		list() : _head(NULL), _tail(NULL) {}
 		explicit list( const Allocator& alloc) : _head(NULL), _tail(NULL), _allocator(alloc) {}
 		template< class InputIt >
-		list(InputIt first, InputIt last, const Allocator& alloc = Allocator(), typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0) :
-				_head(NULL), _tail(NULL), _allocator(alloc) {
-
-				assignment_templ(first, last);
-		}
+		list(InputIt first, InputIt last, const Allocator& alloc = Allocator(),
+	   typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0) :
+	   _head(NULL), _tail(NULL), _allocator(alloc) { assignment_templ(first, last); }
 		explicit list( size_type count, const T& value = T(), const Allocator& alloc = Allocator()) :
-		_head(NULL), _tail(NULL), _allocator(alloc) {
-			assignment(count, value);
-		}
-		list(const list& other) {
-			*this = other;
-		}
+		_head(NULL), _tail(NULL), _allocator(alloc) { assignment(count, value); }
+		list(const list& other) { *this = other; }
 		//end of constructors
 
 	private:
@@ -156,14 +148,12 @@ namespace ft
 			return (std::numeric_limits<size_type>::max() / sizeof(node));
 		}
 		void clear() { delete_list(); }
-		iterator begin() {
-			return (iterator (_head));
-		}
+		iterator begin() { return (iterator (_head)); }
 	//	const_iterator begin() const;
 		iterator end() {
 			if (!empty())
 				return (iterator (_tail->_next));
-		return (begin());
+			return (begin());
 		}
 
 		iterator insert(iterator pos, const T& value) {
@@ -198,12 +188,8 @@ namespace ft
 				first++;
 			}
 		}
-		void push_back( const T& value ) {
-			insert(end(), value);
-		}
-		void push_front( const T& value ) {
-			insert(begin(), value);
-		}
+		void push_back( const T& value ) { insert(end(), value); }
+		void push_front( const T& value ) { insert(begin(), value); }
 		iterator erase( iterator pos ) {
 			if (pos == end())
 				return (end());
@@ -230,12 +216,8 @@ namespace ft
 			}
 			return (last);
 		}
-		void pop_back() {
-			erase(--end());
-		}
-		void pop_front() {
-			erase(begin());
-		}
+		void pop_back() { erase(--end()); }
+		void pop_front() { erase(begin()); }
 		void resize( size_type count, T value = T() ) {
 			if (count > size())
 			{
@@ -271,9 +253,7 @@ namespace ft
 			_tail = _head;
 			_head = tmp;
 		}
-		void sort() {
-			sort(comparator);
-		}
+		void sort() { sort(comparator); }
 		template< class Compare >
 		void sort( Compare comp ) {
 			node *tmp;
@@ -297,9 +277,7 @@ namespace ft
 					break;
 			}
 		}
-		void unique() {
-			unique(binary_predicate);
-		}
+		void unique() { unique(binary_predicate); }
 		template< class BinaryPredicate >
 		void unique( BinaryPredicate p ) {
 			node *tmp;
@@ -317,22 +295,29 @@ namespace ft
 				tmp = tmp->_next;
 			}
 		}
-		void remove( const T& value ) {
+		void remove( const T& value ) { remove_if(unaryPredicate(value)); }
+		template< class UnaryPredicate >
+		void remove_if( UnaryPredicate p ) {
 			node *tmp;
-			node *tmp_saved;
 
+			if (_head == NULL)
+				return;
 			tmp = _head;
-			while (tmp != _tail)
+			while (tmp != _tail->_next)
 			{
-				if (tmp->_element == value)
+				if (p(tmp->_element))
 				{
+					if (tmp == _head && _head == _tail)
+					{
+						delete_list();
+						return;
+					}
 					if (tmp == _head)
 						_head = tmp->_next;
 					if (tmp == _tail)
 						_tail = tmp->_prev;
-					tmp_saved = tmp->_next;
-					remove_element(tmp);
-					tmp = tmp_saved;
+					tmp = tmp->_next;
+					remove_element(tmp->_prev);
 					continue;
 				}
 				tmp = tmp->_next;
@@ -345,9 +330,7 @@ namespace ft
 //
 //		}
 		//destructor
-		~list() {
-			delete_list();
-		}
+		~list() { delete_list(); }
 	private:
 
 		node *_head;
@@ -384,21 +367,25 @@ namespace ft
 
 			if (_head)
 			{
-				for (node *tmp = _head; tmp != _tail->_next; tmp = tmp->_next)
-					delete tmp;
+				node *tmp = _head;
+				while (tmp != _tail->_next)
+				{
+					tmp = tmp->_next;
+					delete tmp->_prev;
+				}
 				delete _tail->_next;
 			}
 			_head = NULL;
 			_tail = NULL;
 		}
 
-		static bool comparator(const T &a, const T &b) {
-			return (a < b);
-		}
-		static bool binary_predicate(const T &a, const T &b) {
-			return (a == b);
-		}
-//		static bool unary_predicate(const T)
+		static bool comparator(const T &a, const T &b) { return (a < b); }
+		static bool binary_predicate(const T &a, const T &b) { return (a == b); }
+		struct unaryPredicate {
+			T _i;
+			explicit unaryPredicate(const T &i) : _i(i) {}
+			bool operator()(const T &i) { return (i == _i); }
+		};
 		void swap(node *first, node *second) {
 
 			node *tmp;
@@ -477,19 +464,6 @@ namespace ft
 				while (--count > 0)
 					ptr_reassignment(&elem, &tmp, value);
 				init_tail(tmp);
-			}
-		}
-		void print_list() {
-
-			node *tmp = _head;
-			if (tmp)
-			{
-				while (tmp != _tail->_next)
-				{
-
-					std::cout << tmp->_element << std::endl;
-					tmp = tmp->_next;
-				}
 			}
 		}
 	};
