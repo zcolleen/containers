@@ -298,7 +298,7 @@ namespace ft
 			}
 		}
 		void unique() {
-			unique(predicate);
+			unique(binary_predicate);
 		}
 		template< class BinaryPredicate >
 		void unique( BinaryPredicate p ) {
@@ -312,6 +312,27 @@ namespace ft
 					if (tmp->_next == _tail)
 						_tail = tmp;
 					remove_element(tmp->_next);
+					continue;
+				}
+				tmp = tmp->_next;
+			}
+		}
+		void remove( const T& value ) {
+			node *tmp;
+			node *tmp_saved;
+
+			tmp = _head;
+			while (tmp != _tail)
+			{
+				if (tmp->_element == value)
+				{
+					if (tmp == _head)
+						_head = tmp->_next;
+					if (tmp == _tail)
+						_tail = tmp->_prev;
+					tmp_saved = tmp->_next;
+					remove_element(tmp);
+					tmp = tmp_saved;
 					continue;
 				}
 				tmp = tmp->_next;
@@ -374,9 +395,10 @@ namespace ft
 		static bool comparator(const T &a, const T &b) {
 			return (a < b);
 		}
-		static bool predicate(const T &a, const T &b) {
+		static bool binary_predicate(const T &a, const T &b) {
 			return (a == b);
 		}
+//		static bool unary_predicate(const T)
 		void swap(node *first, node *second) {
 
 			node *tmp;
