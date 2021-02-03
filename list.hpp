@@ -21,7 +21,6 @@ namespace ft
     			typedef Result type;
 			};
 
-
 	public:
 
 		//typedefs
@@ -52,10 +51,7 @@ namespace ft
 		}
 		//end of constructors
 
-
 	private:
-
-	
 
 		//struct for element of list
 		typedef struct Node
@@ -279,20 +275,38 @@ namespace ft
 		}
 		void sort() {
 
-			if (_head == NULL)
-				return;
-			node *tmp = _head;
-			node *tmp_next = tmp;
+			node *tmp;
 
-			while (tmp != _tail->_prev)
+			for (size_type i = 0; i < size(); ++i)
 			{
-				tmp_next = tmp->_next;
-				if (tmp_next->_element < tmp->_element)
+				tmp = _head;
+				while (tmp != _tail)
 				{
-					swap(tmp, tmp_next);
-					continue;
+					if (tmp->_next->_element < tmp->_element)
+					{
+						swap(tmp, tmp->_next);
+						continue;
+					}
+					tmp = tmp->_next;
 				}
-				tmp = tmp_next;
+			}
+		}
+		template< class Compare >
+		void sort( Compare comp ) {
+			node *tmp;
+
+			for (size_type i = 0; i < size(); ++i)
+			{
+				tmp = _head;
+				while (tmp != _tail)
+				{
+					if (comp(tmp->_next->_element, tmp->_element))
+					{
+						swap(tmp, tmp->_next);
+						continue;
+					}
+					tmp = tmp->_next;
+				}
 			}
 		}
 //		void merge( list& other ) {

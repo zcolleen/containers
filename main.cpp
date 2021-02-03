@@ -73,39 +73,35 @@ int main()
 	int a = 0;
 
 	ft::list<int> list(a, 10);
+	std::list<int> list_def(a, 10);
 	std::vector<int> vector(4, 3);
 
 	ft::list<int> list2(vector.begin(), vector.end());
-	ft::list<int>::iterator it = list.begin();
-//	ft::list<int>::iterator iter = list2.begin();
-//	ft::list<int>::iterator pos = it;
+
 
 
 
 	list.push_front(29);
-	list.push_back(12);
-	list.push_back(18);
-	list.push_back(87);
-	list.push_front(77);
+	list.push_front(30);
+	list.push_front(15);
+	list.push_front(32);
+	list.push_back(33);
+	list_def.push_front(29);
+	list_def.push_front(30);
+	list_def.push_front(15);
+	list_def.push_front(32);
+	list_def.push_back(33);
 
 
 	std::cout << "Size: " << list.size() << std::endl;
 
-	it = list.begin();
-	print(it, list.end(), "List: ");
-//	la.erase(la.end());
-	list2.resize(1, 7);
-	ft::list<int>::iterator i = list2.begin();
-	ft::list<int>::iterator i_end = list2.end();
-	print(i, i_end, "List2: ");
-	list2.swap(list);
-	print(list2.begin(), list2.end(), "List2: ");
-	print(list.begin(), list.end(), "List: ");
-	list2.reverse();
-//	list2.reverse();
-	print(list2.begin(), list2.end(), "Reversed list: ");
-	list2.sort();
-	print(list2.begin(), list2.end(), "Sorted list: ");
-//	print(iter, list2.end());
+//	list.sort();
+	print(list.begin(), list.end(), "Ascending: ");
+	list.sort(std::less<int>());
+//	list_def.sort();
+	print(list_def.begin(), list_def.end(), "Def list sorted: ");
+	list_def.sort(std::less<int>());
+	print(list.begin(), list.end(), "Descending sort: ");
+	print(list_def.begin(), list_def.end(), "Def list: ");
 	return 0;
 }
