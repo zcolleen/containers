@@ -58,14 +58,19 @@ namespace ft
 
 	public:
 		//iterator
-		typedef class iterator {
-		private:
+		typedef class iterator
+		{
+		protected:
 			node *ptr;
 		public:
 			iterator() : ptr(NULL) {}
 			iterator(const iterator &iter) { *this = iter; }
 			explicit iterator(node *ptr) : ptr(ptr) {}
-			iterator &operator=(const iterator &iter) { ptr = iter.ptr; return (*this); }
+			iterator &operator=(const iterator &iter) {
+				if (this != &iter)
+					ptr = iter.ptr;
+				return (*this);
+			}
 			bool operator==(const iterator &iter) { return (ptr == iter.ptr); }
 			bool operator!=(const iterator &iter) { return (!(*this == iter)); }
 			iterator &operator++() {
@@ -92,6 +97,14 @@ namespace ft
 			}
 			T &operator*() { return (ptr->_element); }
 		}								iterator;
+
+		typedef class const_iterator : public iterator {
+		public:
+			const_iterator() : iterator() {}
+			const_iterator(const const_iterator &iter) : iterator(iter) {}
+			const_iterator(iterator iter) : iterator(iter) {}
+			const T &operator*() { return (this->ptr->_element); }
+		}									const_iterator;
 
 		list& operator=( const list& other ) {
 
@@ -148,11 +161,16 @@ namespace ft
 			return (std::numeric_limits<size_type>::max() / sizeof(node));
 		}
 		void clear() { delete_list(); }
+		const_iterator begin() const { return (const_iterator (_head)); }
 		iterator begin() { return (iterator (_head)); }
-	//	const_iterator begin() const;
 		iterator end() {
 			if (!empty())
 				return (iterator (_tail->_next));
+			return (begin());
+		}
+		const_iterator end() const {
+			if (!empty())
+				return (const_iterator (_tail->_next));
 			return (begin());
 		}
 
@@ -322,6 +340,34 @@ namespace ft
 				}
 				tmp = tmp->_next;
 			}
+		}
+		void splice( const_iterator pos, list& other, const_iterator it ) {
+
+			if (it == other.end())
+				return;
+			bool to_delete = false;
+			node *insert_before = count_iter(pos, begin(), _head);
+			node *inserted = count_iter(it, other.begin(), other._head);
+
+			if (inserted == other._head && other._head == other._tail)
+				to_delete = true;
+			if (insert_before == _head)
+				_head = inserted;
+			if (insert_before == _tail->_next)
+				_tail = inserted;
+			if (other._head == inserted)
+				other._head = other._head->_next;
+			if (other._tail == inserted)
+				other._tail = other._tail->_prev;
+			node *tmp = insert_before->_prev;
+			insert_before->_prev->_next = inserted;
+			insert_before->_prev = inserted;
+			inserted->_next->_prev = inserted->_prev;
+			inserted->_prev->_next = inserted->_next;
+			inserted->_next = insert_before;
+			inserted->_prev = tmp;
+			if (to_delete)
+				other.delete_list();
 		}
 //		void merge( list& other ) {
 //

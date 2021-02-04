@@ -18,6 +18,13 @@ public:
 			ptr[i] = i;
 	}
 
+	Some_class(const Some_class &obj) {
+
+		ptr = new int[10];
+		std::cout << "constructor copy" << std::endl;
+		for (int i = 0; i < 10; ++i)
+			ptr[i] = obj.ptr[i];
+	}
 	Some_class(int a)
 	{
 		ptr = new int[a];
@@ -75,47 +82,27 @@ bool p(const int &a, const int &b)
 
 int main()
 {
-	int a = 0;
 
-	ft::list<int> list(a, 10);
-	std::list<int> list_def(a, 10);
+	ft::list<int> list;
 	std::vector<int> vector(4, 3);
 
 	ft::list<int> list2(vector.begin(), vector.end());
+	ft::list<int> l(10, 15);
 
+//	list.push_back(12);
+//	list.push_back(13);
+//	list.push_back(22);
+	list2.clear();
+	list2.push_back(102);
+//	list2.push_back(110);
+//	list2.push_back(120);
 
+	print(list.begin(), list.end(), "First list before splice: ");
+	print(list2.begin(), list2.end(), "Second list before splice: ");
 
+	list.splice(list.end(), list2, --list2.end());
+	print(list.begin(), list.end(), "After splice first list: ");
+	print(list2.begin(), list2.end(), "After splice second list: ");
 
-	list.push_front(16);
-	list.push_front(15);
-	list.push_front(14);
-	list.push_front(13);
-	list.push_front(12);
-	list_def.push_front(16);
-	list_def.push_front(15);
-	list_def.push_front(14);
-	list_def.push_front(13);
-	list_def.push_front(12);
-	list.clear();
-	list.push_back(4);
-	list.push_back(4);
-	list.push_back(19);
-	list.push_back(20);
-	list.push_back(20);
-	list.push_back(20);
-	list.push_back(21);
-
-	std::cout << "Size: " << list.size() << std::endl;
-
-	list.clear();
-	list.push_back(10);
-	list.remove(0);
-	print(list.begin(), list.end(), "Ascending: ");
-//	list.sort(std::less<int>());
-//	list_def.sort();
-//	print(list_def.begin(), list_def.end(), "Def list sorted: ");
-//	list_def.sort(std::less<int>());
-//	print(list.begin(), list.end(), "Descending sort: ");
-//	print(list_def.begin(), list_def.end(), "Def list: ");
 	return 0;
 }
