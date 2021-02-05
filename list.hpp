@@ -102,6 +102,7 @@ namespace ft
 		public:
 			const_iterator() : iterator() {}
 			const_iterator(const const_iterator &iter) : iterator(iter) {}
+			explicit const_iterator(node *ptr) : iterator(ptr) {}
 			const_iterator(iterator iter) : iterator(iter) {}
 			const T &operator*() { return (this->ptr->_element); }
 		}									const_iterator;
@@ -346,28 +347,37 @@ namespace ft
 			if (it == other.end())
 				return;
 			bool to_delete = false;
+			bool to_init_tail = false;
 			node *insert_before = count_iter(pos, begin(), _head);
 			node *inserted = count_iter(it, other.begin(), other._head);
 
-			if (inserted == other._head && other._head == other._tail)
-				to_delete = true;
-			if (insert_before == _head)
-				_head = inserted;
-			if (insert_before == _tail->_next)
-				_tail = inserted;
-			if (other._head == inserted)
-				other._head = other._head->_next;
-			if (other._tail == inserted)
-				other._tail = other._tail->_prev;
-			node *tmp = insert_before->_prev;
-			insert_before->_prev->_next = inserted;
-			insert_before->_prev = inserted;
+			manage_heads_and_tails(to_init_tail, to_delete, inserted, insert_before, other);
 			inserted->_next->_prev = inserted->_prev;
 			inserted->_prev->_next = inserted->_next;
-			inserted->_next = insert_before;
-			inserted->_prev = tmp;
+			if (to_init_tail)
+				init_tail(inserted);
+			else
+			{
+				node *tmp = insert_before->_prev;
+				insert_before->_prev->_next = inserted;
+				insert_before->_prev = inserted;
+				inserted->_next = insert_before;
+				inserted->_prev = tmp;
+			}
 			if (to_delete)
 				other.delete_list();
+		}
+		void splice( const_iterator pos, list& other ) {
+			splice(pos, other, other.begin(), other.end());
+		}
+		void splice( const_iterator pos, list& other, const_iterator first, const_iterator last) {
+			const_iterator tmp;
+			while (first != last)
+			{
+				tmp = first;
+				++first;
+				splice(pos, other, tmp);
+			}
 		}
 //		void merge( list& other ) {
 //
@@ -425,6 +435,21 @@ namespace ft
 			_tail = NULL;
 		}
 
+		void manage_heads_and_tails(bool &to_init_tail, bool &to_delete, node *inserted, node *insert_before,
+							  list &other) {
+			if (_head == NULL)
+				to_init_tail = true;
+			if (inserted == other._head && other._head == other._tail)
+				to_delete = true;
+			if (insert_before == _head)
+				_head = inserted;
+			if (_tail && insert_before == _tail->_next)
+				_tail = inserted;
+			if (other._head == inserted)
+				other._head = other._head->_next;
+			if (other._tail == inserted)
+				other._tail = other._tail->_prev;
+		}
 		static bool comparator(const T &a, const T &b) { return (a < b); }
 		static bool binary_predicate(const T &a, const T &b) { return (a == b); }
 		struct unaryPredicate {
@@ -513,6 +538,54 @@ namespace ft
 			}
 		}
 	};
+	template< class T, class Alloc >
+	bool operator==( const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs ) {
+		typename ft::list<T, Alloc>::const_iterator it_lhs = lhs.begin();
+		typename ft::list<T, Alloc>::const_iterator it_rhs = rhs.begin();
+		while (it_lhs != lhs.end() && it_rhs != rhs.end())
+		{
+			if (*it_lhs != *it_rhs)
+				return (false);
+			++it_rhs;
+			++it_lhs;
+		}
+		return (!(it_lhs != lhs.end() || it_rhs != rhs.end()));
+	}
+	template< class T, class Alloc >
+	bool operator!=( const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs ) {
+		return (!(lhs == rhs));
+	}
+	template< class T, class Alloc >
+	bool operator<( const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs ) {
+		typename ft::list<T, Alloc>::const_iterator it_lhs = lhs.begin();
+		typename ft::list<T, Alloc>::const_iterator it_rhs = rhs.begin();
+		while (it_lhs != lhs.end() && it_rhs != rhs.end())
+		{
+			if (*it_lhs < *it_rhs)
+				return (true);
+			else if (*it_lhs > *it_rhs)
+				return (false);
+			++it_rhs;
+			++it_lhs;
+		}
+		return (it_lhs == lhs.end() && it_rhs != rhs.end());
+	}
+	template< class T, class Alloc >
+	bool operator<=( const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs ) {
+		return (lhs == rhs || lhs < rhs);
+	}
+	template< class T, class Alloc >
+	bool operator>( const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs ) {
+		return (!(lhs < rhs));
+	}
+	template< class T, class Alloc >
+	bool operator>=( const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs ) {
+		return (lhs == rhs || lhs > rhs);
+	}
+	template< class T, class Alloc >
+	void swap( ft::list<T,Alloc>& lhs, ft::list<T,Alloc>& rhs ) {
+		lhs.swap(rhs);
+	}
 }
 
 #endif

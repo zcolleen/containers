@@ -94,15 +94,52 @@ int main()
 //	list.push_back(22);
 	list2.clear();
 	list2.push_back(102);
+	list2.push_back(104);
+//	list.push_back(90);
+
 //	list2.push_back(110);
 //	list2.push_back(120);
 
-	print(list.begin(), list.end(), "First list before splice: ");
-	print(list2.begin(), list2.end(), "Second list before splice: ");
+//	print(list.begin(), list.end(), "First list before splice: ");
+//	print(list2.begin(), list2.end(), "Second list before splice: ");
 
-	list.splice(list.end(), list2, --list2.end());
-	print(list.begin(), list.end(), "After splice first list: ");
-	print(list2.begin(), list2.end(), "After splice second list: ");
+	list.splice(list.begin(), list2, list2.begin());
+	list.splice(list.begin(), list2, list2.begin());
+//	print(list.begin(), list.end(), "After splice first list: ");
+//	print(list2.begin(), list2.end(), "After splice second list: ");
+
+	list2.clear();
+	list.clear();
+//	list2.push_back(12);
+//	list2.push_back(10);
+//	list.push_front(10);
+//	list.push_front(12);
+	std::list<int> a;
+	std::list<int> b;
+
+	a.push_back(10);
+	a.push_back(20);
+	a.push_back(16);
+
+	b.push_back(10);
+	b.push_back(20);
+	b.push_back(15);
+	b.push_back(89);
+
+
+	if (a > b)
+	{
+		std::cout << "More" << std::endl;
+	}
+	if (a < b) {
+		std::cout << "Less" << std::endl;
+	}
+	if (a <= b) {
+		std::cout << "Less or eq" << std::endl;
+	}
+	if (a >= b) {
+		std::cout << "More or eq" << std::endl;
+	}
 
 	return 0;
 }
