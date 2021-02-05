@@ -134,5 +134,12 @@ int main()
 	print(a.begin(), a.end(), "Spliced first: ");
 	print(b.begin(), b.end(), "Spliced swecond: ");
 
+	std::allocator<int> allocator;
+
+	int *s = allocator.allocate(1);
+
+	allocator.construct(s);
+	allocator.destroy(s);
+	allocator.deallocate(s, 1);
 	return 0;
 }

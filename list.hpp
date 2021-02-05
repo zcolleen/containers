@@ -33,28 +33,33 @@ namespace ft
 
 		//constructors
 		list() : _head(NULL), _tail(NULL) {}
-		explicit list( const Allocator& alloc) : _head(NULL), _tail(NULL), _allocator(alloc) {}
+		explicit list( const Allocator& alloc) : _head(NULL), _tail(NULL){ _allocator = alloc; }
 		template< class InputIt >
 		list(InputIt first, InputIt last, const Allocator& alloc = Allocator(),
 	   typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0) :
-	   _head(NULL), _tail(NULL), _allocator(alloc) { assignment_templ(first, last); }
+	   _head(NULL), _tail(NULL) { _allocator = alloc;  assignment_templ(first, last); }
 		explicit list( size_type count, const T& value = T(), const Allocator& alloc = Allocator()) :
-		_head(NULL), _tail(NULL), _allocator(alloc) { assignment(count, value); }
+		_head(NULL), _tail(NULL) { _allocator = alloc; assignment(count, value); }
 		list(const list& other) { *this = other; }
 		//end of constructors
 
 	private:
 
+		allocator_type _allocator;
 		//struct for element of list
 		typedef struct Node
 		{
-			explicit Node(const T &element) : _element(element) {}
+			explicit Node(const value_type &element) : _element(element) {}
 			Node() {}
 			value_type _element;
 			struct Node *_next;
 			struct Node *_prev;
+			~Node() {}
 
 		}				node;
+
+		node *_head;
+		node *_tail;
 
 	public:
 		//iterator
@@ -409,10 +414,6 @@ namespace ft
 		//destructor
 		~list() { delete_list(); }
 	private:
-
-		node *_head;
-		node *_tail;
-		allocator_type _allocator;
 
 		node *init_element() {
  			node *new_node = new node;
