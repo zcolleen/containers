@@ -132,7 +132,7 @@ int main()
 
 	a.splice(a.begin(), b, ++b.begin(), --b.end());
 	print(a.begin(), a.end(), "Spliced first: ");
-	print(b.begin(), b.end(), "Spliced swecond: ");
+	print(b.begin(), b.end(), "Spliced second: ");
 
 	std::allocator<int> allocator;
 
