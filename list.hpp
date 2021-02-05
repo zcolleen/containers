@@ -66,46 +66,71 @@ namespace ft
 		node *_tail;
 		allocator_type _allocator;
 
-	public:
-		//iterator
-		typedef class iterator
-		{
+		template<class I>
+		class g_iterator {
+
 		protected:
 			node *ptr;
 		public:
-			iterator() : ptr(NULL) {}
+			g_iterator() : ptr(NULL) {}
+//			g_iterator(const I &iter) { *this = iter; }
+			explicit g_iterator(node *ptr) : ptr(ptr) {}
+			virtual I &operator=(const I &iter) = 0;// {
+//				if (this != &iter)
+//					ptr = iter.ptr;
+//				return (*this);
+		//	}
+			bool operator==(const I &iter) { return (ptr == iter.ptr); }
+			bool operator!=(const I &iter) { return (!(*this == iter)); }
+			virtual I &operator++() = 0;
+			virtual I &operator--() = 0;
+			virtual I operator++(int ) = 0;
+			virtual I operator--(int ) = 0;
+		};
+
+	public:
+		//iterator
+		typedef class iterator : public g_iterator<iterator>
+		{
+//		protected:
+//			node *ptr;
+		public:
+//			iterator() : ptr(NULL) {}
 			iterator(const iterator &iter) { *this = iter; }
-			explicit iterator(node *ptr) : ptr(ptr) {}
-			iterator &operator=(const iterator &iter) {
+//			explicit iterator(node *ptr) : ptr(ptr) {}
+			iterator() : g_iterator<iterator>() {}
+//			iterator(const iterator &iter) : g_iterator<iterator>(iter) {}
+			explicit iterator(node *ptr) : g_iterator<iterator>(ptr) {}
+			virtual iterator &operator=(const iterator &iter) {
 				if (this != &iter)
-					ptr = iter.ptr;
+					this->ptr = iter.ptr;
 				return (*this);
 			}
-			bool operator==(const iterator &iter) { return (ptr == iter.ptr); }
-			bool operator!=(const iterator &iter) { return (!(*this == iter)); }
-			iterator &operator++() {
-				if (ptr)
-					ptr = ptr->_next;
+//			bool operator==(const iterator &iter) { return (ptr == iter.ptr); }
+//			bool operator!=(const iterator &iter) { return (!(*this == iter)); }
+			virtual iterator &operator++() {
+				if (this->ptr)
+					this->ptr = this->ptr->_next;
 				return (*this);
 			}
-			iterator &operator--() {
-				if (ptr)
-					ptr = ptr->_prev;
+			virtual iterator &operator--() {
+				if (this->ptr)
+					this->ptr = this->ptr->_prev;
 				return (*this);
 			}
-			iterator operator++(int ) {
+			virtual iterator operator++(int ) {
 				iterator old_value(*this);
-				if (ptr)
-					ptr = ptr->_next;
+				if (this->ptr)
+					this->ptr = this->ptr->_next;
 				return (old_value);
 			}
-			iterator operator--(int ) {
+			virtual iterator operator--(int ) {
 				iterator old_value(*this);
-				if (ptr)
-					ptr = ptr->_prev;
+				if (this->ptr)
+					this->ptr = this->ptr->_prev;
 				return (old_value);
 			}
-			T &operator*() { return (ptr->_element); }
+			T &operator*() { return (this->ptr->_element); }
 		}								iterator;
 
 		typedef class const_iterator : public iterator {

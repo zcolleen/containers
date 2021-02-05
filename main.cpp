@@ -134,12 +134,20 @@ int main()
 	print(a.begin(), a.end(), "Spliced first: ");
 	print(b.begin(), b.end(), "Spliced second: ");
 
-	std::allocator<int> allocator;
+	ft::list<int>::const_iterator it = a.begin();
+	ft::list<int>::const_iterator end_it(a.begin());
+	end_it = a.end();
 
-	int *s = allocator.allocate(1);
+	ft::list<int>::iterator def_iter;
+	def_iter = it;
+//	ft::list<int>::iterator def_end(def_iter);
+//	def_end = a.end();
 
-	allocator.construct(s);
-	allocator.destroy(s);
-	allocator.deallocate(s, 1);
+	while (def_iter != end_it)
+	{
+	//	*def_iter = 20;
+		std::cout << *def_iter << std::endl;
+		++def_iter;
+	}
 	return 0;
 }
