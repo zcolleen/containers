@@ -114,32 +114,25 @@ int main()
 //	list2.push_back(10);
 //	list.push_front(10);
 //	list.push_front(12);
-	std::list<int> a;
-	std::list<int> b;
+	ft::list<int> a;
+	ft::list<int> b;
 
 	a.push_back(10);
 	a.push_back(20);
 	a.push_back(16);
 
+	a.sort();
 	b.push_back(10);
 	b.push_back(20);
-	b.push_back(15);
-	b.push_back(89);
+	b.push_back(-100);
+//	b.push_back(89);
+	b.sort();
+	print(a.begin(), a.end(), "Sorted first: ");
+	print(b.begin(), b.end(), "Sorted second: ");
 
-
-	if (a > b)
-	{
-		std::cout << "More" << std::endl;
-	}
-	if (a < b) {
-		std::cout << "Less" << std::endl;
-	}
-	if (a <= b) {
-		std::cout << "Less or eq" << std::endl;
-	}
-	if (a >= b) {
-		std::cout << "More or eq" << std::endl;
-	}
+	a.splice(a.begin(), b, ++b.begin(), --b.end());
+	print(a.begin(), a.end(), "Spliced first: ");
+	print(b.begin(), b.end(), "Spliced swecond: ");
 
 	return 0;
 }

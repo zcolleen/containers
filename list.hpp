@@ -380,26 +380,31 @@ namespace ft
 			}
 		}
 		void merge( list& other ) {
-
+			merge(other, comparator);
+		}
+		template <class Compare>
+		void merge( list& other, Compare comp ) {
 			if (&other == this)
 				return;
-			const_iterator it = begin();
-			const_iterator it_other = other.begin();
+			const_iterator it, it_other;
+			it_other = other.begin();
+			it = begin();
 			while (it_other != other.end())
 			{
-				it = begin();
+				//it = begin();
 				while (it != end())
 				{
-					if (*it_other < *it)
+					if (comp(*it_other, *it))
 					{
 						splice(it, other, it_other);
+						break;
 					}
-					else
-						++it;
+					++it;
 				}
-				++it_other;
+				if (it == end())
+					splice(it, other, it_other);
+				it_other = other.begin();
 			}
-
 		}
 		//destructor
 		~list() { delete_list(); }
