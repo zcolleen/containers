@@ -379,12 +379,28 @@ namespace ft
 				splice(pos, other, tmp);
 			}
 		}
-//		void merge( list& other ) {
-//
-//			if (&other == this)
-//				return;
-//
-//		}
+		void merge( list& other ) {
+
+			if (&other == this)
+				return;
+			const_iterator it = begin();
+			const_iterator it_other = other.begin();
+			while (it_other != other.end())
+			{
+				it = begin();
+				while (it != end())
+				{
+					if (*it_other < *it)
+					{
+						splice(it, other, it_other);
+					}
+					else
+						++it;
+				}
+				++it_other;
+			}
+
+		}
 		//destructor
 		~list() { delete_list(); }
 	private:
