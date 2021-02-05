@@ -134,11 +134,12 @@ int main()
 	print(a.begin(), a.end(), "Spliced first: ");
 	print(b.begin(), b.end(), "Spliced second: ");
 
-	ft::list<int>::const_iterator it = a.begin();
-	ft::list<int>::const_iterator end_it(a.begin());
+	ft::list<int>::iterator it = a.begin();
+	ft::list<int>::iterator end_it(a.begin());
 	end_it = a.end();
 
-	ft::list<int>::iterator def_iter;
+//	std::list<int>::reverse_iterator
+	ft::list<int>::const_iterator def_iter;
 	def_iter = it;
 //	ft::list<int>::iterator def_end(def_iter);
 //	def_end = a.end();
