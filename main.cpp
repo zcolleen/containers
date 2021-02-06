@@ -88,16 +88,16 @@ int main()
 	std::vector<int> vector;
 	vector.push_back(10);
 	vector.push_back(98);
-	std::vector<int>::iterator it = vector.begin();
-	int i = 0;
+	std::vector<int>::iterator it = vector.end();
+	--it;
+	std::vector<int>::iterator beg = vector.begin();
+	--beg;
 
-	while (true)
+	while (it != beg)
 	{
 	//	std::cout << *it << std::endl;
-		std::cout << it.operator->() << std::endl;
-		++i;
-		++it;
+		std::cout << *it << std::endl;
+		--it;
 	}
-
 	return 0;
 }
