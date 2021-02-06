@@ -134,28 +134,26 @@ int main()
 	print(a.begin(), a.end(), "Spliced first: ");
 	print(b.begin(), b.end(), "Spliced second: ");
 
-	ft::list<int>::iterator it = a.begin();
-	ft::list<int>::iterator end_it(a.begin());
-	end_it = a.end();
 
-	ft::list<int>::iterator itera;
-	itera = it;
-	itera++;
-	itera++;
-	*itera = 10;
-	std::cout << *itera << std::endl;
-//	std::list<int>::reverse_iterator
-	ft::list<int>::const_iterator def_iter;
-	def_iter = it;
-	ft::list<int>::iterator def_end(def_iter);
-	def_end = a.end();
+	ft::list<int>::iterator str_iter = a.begin();
+	ft::list<int>::iterator str_end = a.end();
+	ft::list<int>::reverse_iterator reve_iter = a.rbegin();
+	ft::list<int>::reverse_iterator reve_end = a.rend();
 
-
-	while (def_iter != end_it)
+	std::cout << "Straight: ";
+	while (str_iter != str_end)
 	{
-	//	*def_iter = 20;
-		std::cout << *def_iter << std::endl;
-		++def_iter;
+		std::cout << *str_iter << " ";
+		str_iter++;
 	}
+	std::cout << std::endl;
+
+	std::cout << "Reversed: ";
+	while (reve_iter != reve_end)
+	{
+		std::cout << *reve_iter << " ";
+		reve_iter++;
+	}
+	std::cout << std::endl;
 	return 0;
 }
