@@ -138,11 +138,18 @@ int main()
 	ft::list<int>::iterator end_it(a.begin());
 	end_it = a.end();
 
+	ft::list<int>::iterator itera;
+	itera = it;
+	itera++;
+	itera++;
+	*itera = 10;
+	std::cout << *itera << std::endl;
 //	std::list<int>::reverse_iterator
 	ft::list<int>::const_iterator def_iter;
 	def_iter = it;
-//	ft::list<int>::iterator def_end(def_iter);
-//	def_end = a.end();
+	ft::list<int>::iterator def_end(def_iter);
+	def_end = a.end();
+
 
 	while (def_iter != end_it)
 	{

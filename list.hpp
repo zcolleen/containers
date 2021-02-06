@@ -74,13 +74,19 @@ namespace ft
 		public:
 			g_iterator() : ptr(NULL) {}
 			explicit g_iterator(node *ptr) : ptr(ptr) {}
+			//g_iterator(const I &iter) { *this = iter; }
+			g_iterator(const I &iter) { this->ptr = iter.ptr; }
 			bool operator==(const I &iter) { return (ptr == iter.ptr); }
 			bool operator!=(const I &iter) { return (!(*this == iter)); }
 			virtual I &operator++() = 0;
 			virtual I &operator--() = 0;
 			virtual I operator++(int ) = 0;
 			virtual I operator--(int ) = 0;
-			virtual I &operator=(const I &iter) = 0;
+			I operator=(const I &iter) {
+				if (this != &iter)
+					this->ptr = iter.ptr;
+				return (*this);
+			}
 			T &operator*() { return (this->ptr->_element); }
 		};
 
@@ -89,14 +95,14 @@ namespace ft
 		typedef class iterator : public g_iterator<iterator>
 		{
 		public:
-			iterator(const iterator &iter) { *this = iter; }
+			iterator(const iterator &iter) : g_iterator<iterator>(iter) {}
 			iterator() : g_iterator<iterator>() {}
 			explicit iterator(node *ptr) : g_iterator<iterator>(ptr) {}
-			virtual iterator &operator=(const iterator &iter) {
-				if (this != &iter)
-					this->ptr = iter.ptr;
-				return (*this);
-			}
+//			virtual iterator &operator=(const iterator &iter) {
+//				if (this != &iter)
+//					this->ptr = iter.ptr;
+//				return (*this);
+//			}
 			virtual iterator &operator++() {
 				if (this->ptr)
 					this->ptr = this->ptr->_next;
@@ -131,49 +137,48 @@ namespace ft
 		}									const_iterator;
 
 		//reverse_iterator
-		typedef class reverse_iterator : g_iterator<reverse_iterator> {
-		public:
-			reverse_iterator(const reverse_iterator &iter) { *this = iter; }
-			reverse_iterator() : g_iterator<reverse_iterator>() {}
-			explicit reverse_iterator(node *ptr) : g_iterator<reverse_iterator>(ptr) {}
-			virtual reverse_iterator &operator=(const reverse_iterator &iter) {
-				if (this != &iter)
-					this->ptr = iter.ptr;
-				return (*this);
-			}
-			virtual reverse_iterator &operator++() {
-				if (this->ptr)
-					this->ptr = this->ptr->_prev;
-				return (*this);
-			}
-			virtual reverse_iterator &operator--() {
-				if (this->ptr)
-					this->ptr = this->ptr->_next;
-				return (*this);
-			}
-			virtual reverse_iterator operator++(int ) {
-				reverse_iterator old_value(*this);
-				if (this->ptr)
-					this->ptr = this->ptr->_prev;
-				return (old_value);
-			}
-			virtual reverse_iterator operator--(int ) {
-				reverse_iterator old_value(*this);
-				if (this->ptr)
-					this->ptr = this->ptr->_next;
-				return (old_value);
-			}
-
-		}				reverse_iterator;
-
-		typedef class const_reverse_iterator : public reverse_iterator {
-		public:
-			const_reverse_iterator() : reverse_iterator() {}
-			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator (iter) {}
-			explicit const_reverse_iterator(node *ptr) : reverse_iterator(ptr) {}
-			const_reverse_iterator(reverse_iterator iter) : reverse_iterator (iter) {}
-			const T &operator*() { return (this->ptr->_element); }
-		}									const_reverse_iterator;
+//		typedef class reverse_iterator : g_iterator<reverse_iterator> {
+//		public:
+//			reverse_iterator(const reverse_iterator &iter) { *this = iter; }
+//			reverse_iterator() : g_iterator<reverse_iterator>() {}
+//			explicit reverse_iterator(node *ptr) : g_iterator<reverse_iterator>(ptr) {}
+//			virtual reverse_iterator &operator=(const reverse_iterator &iter) {
+//				if (this != &iter)
+//					this->ptr = iter.ptr;
+//				return (*this);
+//			}
+//			virtual reverse_iterator &operator++() {
+//				if (this->ptr)
+//					this->ptr = this->ptr->_prev;
+//				return (*this);
+//			}
+//			virtual reverse_iterator &operator--() {
+//				if (this->ptr)
+//					this->ptr = this->ptr->_next;
+//				return (*this);
+//			}
+//			virtual reverse_iterator operator++(int ) {
+//				reverse_iterator old_value(*this);
+//				if (this->ptr)
+//					this->ptr = this->ptr->_prev;
+//				return (old_value);
+//			}
+//			virtual reverse_iterator operator--(int ) {
+//				reverse_iterator old_value(*this);
+//				if (this->ptr)
+//					this->ptr = this->ptr->_next;
+//				return (old_value);
+//			}
+//		}				reverse_iterator;
+//
+//		typedef class const_reverse_iterator : public reverse_iterator {
+//		public:
+//			const_reverse_iterator() : reverse_iterator() {}
+//			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator (iter) {}
+//			explicit const_reverse_iterator(node *ptr) : reverse_iterator(ptr) {}
+//			const_reverse_iterator(reverse_iterator iter) : reverse_iterator (iter) {}
+//			const T &operator*() { return (this->ptr->_element); }
+//		}									const_reverse_iterator;
 
 		list& operator=( const list& other ) {
 
