@@ -85,96 +85,19 @@ bool p(const int &a, const int &b)
 
 int main()
 {
+	std::vector<int> vector;
+	vector.push_back(10);
+	vector.push_back(98);
+	std::vector<int>::iterator it = vector.begin();
+	int i = 0;
 
-	ft::list<int> list;
-	std::vector<int> vector(4, 3);
-
-	ft::list<int> list2(vector.begin(), vector.end());
-	ft::list<int> l(10, 15);
-
-//	list.push_back(12);
-//	list.push_back(13);
-//	list.push_back(22);
-	list2.clear();
-	list2.push_back(102);
-	list2.push_back(104);
-//	list.push_back(90);
-
-//	list2.push_back(110);
-//	list2.push_back(120);
-
-//	print(list.begin(), list.end(), "First list before splice: ");
-//	print(list2.begin(), list2.end(), "Second list before splice: ");
-
-	list.splice(list.begin(), list2, list2.begin());
-	list.splice(list.begin(), list2, list2.begin());
-//	print(list.begin(), list.end(), "After splice first list: ");
-//	print(list2.begin(), list2.end(), "After splice second list: ");
-
-	list2.clear();
-	list.clear();
-//	list2.push_back(12);
-//	list2.push_back(10);
-//	list.push_front(10);
-//	list.push_front(12);
-	ft::list<int> a;
-	ft::list<int> b;
-
-	a.push_back(10);
-	a.push_back(20);
-	a.push_back(16);
-
-	a.sort();
-	b.push_back(10);
-	b.push_back(20);
-	b.push_back(-100);
-//	b.push_back(89);
-	b.sort();
-	print(a.begin(), a.end(), "Sorted first: ");
-	print(b.begin(), b.end(), "Sorted second: ");
-
-	a.splice(a.begin(), b, ++b.begin(), --b.end());
-	print(a.begin(), a.end(), "Spliced first: ");
-	print(b.begin(), b.end(), "Spliced second: ");
-
-
-	ft::list<int>::iterator str_iter = a.begin();
-	ft::list<int>::iterator str_end = a.end();
-	ft::list<int>::reverse_iterator reve_iter = a.rbegin();
-	ft::list<int>::reverse_iterator reve_end = a.rend();
-
-	std::cout << "Straight: ";
-	while (str_iter != str_end)
+	while (true)
 	{
-		std::cout << *str_iter << " ";
-		str_iter++;
+	//	std::cout << *it << std::endl;
+		std::cout << it.operator->() << std::endl;
+		++i;
+		++it;
 	}
-	std::cout << std::endl;
 
-	std::cout << "Reversed: ";
-	while (reve_iter != reve_end)
-	{
-		std::cout << *reve_iter << " ";
-		reve_iter++;
-	}
-	std::cout << std::endl;
-
-	//queue test
-	ft::queue<int> my_queue;
-	std::queue<int, std::list<int> > def_queue;
-
-	def_queue.push(76);
-	def_queue.push(18);
-	std::cout << "Def front: " << def_queue.front() << std::endl;
-	std::cout << "Def back: " << def_queue.back() << std::endl;
-	std::cout << "Size: " << def_queue.size() << std::endl;
-
-	my_queue.push(76);
-	my_queue.push(18);
-	std::cout << "Def front: " << my_queue.front() << std::endl;
-	std::cout << "Def back: " << my_queue.back() << std::endl;
-	std::cout << "Size: " << my_queue.size() << std::endl;
-	my_queue.pop();
-	std::cout << "Def front: " << my_queue.front() << std::endl;
 	return 0;
 }
