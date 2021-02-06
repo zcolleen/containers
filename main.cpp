@@ -1,8 +1,11 @@
 #include <iostream>
 #include <list>
 #include "list.hpp"
+#include "stack.hpp"
+#include "queue.hpp"
 #include <vector>
-
+#include <stack>
+#include <queue>
 
 class Some_class {
 
@@ -155,5 +158,23 @@ int main()
 		reve_iter++;
 	}
 	std::cout << std::endl;
+
+	//queue test
+	ft::queue<int> my_queue;
+	std::queue<int, std::list<int> > def_queue;
+
+	def_queue.push(76);
+	def_queue.push(18);
+	std::cout << "Def front: " << def_queue.front() << std::endl;
+	std::cout << "Def back: " << def_queue.back() << std::endl;
+	std::cout << "Size: " << def_queue.size() << std::endl;
+
+	my_queue.push(76);
+	my_queue.push(18);
+	std::cout << "Def front: " << my_queue.front() << std::endl;
+	std::cout << "Def back: " << my_queue.back() << std::endl;
+	std::cout << "Size: " << my_queue.size() << std::endl;
+	my_queue.pop();
+	std::cout << "Def front: " << my_queue.front() << std::endl;
 	return 0;
 }
