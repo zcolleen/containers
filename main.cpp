@@ -45,7 +45,9 @@ public:
 //		ptr[2] = d;
 //		ptr[3] = e;
 	}
-
+	void scream(){
+		std::cout << "Suka" << std::endl;
+	}
 	~Some_class(){
 
 		std::cout << "destructor" << std::endl;
@@ -85,19 +87,17 @@ bool p(const int &a, const int &b)
 
 int main()
 {
-	std::vector<int> vector;
-	vector.push_back(10);
-	vector.push_back(98);
-	std::vector<int>::iterator it = vector.end();
-	--it;
-	std::vector<int>::iterator beg = vector.begin();
-	--beg;
 
-	while (it != beg)
-	{
-	//	std::cout << *it << std::endl;
-		std::cout << *it << std::endl;
-		--it;
-	}
+
+	std::allocator<Some_class> allocator;
+	Some_class * a = allocator.allocate(10);
+	for (int i = 0; i < 10; ++i)
+		allocator.construct(a + i);
+	for (int i = 0; i < 5; ++i)
+		allocator.destroy(a + i);
+	allocator.deallocate(a, 5);
+	a[10287633209].scream();
+
+	//allocator.c
 	return 0;
 }
