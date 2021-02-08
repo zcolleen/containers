@@ -87,16 +87,34 @@ bool p(const int &a, const int &b)
 
 int main()
 {
+	ft::list<int> a;
 
+	a.push_back(22);
+	a.push_back(30);
+	a.push_back(25);
+	a.push_back(-21);
+	a.push_back(24);
+	a.push_back(22);
+	a.push_back(-22);
+	a.push_back(-15);
+	a.push_back(22);
 
-	std::allocator<Some_class> allocator;
-	Some_class * a = allocator.allocate(10);
-	for (int i = 0; i < 10; ++i)
-		allocator.construct(a + i);
-	for (int i = 0; i < 5; ++i)
-		allocator.destroy(a + i);
-	allocator.deallocate(a, 5);
-	a[10287633209].scream();
+	//[12, 22, 12, 28, 8, 17, 0, -10]
+	//[0, 22, 12, 28, 8, 17, -10, 12]
+	//[17, 22, 12, 28, 8, -10, 0, 12]
+	print(a.begin(), a.end(), "Unsorted list: ");
+	a.sort();
+	print(a.begin(), a.end(), "Sorted list: ");
+
+//	std::allocator<Some_class> allocator;
+//	Some_class * a = allocator.allocate(10);
+//	for (int i = 0; i < 10; ++i)
+//		allocator.construct(a + i);
+//	for (int i = 0; i < 5; ++i)
+//		allocator.destroy(a + i);
+//	allocator.deallocate(a, 5);
+//	a[10287633209].scream();
+
 
 	//allocator.c
 	return 0;

@@ -349,29 +349,9 @@ namespace ft
 			_head = tmp;
 		}
 		void sort() { sort(comparator); }
-		template< class Compare >
-		void sort( Compare comp ) {
-			node *tmp;
-			bool break_flag;
+		template < class Compare >
+		void sort( Compare comp ) { qsort(_head, _tail, comp); }
 
-			for (size_type i = 0; i < size(); ++i)
-			{
-				break_flag = true;
-				tmp = _head;
-				while (tmp != _tail)
-				{
-					if (comp(tmp->_next->_element, tmp->_element))
-					{
-						break_flag = false;
-						swap(tmp, tmp->_next);
-						continue;
-					}
-					tmp = tmp->_next;
-				}
-				if (break_flag)
-					break;
-			}
-		}
 		void unique() { unique(binary_predicate); }
 		template< class BinaryPredicate >
 		void unique( BinaryPredicate p ) {
@@ -467,7 +447,6 @@ namespace ft
 			it = begin();
 			while (it_other != other.end())
 			{
-				//it = begin();
 				while (it != end())
 				{
 					if (comp(*it_other, *it))
@@ -552,20 +531,56 @@ namespace ft
 		};
 		void swap(node *first, node *second) {
 
-			node *tmp;
+			node *tmp_first;
+			node *tmp_second;
 
 			if (first == _head)
 				_head = second;
 			if (second == _tail)
 				_tail = first;
-			tmp = first->_prev;
+			tmp_first = first->_prev;
+			tmp_second = second->_next;
 
-			tmp->_next = second;
-			second->_prev = tmp;
-			first->_prev = second;
-			first->_next = second->_next;
+			first->_prev->_next = second;
+			first->_prev = second->_prev;
+			second->_prev->_next = first;
+			second->_prev = tmp_first;
 			second->_next->_prev = first;
-			second->_next = first;
+			second->_next = first->_next;
+			first->_next->_prev = second;
+			first->_next = tmp_second;
+		}
+		template<class Compare>
+		void qsort(node *plot_head, node *plot_tail, Compare comp)
+		{
+			node *tmp, *new_head, *new_tail;
+			bool tail_swap = false;
+			bool head_swap = false;
+			new_head = plot_head;
+			new_tail = plot_tail;
+
+			while (plot_head != plot_tail && plot_head != plot_tail->_next)
+			{
+				if (comp(plot_tail->_element, plot_head->_element))
+				{
+					if (!tail_swap)
+						new_tail = plot_head;
+					tmp = plot_tail->_prev;
+					swap(plot_head, plot_tail->_prev);
+					swap(plot_tail->_prev, plot_tail);
+					plot_head = tmp;
+					if (!head_swap)
+						new_head = plot_head;
+					tail_swap = true;
+					continue;
+				}
+				plot_head = plot_head->_next;
+				head_swap = true;
+			}
+			if (new_head && new_head != plot_tail->_prev && plot_tail != new_head->_prev)
+				qsort(new_head, plot_tail->_prev, comp);
+			if (tail_swap && plot_tail->_next != new_tail)
+				qsort(plot_tail->_next, new_tail, comp);
 		}
 		void remove_element(node *ptr) {
 			ptr->_next->_prev = ptr->_prev;
