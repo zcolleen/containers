@@ -3,6 +3,7 @@
 #include "list.hpp"
 #include "stack.hpp"
 #include "queue.hpp"
+#include "vector.hpp"
 #include <vector>
 #include <stack>
 #include <queue>
@@ -87,35 +88,25 @@ bool p(const int &a, const int &b)
 
 int main()
 {
-	ft::list<int> a;
+	ft::vector<size_t> vector(13, 13);
+	ft::vector<size_t> def_vector(13, 13);
+	ft::vector<int> vect(13, 12323);
+	ft::vector<int> vector1(6, 10);
 
-	a.push_back(22);
-	a.push_back(30);
-	a.push_back(25);
-	a.push_back(-21);
-	a.push_back(24);
-	a.push_back(22);
-	a.push_back(-22);
-	a.push_back(-15);
-	a.push_back(22);
-
-	//[12, 22, 12, 28, 8, 17, 0, -10]
-	//[0, 22, 12, 28, 8, 17, -10, 12]
-	//[17, 22, 12, 28, 8, -10, 0, 12]
-	print(a.begin(), a.end(), "Unsorted list: ");
-	a.sort();
-	print(a.begin(), a.end(), "Sorted list: ");
-
-//	std::allocator<Some_class> allocator;
-//	Some_class * a = allocator.allocate(10);
-//	for (int i = 0; i < 10; ++i)
-//		allocator.construct(a + i);
-//	for (int i = 0; i < 5; ++i)
-//		allocator.destroy(a + i);
-//	allocator.deallocate(a, 5);
-//	a[10287633209].scream();
-
-
-	//allocator.c
+	ft::vector<int>::iterator it = vect.end();
+	it--;
+	size_t f = it - vect.begin();
+	std::cout << f << std::endl;
+//	ft::vector<int>::iterator it = vect.begin();
+//	ft::vector<int>::iterator end = vect.end();
+//	end = end - 1;
+////	std::cout << *(end - it);
+//	std::cout << "Vector: ";
+//	while (it != vect.end())
+//	{
+//		std::cout << " " << *it;
+//		it = it + 3;
+//	}
+//	std::cout << std::endl;
 	return 0;
 }

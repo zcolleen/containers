@@ -26,7 +26,23 @@ namespace ft {
 	private:
 		value_type *_array;
 		size_type _size;
+		size_type _capacity;
 		allocator_type _allocator;
+
+		class base_iterator {
+
+		protected:
+			T *ptr;
+		public:
+			base_iterator() : ptr(NULL) {}
+			explicit base_iterator(T *ptr) : ptr(ptr) {}
+			//g_iterator(const I &iter) { *this = iter; }
+			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
+			bool operator==(const base_iterator &iter) { return (ptr == iter.ptr); }
+			bool operator!=(const base_iterator &iter) { return (!(*this == iter)); }
+			T &operator*() { return (*(this->ptr)); }
+			T *operator->() { return (&(this->ptr));}
+		};
 
 		template <bool Cond, typename Result = void>
 		struct enable_if {};
@@ -39,58 +55,203 @@ namespace ft {
 			if (count)
 			{
 				_array = _allocator.allocate(count);
-				for (size_type i = 0; i < count)
-					_allocator.construct(_array, value);
+				for (size_type i = 0; i < count; ++i)
+					_allocator.construct(_array + i, value);
 			}
+			_size = count;
+			_capacity = _size;
 		}
 
 		template<class InputIt>
 		void init_array_it( InputIt first, InputIt last)
 		{
-			InputIt tmp(first);
-			size_type p = 0;
-			while (tmp != last)
-			{
+			_size = 0;
+			for (InputIt tmp(first); tmp != last; ++tmp)
 				++_size;
-				++tmp;
-			}
 			if (_size)
-				_array = _allocator.allocate(_size)
-//			while (first != last)
-//			{
-//				_allocator.construct(_array + p, *first)
-//				++first;
-//			}
-			for (; first < last; ++i, ++first)
-			{
-
-			}
+				_array = _allocator.allocate(_size);
+			for (size_type p = 0; first != last; ++p, ++first)
+				_allocator.construct(_array + p, *first);
+			_capacity = _size;
 		}
-		void delete_vector() {
-			for (size_type i = 0; i < size_type; ++i)
+		void delete_vector(bool deallocate = true) {
+			for (size_type i = 0; i < _size; ++i)
 				_allocator.destroy(_array + i);
-			allocator.deallocate(_array, _size);
+			if (deallocate)
+				_allocator.deallocate(_array, _capacity);
+			_size = 0;
+			_array = NULL;
 		}
 
+		void print_vector()
+		{
+			std::cout << "Your vector: ";
+			for (size_type i = 0; i < _size; ++i)
+				std::cout << " " << _array[i];
+			std::cout << std::endl;
+		}
 	public:
 
 		//constructors
 		vector() : _array(NULL), _size(0) {}
 		explicit vector( const Allocator& alloc ) : _array(NULL), _size(0), _allocator(alloc) {}
 		explicit vector( size_type count, const T& value = T(), const Allocator& alloc = Allocator()) : _array(NULL),
-		_size(count), _allocator(alloc) {
+		 _allocator(alloc) {
 			init_array(count, value);
 		}
 		template< class InputIt >
 		vector( InputIt first, InputIt last, const Allocator& alloc = Allocator(),
 		  typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0 ) :
-		  _array(NULL), _size(0), _allocator(alloc) {
+		  _array(NULL), _allocator(alloc) {
 			init_array_it(first, last);
 		}
-		vector( const vector& other ) {
+		vector( const vector& other ) : _array(NULL), _size(0) { *this = other; }
 
+		vector& operator=( const vector& other ) {
+			if (this == &other)
+				return (*this);
+			delete_vector();
+			_allocator = other._allocator;
+			_size = other._size;
+			_capacity = _size;
+			if (_size)
+				_array = _allocator.allocate(_size);
+			for (size_type i = 0; i < _size; ++i)
+				_allocator.construct(_array + i, other._array[i]);
+			return (*this);
 		}
 
+		//iterators
+		typedef class iterator : public base_iterator
+		{
+		public:
+			iterator(const iterator &iter) : base_iterator(iter) {}
+			iterator() : base_iterator() {}
+			explicit iterator(T *ptr) : base_iterator(ptr) {}
+			iterator &operator=(const iterator &iter) {
+				if (this != &iter)
+					this->ptr = iter.ptr;
+				return (*this);
+			}
+			iterator &operator++() {
+				if (this->ptr)
+					++this->ptr;
+				return (*this);
+			}
+			iterator &operator--() {
+				if (this->ptr)
+					--this->ptr;
+				return (*this);
+			}
+			iterator operator++(int ) {
+				iterator old_value(*this);
+				if (this->ptr)
+					++this->ptr;
+				return (old_value);
+			}
+			iterator operator--(int ) {
+				iterator old_value(*this);
+				if (this->ptr)
+					--this->ptr;
+				return (old_value);
+			}
+			iterator operator+(int n)
+			{
+				if (this->ptr)
+					this->ptr += n;
+				return (*this);
+			}
+			iterator operator-(int n)
+			{
+				if (this->ptr)
+					this->ptr -= n;
+				return (*this);
+			}
+			difference_type operator-(iterator it)
+			{
+				return (this->ptr - it.ptr);
+			}
+
+		}								iterator;
+
+		void assign( size_type count, const T& value ) {
+			delete_vector();
+			init_array(count, value);
+		}
+
+		template< class InputIt >
+		void assign( InputIt first, InputIt last,
+			   typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0 ) {
+			delete_vector();
+			init_array_it(first, last);
+		}
+
+		reference at( size_type pos ) {
+
+			if (pos >= _size || pos < 0)
+				throw std::out_of_range("vector");
+			return (_array[pos]);
+		}
+
+		const_reference at( size_type pos ) const {
+			if (pos >= _size || pos < 0)
+				throw std::out_of_range("vector");
+			return (_array[pos]);
+		}
+
+		reference operator[]( size_type pos ) { return (_array[pos]); }
+		const_reference operator[]( size_type pos ) const { return (_array[pos]); }
+
+		size_type size() const { return (_size); }
+
+		bool empty() const { return (_size == 0); }
+
+		size_type capacity() const { return (_capacity); }
+
+		reference front() { return (_array[0]); }
+		const_reference front() const { return (_array[0]); }
+
+		reference back() { return (_array[_size - 1]); }
+		const_reference back() const { return (_array[_size - 1]); }
+
+		size_type max_size() const { return (std::numeric_limits<size_type>::max() / sizeof(T)); }
+
+		void clear() { delete_vector(false); }
+
+		iterator begin() { return (iterator(_array)); }
+		//const_iterator begin() const {}
+		iterator end() { return (iterator(_array + _size)); }
+		//const_iterator end() const;
+		void reserve( size_type new_cap ) {
+			if (new_cap > max_size())
+				throw std::length_error("vector");
+			if (new_cap > _capacity)
+			{
+				T *new_array;
+				size_type size;
+				new_array = _allocator.allocate(new_cap);
+				for (size = 0; size < _size; ++size)
+					_allocator.construct(new_array + size, *(_array + size));
+				delete_vector();
+				_size = size;
+				_array = new_array;
+				_capacity = new_cap;
+			}
+		}
+
+		void swap( vector& other ) {
+			T *array = _array;
+			size_type size = _size;
+			size_type capacity = _capacity;
+			_array = other._array;
+			_size = other._size;
+			_capacity = other._capacity;
+			other._array = array;
+			other._size = size;
+			other._capacity = capacity;
+		}
+
+		//void resize( size_type count, T value = T() );
 		//destructor
 		~vector() { delete_vector(); }
 	};
