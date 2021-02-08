@@ -90,26 +90,32 @@ int main()
 {
 	ft::vector<size_t> vector(13, 13);
 	ft::vector<size_t> def_vector(13, 13);
-	ft::vector<int> vect(13, 12323);
+	ft::vector<int> vect(4, 123);
 	ft::vector<int> vector1(6, 10);
 
 	int64_t  *a = NULL;
 	--a;
 	std::cout << a << std::endl;
-	ft::vector<int>::iterator it = vect.end();
-	it--;
-	size_t f = it - vect.begin();
-	std::cout << f << std::endl;
-//	ft::vector<int>::iterator it = vect.begin();
-//	ft::vector<int>::iterator end = vect.end();
-//	end = end - 1;
+//	ft::vector<int>::iterator it = vect.end();
+//	it--;
+//	size_t f = it - vect.begin();
+//	std::cout << f << std::endl;
+	ft::vector<int>::iterator it = vect.begin();
+	ft::vector<int>::iterator end = vect.end();
+	ft::vector<int>::iterator add;
+	        //	end = end - 1;
 ////	std::cout << *(end - it);
-//	std::cout << "Vector: ";
-//	while (it != vect.end())
-//	{
-//		std::cout << " " << *it;
-//		it = it + 3;
-//	}
-//	std::cout << std::endl;
+	std::cout << "Vector: ";
+	while (it != end)
+	{
+		std::cout << " " << *it;
+		if (it < end)
+			std::cout << "bla";
+		add = 2 + it;
+		it = add;
+	}
+	if (it > end)
+		std::cout << "llldldlldl";
+	std::cout << std::endl;
 	return 0;
 }

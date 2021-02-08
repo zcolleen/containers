@@ -42,7 +42,7 @@ namespace ft {
 			bool operator!=(const base_iterator &iter) { return (!(*this == iter)); }
 			bool operator<(const base_iterator &iter) { return (this->ptr < iter.ptr); }
 			bool operator<=(const base_iterator &iter) { return (*this < iter || *this == iter); }
-			bool operator>(const base_iterator &iter) { return (!(this < iter)); }
+			bool operator>(const base_iterator &iter) { return (this->ptr > iter.ptr); }
 			bool operator>=(const base_iterator &iter) { return (*this > iter || *this == iter); }
 			T &operator*() { return (*(this->ptr)); }
 			T &operator[](int n) { return (*(this + n)); }
@@ -152,19 +152,19 @@ namespace ft {
 			}
 			iterator &operator+=(int n) { this->ptr += n; return (*this); }
 			iterator &operator-=(int n) { this->ptr -= n; return (*this); }
-			iterator operator+(int n) {
-				iterator tmp(*this);
-				//tmp += n;
-				return (tmp += n);
-			}
-			iterator operator-(int n) {
-				iterator tmp(*this);
-				//tmp -= n;
-				return (tmp -= n);
-			}
+			iterator operator+(int n) { iterator tmp(*this); return (tmp += n); }
+			iterator operator-(int n) { iterator tmp(*this); return (tmp -= n); }
 			difference_type operator-(iterator it) { return (this->ptr - it.ptr); }
 
 		}								iterator;
+		typedef class const_iterator : public iterator {
+		public:
+			const_iterator() : iterator() {}
+			const_iterator(const const_iterator &iter) : iterator(iter) {}
+			explicit const_iterator(T *ptr) : iterator(ptr) {}
+			const_iterator(iterator iter) : iterator(iter) {}
+			const T &operator*() { return (*(this->ptr)); }
+		}									const_iterator;
 
 		void assign( size_type count, const T& value ) {
 			delete_vector();
@@ -242,7 +242,9 @@ namespace ft {
 			other._size = size;
 			other._capacity = capacity;
 		}
-
+		friend iterator operator+(int n, iterator &iter) {
+			return (iter + n);
+		}
 		//void resize( size_type count, T value = T() );
 		//destructor
 		~vector() { delete_vector(); }
