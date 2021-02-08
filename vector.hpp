@@ -40,7 +40,12 @@ namespace ft {
 			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
 			bool operator==(const base_iterator &iter) { return (ptr == iter.ptr); }
 			bool operator!=(const base_iterator &iter) { return (!(*this == iter)); }
+			bool operator<(const base_iterator &iter) { return (this->ptr < iter.ptr); }
+			bool operator<=(const base_iterator &iter) { return (*this < iter || *this == iter); }
+			bool operator>(const base_iterator &iter) { return (!(this < iter)); }
+			bool operator>=(const base_iterator &iter) { return (*this > iter || *this == iter); }
 			T &operator*() { return (*(this->ptr)); }
+			T &operator[](int n) { return (*(this + n)); }
 			T *operator->() { return (&(this->ptr));}
 		};
 
@@ -133,44 +138,31 @@ namespace ft {
 					this->ptr = iter.ptr;
 				return (*this);
 			}
-			iterator &operator++() {
-				if (this->ptr)
-					++this->ptr;
-				return (*this);
-			}
-			iterator &operator--() {
-				if (this->ptr)
-					--this->ptr;
-				return (*this);
-			}
+			iterator &operator++() { ++this->ptr; return (*this); }
+			iterator &operator--() { --this->ptr; return (*this); }
 			iterator operator++(int ) {
 				iterator old_value(*this);
-				if (this->ptr)
-					++this->ptr;
+				++this->ptr;
 				return (old_value);
 			}
 			iterator operator--(int ) {
 				iterator old_value(*this);
-				if (this->ptr)
-					--this->ptr;
+				--this->ptr;
 				return (old_value);
 			}
-			iterator operator+(int n)
-			{
-				if (this->ptr)
-					this->ptr += n;
-				return (*this);
+			iterator &operator+=(int n) { this->ptr += n; return (*this); }
+			iterator &operator-=(int n) { this->ptr -= n; return (*this); }
+			iterator operator+(int n) {
+				iterator tmp(*this);
+				//tmp += n;
+				return (tmp += n);
 			}
-			iterator operator-(int n)
-			{
-				if (this->ptr)
-					this->ptr -= n;
-				return (*this);
+			iterator operator-(int n) {
+				iterator tmp(*this);
+				//tmp -= n;
+				return (tmp -= n);
 			}
-			difference_type operator-(iterator it)
-			{
-				return (this->ptr - it.ptr);
-			}
+			difference_type operator-(iterator it) { return (this->ptr - it.ptr); }
 
 		}								iterator;
 

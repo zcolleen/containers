@@ -93,6 +93,9 @@ int main()
 	ft::vector<int> vect(13, 12323);
 	ft::vector<int> vector1(6, 10);
 
+	int64_t  *a = NULL;
+	--a;
+	std::cout << a << std::endl;
 	ft::vector<int>::iterator it = vect.end();
 	it--;
 	size_t f = it - vect.begin();
