@@ -222,22 +222,23 @@ namespace ft {
 
 		iterator insert( iterator pos, const T& value )
 		{
-			ssize_t dist_before_pos = pos - begin();
-			ssize_t dist_after_pos = end() - pos;
+			size_type dist_before_pos = pos - begin();
+//			ssize_t dist_after_pos = end() - pos;
 
-			if (_capacity < _size + 1)
-				reallocation(dist_before_pos, dist_after_pos, value);
-			else {
-				if (_size)
-					_allocator.construct(_array + dist_after_pos + dist_before_pos,
-						  *(_array + dist_after_pos + dist_before_pos - 1));
-				for (ssize_t i = dist_after_pos + dist_before_pos - 1; i > dist_before_pos; --i)
-					*(_array + i) = *(_array + i - 1);
-				if (_size)
-					_allocator.destroy(_array + dist_before_pos);
-				_allocator.construct(_array + dist_before_pos, value);
-			}
-			++_size;
+//			if (_capacity < _size + 1)
+//				reallocation(dist_before_pos, dist_after_pos, value);
+//			else {
+//				if (_size)
+//					_allocator.construct(_array + dist_after_pos + dist_before_pos,
+//						  *(_array + dist_after_pos + dist_before_pos - 1));
+//				for (ssize_t i = dist_after_pos + dist_before_pos - 1; i > dist_before_pos; --i)
+//					*(_array + i) = *(_array + i - 1);
+//				if (_size)
+//					_allocator.destroy(_array + dist_before_pos);
+//				_allocator.construct(_array + dist_before_pos, value);
+//			}
+//			++_size;
+			insert(pos, 1, value);
 			return (iterator (_array + dist_before_pos));
 		}
 
@@ -248,21 +249,27 @@ namespace ft {
 			{
 				if (count + _size > _capacity)
 				{
-					reallocation(dist_before_pos, dist_after_pos, value);
+					if (_capacity == 0)
+						reallocation(dist_before_pos, dist_after_pos, count, value, 1 + _capacity);
+					else
+						reallocation(dist_before_pos, dist_after_pos, count, value, 2 * _capacity);
 				}
 				else {
 					if (_size)
-						_allocator.construct(_array + dist_after_pos + dist_before_pos,
-											 *(_array + dist_after_pos + dist_before_pos - 1));
-					for (ssize_t i = dist_after_pos + dist_before_pos - 1; i > dist_before_pos; --i)
-						*(_array + i) = *(_array + i - 1);
-					if (_size)
-						_allocator.destroy(_array + dist_before_pos);
-					_allocator.construct(_array + dist_before_pos, value);
+					{
+						for (ssize_t i = dist_after_pos - 1; i >= 0; --i)
+						{
+							_allocator.construct(_array + dist_before_pos + count + i, *(_array + dist_before_pos + i));
+							_allocator.destroy(_array + dist_before_pos + i);
+						}
+					}
+					for (size_type i = dist_before_pos; i < count + dist_before_pos; ++i)
+						_allocator.construct(_array + i, value);
 				}
-				_size += count;
 			}
-
+			else
+				reallocation(dist_before_pos, dist_after_pos, count, value, count + _size);
+			_size += count;
 		}
 		reference at( size_type pos ) {
 
@@ -355,22 +362,21 @@ namespace ft {
 			return (distance);
 		}
 
-		void reallocation(ssize_t dist_before_pos, ssize_t dist_after_pos, const T& value)
+		void reallocation(ssize_t dist_before_pos, ssize_t dist_after_pos, size_type count, const T& value,
+					size_type allocation_value)
 		{
 			T *array = _array;
-			if (_capacity == 0)
-				_array = _allocator.allocate(1 + _capacity);
-			else
-				_array = _allocator.allocate(_capacity * 2);
+			_array = _allocator.allocate(allocation_value);
 			for (ssize_t i = 0; i < dist_before_pos; ++i)
 			{
 				_allocator.construct(_array + i, *(array + i));
 				_allocator.destroy(array + i);
 			}
-			_allocator.construct(_array + dist_before_pos, value);
+			for (size_type i = 0; i < count; ++i)
+				_allocator.construct(_array + dist_before_pos + i, value);
 			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
 			{
-				_allocator.construct(_array + i + 1, *(array + i));
+				_allocator.construct(_array + count + i, *(array + i));
 				_allocator.destroy(array + i);
 			}
 			_allocator.deallocate(array, _capacity);

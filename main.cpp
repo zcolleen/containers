@@ -87,26 +87,25 @@ bool p(const int &a, const int &b)
 int main()
 {
 	std::vector<size_t> v(8, 11);
-	ft::vector<size_t> in(0, 22);
+	ft::vector<size_t> in(2, 22);
 
-	std::cout << "Line " << std::endl;
 
 	in.reserve(10);
 	in.insert(in.begin(), 10);
 
 	print(in.begin(), in.end(), "Victor: ");
 
+	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
+
 	in.insert(in.begin(), 42);
 
-	std::cout << "Capacity: " << in.capacity() << std::endl;
-
 	print(in.begin(), in.end(), "Victor: ");
 
+	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
+	in.insert(in.begin(), 10, 32);
 	print(in.begin(), in.end(), "Victor: ");
-	std::cout << "Capacity: " << in.capacity() << std::endl;
-	v.insert(v.begin(), 4, 32);
-	print(v.begin(), v.end(), "Victor: ");
-	std::cout << "Capacity: " << v.capacity() << std::endl;
+	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
+
 //	v.insert(--v.begin(), 19);
 
 	return 0;
