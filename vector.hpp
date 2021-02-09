@@ -38,15 +38,15 @@ namespace ft {
 			explicit base_iterator(T *ptr) : ptr(ptr) {}
 			//g_iterator(const I &iter) { *this = iter; }
 			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
-			bool operator==(const base_iterator &iter) { return (ptr == iter.ptr); }
-			bool operator!=(const base_iterator &iter) { return (!(*this == iter)); }
-			bool operator<(const base_iterator &iter) { return (this->ptr < iter.ptr); }
-			bool operator<=(const base_iterator &iter) { return (*this < iter || *this == iter); }
-			bool operator>(const base_iterator &iter) { return (this->ptr > iter.ptr); }
-			bool operator>=(const base_iterator &iter) { return (*this > iter || *this == iter); }
-			T &operator*() { return (*(this->ptr)); }
-			T &operator[](int n) { return (*(this + n)); }
-			T *operator->() { return (&(this->ptr));}
+			bool operator==(const base_iterator &iter) const { return (ptr == iter.ptr); }
+			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
+			bool operator<(const base_iterator &iter) const { return (this->ptr < iter.ptr); }
+			bool operator<=(const base_iterator &iter) const { return (*this < iter || *this == iter); }
+			bool operator>(const base_iterator &iter) const { return (this->ptr > iter.ptr); }
+			bool operator>=(const base_iterator &iter) const { return (*this > iter || *this == iter); }
+			T &operator*() const { return (*(this->ptr)); }
+			T &operator[](int n) const { return (*(this->ptr + n)); }
+			T *operator->() const { return (&(this->ptr));}
 		};
 
 		template <bool Cond, typename Result = void>
@@ -95,6 +95,7 @@ namespace ft {
 				std::cout << " " << _array[i];
 			std::cout << std::endl;
 		}
+
 	public:
 
 		//constructors
@@ -157,14 +158,55 @@ namespace ft {
 			difference_type operator-(iterator it) { return (this->ptr - it.ptr); }
 
 		}								iterator;
+
 		typedef class const_iterator : public iterator {
 		public:
 			const_iterator() : iterator() {}
 			const_iterator(const const_iterator &iter) : iterator(iter) {}
 			explicit const_iterator(T *ptr) : iterator(ptr) {}
 			const_iterator(iterator iter) : iterator(iter) {}
-			const T &operator*() { return (*(this->ptr)); }
+			const T &operator*() const { return (*(this->ptr)); }
 		}									const_iterator;
+
+		typedef class reverse_iterator : public base_iterator
+		{
+		public:
+			reverse_iterator(const reverse_iterator &iter) : base_iterator(iter) {}
+			reverse_iterator() : base_iterator() {}
+			explicit reverse_iterator(T *ptr) : base_iterator(ptr) {}
+			reverse_iterator &operator=(const reverse_iterator &iter) {
+				if (this != &iter)
+					this->ptr = iter.ptr;
+				return (*this);
+			}
+			reverse_iterator &operator++() { --this->ptr; return (*this); }
+			reverse_iterator &operator--() { ++this->ptr; return (*this); }
+			reverse_iterator operator++(int ) {
+				reverse_iterator old_value(*this);
+				--this->ptr;
+				return (old_value);
+			}
+			reverse_iterator operator--(int ) {
+				reverse_iterator old_value(*this);
+				++this->ptr;
+				return (old_value);
+			}
+			reverse_iterator &operator+=(int n) { this->ptr -= n; return (*this); }
+			reverse_iterator &operator-=(int n) { this->ptr += n; return (*this); }
+			reverse_iterator operator+(int n) { reverse_iterator tmp(*this); return (tmp += n); }
+			reverse_iterator operator-(int n) { reverse_iterator tmp(*this); return (tmp -= n); }
+			difference_type operator-(reverse_iterator it) { return (it.ptr - this->ptr); }
+
+		}								reverse_iterator;
+
+		typedef class const_reverse_iterator : public reverse_iterator {
+		public:
+			const_reverse_iterator() : reverse_iterator() {}
+			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator(iter) {}
+			explicit const_reverse_iterator(T *ptr) : reverse_iterator(ptr) {}
+			const_reverse_iterator(reverse_iterator iter) : reverse_iterator(iter) {}
+			const T &operator*() const { return (*(this->ptr)); }
+		}									const_reverse_iterator;
 
 		void assign( size_type count, const T& value ) {
 			delete_vector();
@@ -178,6 +220,50 @@ namespace ft {
 			init_array_it(first, last);
 		}
 
+		iterator insert( iterator pos, const T& value )
+		{
+			ssize_t dist_before_pos = pos - begin();
+			ssize_t dist_after_pos = end() - pos;
+
+			if (_capacity < _size + 1)
+				reallocation(dist_before_pos, dist_after_pos, value);
+			else {
+				if (_size)
+					_allocator.construct(_array + dist_after_pos + dist_before_pos,
+						  *(_array + dist_after_pos + dist_before_pos - 1));
+				for (ssize_t i = dist_after_pos + dist_before_pos - 1; i > dist_before_pos; --i)
+					*(_array + i) = *(_array + i - 1);
+				if (_size)
+					_allocator.destroy(_array + dist_before_pos);
+				_allocator.construct(_array + dist_before_pos, value);
+			}
+			++_size;
+			return (iterator (_array + dist_before_pos));
+		}
+
+		void insert( iterator pos, size_type count, const T& value ) {
+			ssize_t dist_before_pos = pos - begin();
+			ssize_t dist_after_pos = end() - pos;
+			if (count + _size <= 2 * _capacity)
+			{
+				if (count + _size > _capacity)
+				{
+					reallocation(dist_before_pos, dist_after_pos, value);
+				}
+				else {
+					if (_size)
+						_allocator.construct(_array + dist_after_pos + dist_before_pos,
+											 *(_array + dist_after_pos + dist_before_pos - 1));
+					for (ssize_t i = dist_after_pos + dist_before_pos - 1; i > dist_before_pos; --i)
+						*(_array + i) = *(_array + i - 1);
+					if (_size)
+						_allocator.destroy(_array + dist_before_pos);
+					_allocator.construct(_array + dist_before_pos, value);
+				}
+				_size += count;
+			}
+
+		}
 		reference at( size_type pos ) {
 
 			if (pos >= _size || pos < 0)
@@ -211,9 +297,14 @@ namespace ft {
 		void clear() { delete_vector(false); }
 
 		iterator begin() { return (iterator(_array)); }
-		//const_iterator begin() const {}
+		const_iterator begin() const { return (const_iterator(_array)); }
 		iterator end() { return (iterator(_array + _size)); }
-		//const_iterator end() const;
+		const_iterator end() const { return (const_iterator(_array + _size)); }
+		reverse_iterator rbegin() { return (reverse_iterator(_array + _size - 1)); }
+		const_reverse_iterator rbegin() const { return (const_reverse_iterator(_array + _size - 1)); }
+		reverse_iterator rend() { return (reverse_iterator(_array - 1)); }
+		const_reverse_iterator rend() const { return (const_reverse_iterator(_array - 1)); }
+
 		void reserve( size_type new_cap ) {
 			if (new_cap > max_size())
 				throw std::length_error("vector");
@@ -242,12 +333,52 @@ namespace ft {
 			other._size = size;
 			other._capacity = capacity;
 		}
-		friend iterator operator+(int n, iterator &iter) {
-			return (iter + n);
-		}
-		//void resize( size_type count, T value = T() );
+		friend iterator operator+(int n, iterator &iter) { return (iter + n); }
+		friend const_iterator operator+(int n, const_iterator &iter) { return (iter + n); }
+		friend reverse_iterator operator+(int n, reverse_iterator &iter) { return (iter + n); }
+		friend const_reverse_iterator operator+(int n, const_reverse_iterator &iter) { return (iter + n); }
+
 		//destructor
 		~vector() { delete_vector(); }
+
+	private:
+
+		size_type distance(iterator it, iterator pos)
+		{
+			size_type distance = 0;
+
+			while (it != pos)
+			{
+				++distance;
+				++it;
+			}
+			return (distance);
+		}
+
+		void reallocation(ssize_t dist_before_pos, ssize_t dist_after_pos, const T& value)
+		{
+			T *array = _array;
+			if (_capacity == 0)
+				_array = _allocator.allocate(1 + _capacity);
+			else
+				_array = _allocator.allocate(_capacity * 2);
+			for (ssize_t i = 0; i < dist_before_pos; ++i)
+			{
+				_allocator.construct(_array + i, *(array + i));
+				_allocator.destroy(array + i);
+			}
+			_allocator.construct(_array + dist_before_pos, value);
+			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
+			{
+				_allocator.construct(_array + i + 1, *(array + i));
+				_allocator.destroy(array + i);
+			}
+			_allocator.deallocate(array, _capacity);
+			if (_capacity == 0)
+				++_capacity;
+			else
+				_capacity = 2 * _capacity;
+		}
 	};
 }
 

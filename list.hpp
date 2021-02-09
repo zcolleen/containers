@@ -75,10 +75,10 @@ namespace ft
 			explicit base_iterator(node *ptr) : ptr(ptr) {}
 			//g_iterator(const I &iter) { *this = iter; }
 			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
-			bool operator==(const base_iterator &iter) { return (ptr == iter.ptr); }
-			bool operator!=(const base_iterator &iter) { return (!(*this == iter)); }
-			T &operator*() { return (this->ptr->_element); }
-			T *operator->() { return (&(this->ptr->_element));}
+			bool operator==(const base_iterator &iter) const { return (ptr == iter.ptr); }
+			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
+			T &operator*() const { return (this->ptr->_element); }
+			T *operator->() const { return (&(this->ptr->_element));}
 		};
 
 	public:
@@ -124,7 +124,7 @@ namespace ft
 			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator(iter) {}
 			explicit const_reverse_iterator(node *ptr) : reverse_iterator(ptr) {}
 			const_reverse_iterator(reverse_iterator iter) : reverse_iterator (iter) {}
-			const T &operator*() { return (this->ptr->_element); }
+			const T &operator*() const { return (this->ptr->_element); }
 		}									const_reverse_iterator;
 
 		//iterator
@@ -484,6 +484,10 @@ namespace ft
 
 		node *count_iter(iterator pos, iterator it, node *ptr) {
 
+			if (pos == end() && _tail)
+				return (_tail->_next);
+			if (pos == --end())
+				return (_tail);
 			while (it != pos)
 			{
 				ptr = ptr->_next;
