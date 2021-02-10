@@ -293,6 +293,20 @@ namespace ft {
 		void push_back( const T& value ) {
 			insert(end(), value);
 		}
+
+//		iterator erase( iterator pos ) {
+//
+//		}
+		iterator erase( iterator first, iterator last )
+		{
+			size_type dist_before_first = first - begin();
+			size_type range = first - last;
+			for (size_type i = 0; i < range; ++i)
+			{
+				_allocator.destroy(_array + dist_before_first + i);
+			}
+
+		}
 		reference at( size_type pos ) {
 
 			if (pos >= _size || pos < 0)
@@ -387,19 +401,9 @@ namespace ft {
 		{
 			T *array = _array;
 			_array = _allocator.allocate(allocation_value);
-//			for (ssize_t i = 0; i < dist_before_pos; ++i)
-//			{
-//				_allocator.construct(_array + i, *(array + i));
-//				_allocator.destroy(array + i);
-//			}
 			copy_before_position(&array, dist_before_pos);
 			for (size_type i = 0; i < count; ++i)
 				_allocator.construct(_array + dist_before_pos + i, value);
-//			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
-//			{
-//				_allocator.construct(_array + count + i, *(array + i));
-//				_allocator.destroy(array + i);
-//			}
 			copy_after_position(&array, dist_before_pos, dist_after_pos, count);
 			_allocator.deallocate(array, _capacity);
 			_capacity = allocation_value;
@@ -411,19 +415,9 @@ namespace ft {
 		{
 			T *array = _array;
 			_array = _allocator.allocate(allocation_value);
-//			for (ssize_t i = 0; i < dist_before_pos; ++i)
-//			{
-//				_allocator.construct(_array + i, *(array + i));
-//				_allocator.destroy(array + i);
-//			}
 			copy_before_position(&array, dist_before_pos);
 			for (size_type i = 0; first != last; ++first, ++i)
 				_allocator.construct(_array + dist_before_pos + i, *first);
-//			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
-//			{
-//				_allocator.construct(_array + count + i, *(array + i));
-//				_allocator.destroy(array + i);
-//			}
 			copy_after_position(&array, dist_before_pos, dist_after_pos, count);
 			_allocator.deallocate(array, _capacity);
 			_capacity = allocation_value;
