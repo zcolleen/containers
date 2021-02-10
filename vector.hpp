@@ -223,21 +223,6 @@ namespace ft {
 		iterator insert( iterator pos, const T& value )
 		{
 			size_type dist_before_pos = pos - begin();
-//			ssize_t dist_after_pos = end() - pos;
-
-//			if (_capacity < _size + 1)
-//				reallocation(dist_before_pos, dist_after_pos, value);
-//			else {
-//				if (_size)
-//					_allocator.construct(_array + dist_after_pos + dist_before_pos,
-//						  *(_array + dist_after_pos + dist_before_pos - 1));
-//				for (ssize_t i = dist_after_pos + dist_before_pos - 1; i > dist_before_pos; --i)
-//					*(_array + i) = *(_array + i - 1);
-//				if (_size)
-//					_allocator.destroy(_array + dist_before_pos);
-//				_allocator.construct(_array + dist_before_pos, value);
-//			}
-//			++_size;
 			insert(pos, 1, value);
 			return (iterator (_array + dist_before_pos));
 		}

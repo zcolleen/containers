@@ -79,6 +79,7 @@ namespace ft
 			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
 			T &operator*() const { return (this->ptr->_element); }
 			T *operator->() const { return (&(this->ptr->_element));}
+//			friend class list<T>;
 		};
 
 	public:
@@ -253,6 +254,7 @@ namespace ft
 		}
 		iterator insert(iterator pos, const T& value) {
 
+			//node *ptr1 = pos.ptr;
 			node *ptr = count_iter(pos, begin(), _head);
 			node *new_element = init_element(value);
 			if (pos == end())
