@@ -90,14 +90,14 @@ int main()
 	ft::vector<size_t> in(2, 22);
 
 
-	in.reserve(10);
+//	in.reserve(10);
 	in.insert(in.begin(), 10);
 
 	print(in.begin(), in.end(), "Victor: ");
 
 	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
 
-	in.insert(in.begin(), 42);
+	in.insert(++in.begin(), 42);
 
 	print(in.begin(), in.end(), "Victor: ");
 

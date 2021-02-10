@@ -256,6 +256,40 @@ namespace ft {
 				reallocation(dist_before_pos, dist_after_pos, count, value, count + _size);
 			_size += count;
 		}
+		template< class InputIt >
+		void insert( iterator pos, InputIt first, InputIt last,
+			   typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0)
+		{
+			ssize_t dist_before_pos = pos - begin();
+			ssize_t dist_after_pos = end() - pos;
+			size_type count = distance(first, last);
+			if (count + _size <= 2 * _capacity)
+			{
+				if (count + _size > _capacity)
+				{
+					if (_capacity == 0)
+						reallocation_tp(dist_before_pos, dist_after_pos, count, first, last, 1 + _capacity);
+					else
+						reallocation_tp(dist_before_pos, dist_after_pos, count, first, last, 2 * _capacity);
+				}
+				else {
+					if (_size)
+					{
+						for (ssize_t i = dist_after_pos - 1; i >= 0; --i)
+						{
+							_allocator.construct(_array + dist_before_pos + count + i, *(_array + dist_before_pos + i));
+							_allocator.destroy(_array + dist_before_pos + i);
+						}
+					}
+					for (size_type i = dist_before_pos; first != last; ++first, ++i)
+						_allocator.construct(_array + i, *first);
+				}
+			}
+			else
+				reallocation_tp(dist_before_pos, dist_after_pos, count, first, last, count + _size);
+			_size += count;
+		}
+
 		reference at( size_type pos ) {
 
 			if (pos >= _size || pos < 0)
@@ -335,15 +369,13 @@ namespace ft {
 
 	private:
 
-		size_type distance(iterator it, iterator pos)
+		template<typename InputIt>
+		size_type distance(InputIt first, InputIt last)
 		{
 			size_type distance = 0;
 
-			while (it != pos)
-			{
+			while (first++ != last)
 				++distance;
-				++it;
-			}
 			return (distance);
 		}
 
@@ -352,23 +384,62 @@ namespace ft {
 		{
 			T *array = _array;
 			_array = _allocator.allocate(allocation_value);
-			for (ssize_t i = 0; i < dist_before_pos; ++i)
-			{
-				_allocator.construct(_array + i, *(array + i));
-				_allocator.destroy(array + i);
-			}
+//			for (ssize_t i = 0; i < dist_before_pos; ++i)
+//			{
+//				_allocator.construct(_array + i, *(array + i));
+//				_allocator.destroy(array + i);
+//			}
+			copy_before_position(&array, dist_before_pos);
 			for (size_type i = 0; i < count; ++i)
 				_allocator.construct(_array + dist_before_pos + i, value);
+//			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
+//			{
+//				_allocator.construct(_array + count + i, *(array + i));
+//				_allocator.destroy(array + i);
+//			}
+			copy_after_position(&array, dist_before_pos, dist_after_pos, count);
+			_allocator.deallocate(array, _capacity);
+			_capacity = allocation_value;
+		}
+
+		template<typename InputIt>
+		void reallocation_tp(ssize_t dist_before_pos, ssize_t dist_after_pos, size_type count, InputIt first, InputIt last,
+						  size_type allocation_value)
+		{
+			T *array = _array;
+			_array = _allocator.allocate(allocation_value);
+//			for (ssize_t i = 0; i < dist_before_pos; ++i)
+//			{
+//				_allocator.construct(_array + i, *(array + i));
+//				_allocator.destroy(array + i);
+//			}
+			copy_before_position(&array, dist_before_pos);
+			for (size_type i = 0; first != last; ++first, ++i)
+				_allocator.construct(_array + dist_before_pos + i, *first);
+//			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
+//			{
+//				_allocator.construct(_array + count + i, *(array + i));
+//				_allocator.destroy(array + i);
+//			}
+			copy_after_position(&array, dist_before_pos, dist_after_pos, count);
+			_allocator.deallocate(array, _capacity);
+			_capacity = allocation_value;
+		}
+		void copy_before_position(T **array, ssize_t dist_before_pos)
+		{
+			for (ssize_t i = 0; i < dist_before_pos; ++i)
+			{
+				_allocator.construct(_array + i, *(*array + i));
+				_allocator.destroy(*array + i);
+			}
+		}
+		void copy_after_position(T **array, ssize_t dist_before_pos, ssize_t dist_after_pos, size_type count)
+		{
 			for (ssize_t i = dist_before_pos; i < dist_after_pos + dist_before_pos; ++i)
 			{
-				_allocator.construct(_array + count + i, *(array + i));
-				_allocator.destroy(array + i);
+				_allocator.construct(_array + count + i, *(*array + i));
+				_allocator.destroy(*array + i);
 			}
-			_allocator.deallocate(array, _capacity);
-			if (_capacity == 0)
-				++_capacity;
-			else
-				_capacity = 2 * _capacity;
 		}
 	};
 }
