@@ -86,12 +86,11 @@ bool p(const int &a, const int &b)
 
 int main()
 {
-	std::vector<size_t> v(8, 11);
 	ft::vector<size_t> in(2, 22);
-	ft::list<size_t> list(4, 87);
+//	ft::list<size_t> list(1, 87);
 
 	in.reserve(2);
-	in.insert(++in.begin(), list.begin(), list.end());
+//	in.insert(++in.begin(), list.begin(), list.end());
 	in.insert(in.begin(), 10);
 
 	print(in.begin(), in.end(), "Victor: ");
@@ -103,22 +102,56 @@ int main()
 	print(in.begin(), in.end(), "Victor: ");
 
 	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
-	in.insert(in.end(), 10, 32);
+	in.insert(in.end(), 1, 32);
 	print(in.begin(), in.end(), "Victor: ");
 	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
 
 	in.push_back(321);
 	in.push_back(456);
 	in.push_back(987);
-	in.push_back(321);
-	in.push_back(456);
-	in.push_back(987);
-	in.push_back(321);
+
 
 	print(in.begin(), in.end(), "Vitynya: ");
+
+
 	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
 
+	in.clear();
+	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
+	print(in.begin(), in.end(), "Vitynya: ");
+	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
+	in.push_back(23);
+	in.push_back(25);
+	in.push_back(48);
+	in.push_back(987);
+	in.push_back(567);
+	in.push_back(742);
+//	//in.erase(++++in.begin(), ----in.end());
+//
+	print(in.begin(), in.end(), "Vitynya: ");
+
+//
+	in.erase(in.begin());
+//
+	print(in.begin(), in.end(), "Vitynya: ");
+
+	in.erase(in.begin());
+//
+	print(in.begin(), in.end(), "Vitynya: ");
+
+	in.erase(++in.begin(), --in.end());
+	print(in.begin(), in.end(), "Vitynya: ");
 //	v.insert(--v.begin(), 19);
 
 	return 0;
 }
+
+//int main()
+//{
+//	ft::list<size_t> l(1, 19);
+//	ft::vector<size_t> v(10, 12);
+//
+//	v.clear();
+//
+//	print(l.begin(), l.end(), "fuygasfidj ");
+//}

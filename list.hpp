@@ -79,7 +79,7 @@ namespace ft
 			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
 			T &operator*() const { return (this->ptr->_element); }
 			T *operator->() const { return (&(this->ptr->_element));}
-//			friend class list<T>;
+			friend class list<T>;
 		};
 
 	public:

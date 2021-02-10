@@ -83,9 +83,12 @@ namespace ft {
 			for (size_type i = 0; i < _size; ++i)
 				_allocator.destroy(_array + i);
 			if (deallocate)
+			{
 				_allocator.deallocate(_array, _capacity);
+				_array = NULL;
+			}
 			_size = 0;
-			_array = NULL;
+			//_array = NULL;
 		}
 
 		void print_vector()
@@ -294,18 +297,23 @@ namespace ft {
 			insert(end(), value);
 		}
 
-//		iterator erase( iterator pos ) {
-//
-//		}
+		iterator erase( iterator pos ) {
+			return (erase(pos, ++pos));
+		}
 		iterator erase( iterator first, iterator last )
 		{
 			size_type dist_before_first = first - begin();
-			size_type range = first - last;
-			for (size_type i = 0; i < range; ++i)
+			size_type dist_after_last = end() - last;
+			size_type range = last - first;
+			for (size_type i = 0; i < dist_after_last; ++i)
 			{
-				_allocator.destroy(_array + dist_before_first + i);
+				*(_array + dist_before_first + i) = *(_array + range + i);
+				_allocator.destroy(_array + range + i);
 			}
-
+			for (size_type i = dist_after_last + dist_before_first; i < _size; ++i)
+				_allocator.destroy(_array + i);
+			_size -= range;
+			return (iterator(_array + dist_before_first));
 		}
 		reference at( size_type pos ) {
 
