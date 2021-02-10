@@ -290,6 +290,9 @@ namespace ft {
 			_size += count;
 		}
 
+		void push_back( const T& value ) {
+			insert(end(), value);
+		}
 		reference at( size_type pos ) {
 
 			if (pos >= _size || pos < 0)

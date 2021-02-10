@@ -88,9 +88,10 @@ int main()
 {
 	std::vector<size_t> v(8, 11);
 	ft::vector<size_t> in(2, 22);
+	ft::list<size_t> list(4, 87);
 
-
-//	in.reserve(10);
+	in.reserve(2);
+	in.insert(++in.begin(), list.begin(), list.end());
 	in.insert(in.begin(), 10);
 
 	print(in.begin(), in.end(), "Victor: ");
@@ -102,8 +103,19 @@ int main()
 	print(in.begin(), in.end(), "Victor: ");
 
 	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
-	in.insert(in.begin(), 10, 32);
+	in.insert(in.end(), 10, 32);
 	print(in.begin(), in.end(), "Victor: ");
+	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
+
+	in.push_back(321);
+	in.push_back(456);
+	in.push_back(987);
+	in.push_back(321);
+	in.push_back(456);
+	in.push_back(987);
+	in.push_back(321);
+
+	print(in.begin(), in.end(), "Vitynya: ");
 	std::cout << "Capacity: " << in.capacity() << " Size: " << in.size() << std::endl;
 
 //	v.insert(--v.begin(), 19);
