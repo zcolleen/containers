@@ -139,7 +139,12 @@ int main()
 //
 	print(in.begin(), in.end(), "Vitynya: ");
 
-	in.erase(++in.begin(), --in.end());
+	ft::vector<size_t>::iterator it = in.erase(++in.begin(), --in.end());
+
+	std::cout << *it << std::endl;
+	in.erase(in.begin());
+	print(in.begin(), in.end(), "Vitynya: ");
+	in.pop_back();
 	print(in.begin(), in.end(), "Vitynya: ");
 //	v.insert(--v.begin(), 19);
 

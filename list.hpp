@@ -316,15 +316,22 @@ namespace ft
 		void pop_back() { erase(--end()); }
 		void pop_front() { erase(begin()); }
 		void resize( size_type count, T value = T() ) {
-			if (count > size())
+			size_type l_size = size();
+			if (count > l_size)
 			{
-				while (count != size())
+				while (count != l_size)
+				{
 					push_back(value);
+					++l_size;
+				}
 			}
 			else
 			{
-				while (count != size())
+				while (count != l_size)
+				{
 					pop_back();
+					--l_size;
+				}
 			}
 		}
 		void swap( list& other ) {

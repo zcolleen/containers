@@ -307,13 +307,24 @@ namespace ft {
 			size_type range = last - first;
 			for (size_type i = 0; i < dist_after_last; ++i)
 			{
-				*(_array + dist_before_first + i) = *(_array + range + i);
-				_allocator.destroy(_array + range + i);
+				*(_array + dist_before_first + i) = *(_array + dist_before_first + range + i);
+				_allocator.destroy(_array + dist_before_first + range + i);
 			}
 			for (size_type i = dist_after_last + dist_before_first; i < _size; ++i)
 				_allocator.destroy(_array + i);
 			_size -= range;
 			return (iterator(_array + dist_before_first));
+		}
+		void pop_back() {
+			erase(--end(), end());
+		}
+
+		void resize( size_type count, T value = T() )
+		{
+			if (count > _size)
+				insert(end(), count, value);
+			else
+				erase(begin() + count, end());
 		}
 		reference at( size_type pos ) {
 
