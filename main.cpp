@@ -146,8 +146,59 @@ int main()
 	print(in.begin(), in.end(), "Vitynya: ");
 	in.pop_back();
 	print(in.begin(), in.end(), "Vitynya: ");
-//	v.insert(--v.begin(), 19);
+	in.push_back(128);
+	in.push_back(228);
+	print(in.begin(), in.end(), "Vitynya: ");
+	in.erase(++in.begin(), ++in.begin());
+	print(in.begin(), in.end(), "Vitynya: ");
 
+	in.resize(6, 322);
+	print(in.begin(), in.end(), "Vitynya: ");
+
+	in.resize(3, 552);
+
+	print(in.begin(), in.end(), "Vitynya: ");
+
+
+	ft::list<std::string> list(2, "nastya");
+
+	list.resize(6, "sema");
+
+	print(list.begin(), list.end(), "Sweden family: ");
+
+
+	list.resize(7, "fsokdf");
+
+	print(list.begin(), list.end(), "Sweden family: ");
+
+
+	ft::list<int>  s(3, 2);
+	ft::list<int>  d(4, 5);
+
+	s.splice(++s.begin(), d);
+
+	print(s.begin(), s.end(), "Go: ");
+
+	d.push_back(12);
+
+	d.push_back(214);
+
+	print(d.begin(), d.end(), "Went: ");
+
+	d.pop_back();
+
+	print(d.begin(), d.end(), "Went: ");
+
+	ft::swap(d, s);
+
+
+	print(d.begin(), d.end(), "Went: ");
+
+	print(s.begin(), s.end(), "Go: ");
+
+
+	if (s != d)
+		std::cout << "dfklns" << std::endl;
 	return 0;
 }
 

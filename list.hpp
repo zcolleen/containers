@@ -255,7 +255,8 @@ namespace ft
 		iterator insert(iterator pos, const T& value) {
 
 			//node *ptr1 = pos.ptr;
-			node *ptr = count_iter(pos, begin(), _head);
+			//node *ptr = count_iter(pos, begin(), _head);
+			node *ptr = pos.ptr;
 			node *new_element = init_element(value);
 			if (pos == end())
 				_tail = new_element;
@@ -299,7 +300,8 @@ namespace ft
 				_tail = _tail->_prev;
 			if (pos == begin())
 				_head = _head->_next;
-			node *ptr = count_iter(pos, begin(), _head);
+			//node *ptr = count_iter(pos, begin(), _head);
+			node *ptr = pos.ptr;
 			node *tmp = ptr->_next;
 			remove_element(ptr);
 			return (iterator(tmp));
@@ -316,22 +318,17 @@ namespace ft
 		void pop_back() { erase(--end()); }
 		void pop_front() { erase(begin()); }
 		void resize( size_type count, T value = T() ) {
-			size_type l_size = size();
-			if (count > l_size)
+			size_type s = size();
+			if (count > s)
 			{
-				while (count != l_size)
-				{
-					push_back(value);
-					++l_size;
-				}
+				insert(end(), count - s, value);
 			}
 			else
 			{
-				while (count != l_size)
-				{
-					pop_back();
-					--l_size;
-				}
+				iterator it = begin();
+				for (size_type i = 0; i < count; ++i)
+					++it;
+				erase(it, end());
 			}
 		}
 		void swap( list& other ) {
@@ -413,8 +410,10 @@ namespace ft
 				return;
 			bool to_delete = false;
 			bool to_init_tail = false;
-			node *insert_before = count_iter(pos, begin(), _head);
-			node *inserted = count_iter(it, other.begin(), other._head);
+			//node *insert_before = count_iter(pos, begin(), _head);
+			node *insert_before = pos.ptr;
+			//node *inserted = count_iter(it, other.begin(), other._head);
+			node *inserted = it.ptr;
 
 			manage_heads_and_tails(to_init_tail, to_delete, inserted, insert_before, other);
 			inserted->_next->_prev = inserted->_prev;

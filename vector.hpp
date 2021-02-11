@@ -322,7 +322,7 @@ namespace ft {
 		void resize( size_type count, T value = T() )
 		{
 			if (count > _size)
-				insert(end(), count, value);
+				insert(end(), count - _size, value);
 			else
 				erase(begin() + count, end());
 		}
@@ -458,6 +458,54 @@ namespace ft {
 			}
 		}
 	};
+	template< class T, class Alloc >
+	bool operator==( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs ) {
+		typename ft::vector<T, Alloc>::const_iterator it_lhs = lhs.begin();
+		typename ft::vector<T, Alloc>::const_iterator it_rhs = rhs.begin();
+		while (it_lhs != lhs.end() && it_rhs != rhs.end())
+		{
+			if (*it_lhs != *it_rhs)
+				return (false);
+			++it_rhs;
+			++it_lhs;
+		}
+		return (!(it_lhs != lhs.end() || it_rhs != rhs.end()));
+	}
+	template< class T, class Alloc >
+	bool operator!=( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs ) {
+		return (!(lhs == rhs));
+	}
+	template< class T, class Alloc >
+	bool operator<( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs ) {
+		typename ft::vector<T, Alloc>::const_iterator it_lhs = lhs.begin();
+		typename ft::vector<T, Alloc>::const_iterator it_rhs = rhs.begin();
+		while (it_lhs != lhs.end() && it_rhs != rhs.end())
+		{
+			if (*it_lhs < *it_rhs)
+				return (true);
+			else if (*it_lhs > *it_rhs)
+				return (false);
+			++it_rhs;
+			++it_lhs;
+		}
+		return (it_lhs == lhs.end() && it_rhs != rhs.end());
+	}
+	template< class T, class Alloc >
+	bool operator<=( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs ) {
+		return (lhs == rhs || lhs < rhs);
+	}
+	template< class T, class Alloc >
+	bool operator>( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs ) {
+		return (!(lhs < rhs) && (lhs != rhs));
+	}
+	template< class T, class Alloc >
+	bool operator>=( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs ) {
+		return (lhs == rhs || lhs > rhs);
+	}
+	template< class T, class Alloc >
+	void swap( ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs ) {
+		lhs.swap(rhs);
+	}
 }
 
 
