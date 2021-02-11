@@ -81,11 +81,42 @@ void print(T first, T last, std::string str, bool colour)
 	std::cout << std::endl;
 }
 
+template <typename DEF, typename MY>
+void comparison_print(DEF _std, MY _ft, std::string str)
+{
+	print(_std.begin(), _std.end(), str, FT);
+	print(_ft.begin(), _ft.end(), str, STD);
+}
+
 int main()
 {
-	std::vector<size_t> v(20, 20);
-	ft::vector<size_t>  f(32, 32);
+	//list tests
 
-	print(v.begin(), v.end(), "djs", STD);
-	print(f.begin(), f.end(), "jd", FT);
+	std::cout << YELLOW << "List constructors: " << RESET << std::endl;
+
+	ft::list<size_t> ft_list_f;
+	std::list<size_t> std_list_f;
+
+	ft::list<size_t> ft_list_s(5, 21);
+	std::list<size_t> std_list_s(5, 21);
+
+	comparison_print(ft_list_s, std_list_s, "Range constructor: ");
+
+	ft::list<size_t> ft_list_t(ft_list_s.begin(), ft_list_s.end());
+	std::list<size_t> std_list_t(std_list_s.begin(), std_list_s.end());
+
+	comparison_print(ft_list_t, std_list_t, "Iterator constructor: ");
+
+	ft::list<size_t> ft_list_ft(ft_list_t);
+	std::list<size_t> std_list_ft(std_list_t);
+
+	comparison_print(ft_list_ft, std_list_ft, "Copy constructor: ");
+
+	ft_list_f = ft_list_ft;
+	std_list_f = std_list_ft;
+
+	comparison_print(ft_list_f, std_list_f, "Assignation operation: ");
+
+	std::cout << std::endl;
+
 }

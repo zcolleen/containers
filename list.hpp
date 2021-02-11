@@ -46,7 +46,7 @@ namespace ft
 		_head(NULL), _tail(NULL), _allocator(alloc)
 		{ assignment(count, value); }
 
-		list(const list& other) { *this = other; }
+		list(const list& other) : _head(NULL), _tail(NULL), _allocator(other._allocator) { *this = other; }
 		//end of constructors
 
 	private:
@@ -615,7 +615,7 @@ namespace ft
 		template< class InputIt >
 		void assignment_templ(InputIt first, InputIt last) {
 
-			node *tmp;
+			node *tmp = NULL;
 			node *elem;
 
 			if (first != last)
