@@ -15,7 +15,6 @@
 #define RESET "\033[0m"
 #define STD true
 #define FT false
-#define INDENT "      "
 
 
 class Some_class {
@@ -269,9 +268,10 @@ void list_tests()
 
 int main()
 {
-//	srand(time(NULL));
+	srand(time(NULL));
 
-	ft::list<int> sort;
+	ft::list<int> sorto;
+	ft::vector<int> vec;
 	std::list<int> sort_d;
 //	int value;
 	size_t i = 0;
@@ -282,51 +282,60 @@ int main()
 //		++i;
 //	}
 //	i = 0;
+
+
 	std::cout << "st" << std::endl;
-	while (i < 10000)
-	{
-//		value = rand() % 100;
-//		std::cout << "E" << std::endl;
-		sort.push_back(1);
-//		std::cout << "G" << std::endl;
-//		sort_d.push_back(value);
-		++i;
-	}
+//	while (i < 10000)
+//	{
+////		value = rand() % 100;
+////		std::cout << "E" << std::endl;
+//		sort.push_back(1);
+////		std::cout << "G" << std::endl;
+////		sort_d.push_back(value);
+//		++i;
+//	}
+
 
 	i = 0;
-	int j = 0;
-	while (j < 10)
+	int j = 1;
+	while (j < 2)
 	{
 		i = 0;
-		while (i < 10000)
+		while (i < 500000)
 		{
-			sort.push_back(1);
+			sorto.push_back(rand() % 100);
+			sort_d.push_back(1);
 			++i;
 		}
 		++j;
 	}
-	struct timeval tv_start;
-	struct timeval tv_end;
 
+	std::cout << "lol" << std::endl;
+////	struct timeval tv_start;
+////	struct timeval tv_end;
+//
+////	gettimeofday(&tv_start, NULL);
+//
+	sorto.sort();
+//
+//
+////	gettimeofday(&tv_end, NULL);
+////	print(sorto.begin(), sorto.end(), "Sort: ", FT);
+////	long long usecs = tv_end.tv_usec - tv_start.tv_usec;
+//
+////	std::cout << RED << "Sec: " <<   ((tv_end.tv_sec - tv_start.tv_sec) * 10000) + (double )(tv_end.tv_usec - tv_start.tv_usec)/100 << "           Usec: " << usecs << RESET << std::endl;
+//
 //	gettimeofday(&tv_start, NULL);
-
-	sort.sort();
-
+//
+//	sort_d.sort();
+//
 //	gettimeofday(&tv_end, NULL);
+//
+//	long long usecs_def = tv_end.tv_usec - tv_start.tv_usec;
+//
+////	std::cout << GREEN << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs_def << RESET << std::endl;
+//
+////	std::cout << "Percentage: " << usecs_def / usecs * 100 << std::endl;
 
-	double usecs = tv_end.tv_usec - tv_start.tv_usec;
 
-	std::cout << RED << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs << RESET << std::endl;
-
-//	gettimeofday(&tv_start, NULL);
-
-	sort_d.sort();
-
-//	gettimeofday(&tv_end, NULL);
-
-	double usecs_def = tv_end.tv_usec - tv_start.tv_usec;
-
-	std::cout << GREEN << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs_def << RESET << std::endl;
-
-	std::cout << "Persentage: " << usecs_def / usecs * 100 << std::endl;
 }
