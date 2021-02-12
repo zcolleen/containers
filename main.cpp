@@ -88,12 +88,9 @@ void comparison_print(DEF _std, MY _ft, std::string str)
 	print(_ft.begin(), _ft.end(), str, STD);
 }
 
-int main()
+
+void list_tests()
 {
-	srand(time(NULL));
-
-	//list tests
-
 	std::cout << YELLOW << "List constructors: " << RESET << std::endl;
 
 	ft::list<size_t> ft_list_f;
@@ -213,7 +210,7 @@ int main()
 	std::cout << RESET << std::endl;
 
 	std::cout << std::endl;
-	std::cout << YELLOW << "Test with elements of list: " << RESET << std::endl;
+	std::cout << YELLOW << "Test with size of list: " << RESET << std::endl;
 	std::cout << RED << "      Checking if third container is empty: " << ft_list_t.empty() << RESET << std::endl;
 	std::cout << GREEN << "      Checking if third container is empty: " << std_list_t.empty() << RESET << std::endl;
 
@@ -234,6 +231,102 @@ int main()
 	std::cout << RED << "      Max size: " << ft_list_t.max_size() << RESET << std::endl;
 	std::cout << GREEN << "      Max size: " << std_list_t.max_size() << RESET << std::endl;
 
+	std::cout << std::endl;
+	std::cout << YELLOW << "Test with elements of list: " << RESET << std::endl;
+
+	comparison_print(ft_list_ft, std_list_ft, "Fourth list: ");
+
+	ft_list_ft.insert(++ft_list_ft.begin(), 2, 24);
+	std_list_ft.insert(++std_list_ft.begin(), 2, 24);
+
+	comparison_print(ft_list_ft, std_list_ft, "Inserting two elements after begin element: ");
+
+	ft_list_ft.insert(ft_list_ft.begin(), 64);
+	std_list_ft.insert(std_list_ft.begin(),  64);
+
+	comparison_print(ft_list_ft, std_list_ft, "Inserting one element before begin: ");
+
+	ft_list_ft.insert(ft_list_ft.end(), ft_list_s.begin(), ft_list_s.end());
+	std_list_ft.insert(std_list_ft.end(), std_list_s.begin(), std_list_s.end());
+
+	comparison_print(ft_list_s, std_list_s, "Second list: ");
+	comparison_print(ft_list_ft, std_list_ft, "Inserting elements of second list at the end: ");
+
+//	ft_list_ft.erase()
+}
+
+//int main()
+//{
+//	srand(time(NULL));
+//
+//	//list tests
+//	list_tests();
+//
+//}
 
 
+#include <sys/time.h>
+
+int main()
+{
+//	srand(time(NULL));
+
+	ft::list<int> sort;
+	std::list<int> sort_d;
+//	int value;
+	size_t i = 0;
+
+//	while (i < 1000000)
+//	{
+//		std::cout << "p" << std::endl;
+//		++i;
+//	}
+//	i = 0;
+	std::cout << "st" << std::endl;
+	while (i < 10000)
+	{
+//		value = rand() % 100;
+//		std::cout << "E" << std::endl;
+		sort.push_back(1);
+//		std::cout << "G" << std::endl;
+//		sort_d.push_back(value);
+		++i;
+	}
+
+	i = 0;
+	int j = 0;
+	while (j < 10)
+	{
+		i = 0;
+		while (i < 10000)
+		{
+			sort.push_back(1);
+			++i;
+		}
+		++j;
+	}
+	struct timeval tv_start;
+	struct timeval tv_end;
+
+//	gettimeofday(&tv_start, NULL);
+
+	sort.sort();
+
+//	gettimeofday(&tv_end, NULL);
+
+	double usecs = tv_end.tv_usec - tv_start.tv_usec;
+
+	std::cout << RED << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs << RESET << std::endl;
+
+//	gettimeofday(&tv_start, NULL);
+
+	sort_d.sort();
+
+//	gettimeofday(&tv_end, NULL);
+
+	double usecs_def = tv_end.tv_usec - tv_start.tv_usec;
+
+	std::cout << GREEN << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs_def << RESET << std::endl;
+
+	std::cout << "Persentage: " << usecs_def / usecs * 100 << std::endl;
 }
