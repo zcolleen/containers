@@ -81,10 +81,10 @@ void print(T first, T last, std::string str, bool colour)
 }
 
 template <typename DEF, typename MY>
-void comparison_print(DEF _std, MY _ft, std::string str)
+void comparison_print(MY _ft, DEF _std, std::string str)
 {
-	print(_std.begin(), _std.end(), str, FT);
-	print(_ft.begin(), _ft.end(), str, STD);
+	print(_ft.begin(), _ft.end(), str, FT);
+	print(_std.begin(), _std.end(), str, STD);
 }
 
 
@@ -154,10 +154,12 @@ void list_tests()
 
 	std::list<size_t>::iterator std_iter = std_list_ft.begin();
 
+	size_t value;
 	while (ft_iter != ft_iter_end)
 	{
-		*ft_iter = rand() % 100;
-		*std_iter = *ft_iter;
+		value = rand() % 100;
+		*ft_iter = value;
+		*std_iter = value;
 		++ft_iter;
 		++std_iter;
 	}
@@ -251,91 +253,118 @@ void list_tests()
 	comparison_print(ft_list_s, std_list_s, "Second list: ");
 	comparison_print(ft_list_ft, std_list_ft, "Inserting elements of second list at the end: ");
 
-//	ft_list_ft.erase()
+	ft_list_ft.erase(++++++ft_list_ft.begin(), ------ft_list_ft.end());
+	std_list_ft.erase(++++++std_list_ft.begin(), ------std_list_ft.end());
+
+	comparison_print(ft_list_ft, ft_list_ft, "Erased part of list: ");
+
+	ft_list_ft.erase(++ft_list_ft.begin());
+	std_list_ft.erase(++std_list_ft.begin());
+
+	comparison_print(ft_list_ft, ft_list_ft, "Erased element after begin: ");
+
+	for (int i = 0; i < 10; ++i)
+	{
+		value = rand() % 100;
+		ft_list_ft.push_back(value);
+		std_list_ft.push_back(value);
+	}
+
+	comparison_print(ft_list_ft, ft_list_ft, "Pushed 10 elements: ");
+
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_list_ft.pop_back();
+		std_list_ft.pop_back();
+	}
+
+	comparison_print(ft_list_ft, ft_list_ft, "Poped 10 elements: ");
+
 }
 
-//int main()
-//{
-//	srand(time(NULL));
-//
-//	//list tests
-//	list_tests();
-//
-//}
-
-
-#include <sys/time.h>
 
 int main()
 {
 	srand(time(NULL));
 
-	ft::list<int> sorto;
-	ft::vector<int> vec;
-	std::list<int> sort_d;
-//	int value;
-	size_t i = 0;
-
-//	while (i < 1000000)
-//	{
-//		std::cout << "p" << std::endl;
-//		++i;
-//	}
-//	i = 0;
-
-
-	std::cout << "st" << std::endl;
-//	while (i < 10000)
-//	{
-////		value = rand() % 100;
-////		std::cout << "E" << std::endl;
-//		sort.push_back(1);
-////		std::cout << "G" << std::endl;
-////		sort_d.push_back(value);
-//		++i;
-//	}
-
-
-	i = 0;
-	int j = 1;
-	while (j < 2)
-	{
-		i = 0;
-		while (i < 500000)
-		{
-			sorto.push_back(rand() % 100);
-			sort_d.push_back(1);
-			++i;
-		}
-		++j;
-	}
-
-	std::cout << "lol" << std::endl;
-////	struct timeval tv_start;
-////	struct timeval tv_end;
-//
-////	gettimeofday(&tv_start, NULL);
-//
-	sorto.sort();
-//
-//
-////	gettimeofday(&tv_end, NULL);
-////	print(sorto.begin(), sorto.end(), "Sort: ", FT);
-////	long long usecs = tv_end.tv_usec - tv_start.tv_usec;
-//
-////	std::cout << RED << "Sec: " <<   ((tv_end.tv_sec - tv_start.tv_sec) * 10000) + (double )(tv_end.tv_usec - tv_start.tv_usec)/100 << "           Usec: " << usecs << RESET << std::endl;
-//
-//	gettimeofday(&tv_start, NULL);
-//
-//	sort_d.sort();
-//
-//	gettimeofday(&tv_end, NULL);
-//
-//	long long usecs_def = tv_end.tv_usec - tv_start.tv_usec;
-//
-////	std::cout << GREEN << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs_def << RESET << std::endl;
-//
-////	std::cout << "Percentage: " << usecs_def / usecs * 100 << std::endl;
-
+	//list tests
+	list_tests();
 
 }
+
+//
+//#include <sys/time.h>
+//
+//int main()
+//{
+//	srand(time(NULL));
+//
+//	ft::list<int> sorto;
+//	ft::vector<int> vec;
+//	std::list<int> sort_d;
+////	int value;
+//	size_t i = 0;
+//
+////	while (i < 1000000)
+////	{
+////		std::cout << "p" << std::endl;
+////		++i;
+////	}
+////	i = 0;
+//
+//
+//	std::cout << "st" << std::endl;
+////	while (i < 10000)
+////	{
+//////		value = rand() % 100;
+//////		std::cout << "E" << std::endl;
+////		sort.push_back(1);
+//////		std::cout << "G" << std::endl;
+//////		sort_d.push_back(value);
+////		++i;
+////	}
+//
+//
+//	i = 0;
+//	int j = 1;
+//	while (j < 2)
+//	{
+//		i = 0;
+//		while (i < 2000000)
+//		{
+//	//		sorto.push_back( rand() % 10000);
+//			sort_d.push_back(1);
+//			++i;
+//		}
+//		++j;
+//	}
+//
+//	std::cout << "lol" << std::endl;
+//////	struct timeval tv_start;
+//////	struct timeval tv_end;
+////
+//////	gettimeofday(&tv_start, NULL);
+////
+//	sort_d.sort();
+////
+////
+//////	gettimeofday(&tv_end, NULL);
+//	print(sort_d.begin(), sort_d.end(), "Sort: ", FT);
+//////	long long usecs = tv_end.tv_usec - tv_start.tv_usec;
+////
+//////	std::cout << RED << "Sec: " <<   ((tv_end.tv_sec - tv_start.tv_sec) * 10000) + (double )(tv_end.tv_usec - tv_start.tv_usec)/100 << "           Usec: " << usecs << RESET << std::endl;
+////
+////	gettimeofday(&tv_start, NULL);
+////
+////	sort_d.sort();
+////
+////	gettimeofday(&tv_end, NULL);
+////
+////	long long usecs_def = tv_end.tv_usec - tv_start.tv_usec;
+////
+//////	std::cout << GREEN << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs_def << RESET << std::endl;
+////
+//////	std::cout << "Percentage: " << usecs_def / usecs * 100 << std::endl;
+//
+//
+//}

@@ -562,6 +562,7 @@ namespace ft
 			first->_next->_prev = second;
 			first->_next = tmp_second;
 		}
+
 		template<class Compare>
 		void qsort(node *plot_head, node *plot_tail, Compare comp)
 		{
@@ -571,7 +572,6 @@ namespace ft
 			new_head = plot_head;
 			new_tail = plot_tail;
 
-			start:
 			while (plot_head != plot_tail && plot_head != plot_tail->_next)
 			{
 				if (comp(plot_tail->_element, plot_head->_element))
@@ -591,19 +591,9 @@ namespace ft
 				head_swap = true;
 			}
 			if (new_head && new_head != plot_tail->_prev && plot_tail != new_head->_prev)
-			{
-				plot_head = new_head;
-				plot_tail = plot_tail->_prev;
-				goto start;
-			}
-				//qsort(new_head, plot_tail->_prev, comp);
+				qsort(new_head, plot_tail->_prev, comp);
 			if (tail_swap && plot_tail->_next != new_tail)
-			{
-				plot_head = plot_tail->_next;
-				plot_tail = new_tail;
-				goto start;
-			}
-				//qsort(plot_tail->_next, new_tail, comp);
+				qsort(plot_tail->_next, new_tail, comp);
 		}
 		void remove_element(node *ptr) {
 			ptr->_next->_prev = ptr->_prev;
