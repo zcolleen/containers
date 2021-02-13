@@ -510,15 +510,63 @@ void list_tests()
 
 	std::cout << std::endl;
 	std::cout << BLUE << "///////////////////////END OF LIST TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
 }
 
+void stack_tests()
+{
+	std::cout << BLUE << "///////////////////////STACK TESTS///////////////////////" << RESET << std::endl;
+	std::cout << YELLOW << "Stack constructors: " << RESET << std::endl;
+
+	ft::stack<char> ft_stack_f;
+	std::stack<char> std_stack_f;
+
+	ft::list<char> ft_list(10, 'a');
+	ft::stack<char> ft_stack_s(ft_list);
+
+	std::deque<char> std_list(10, 'a');
+	std::stack<char> std_stack_s(std_list);
+
+	char value;
+	for (int i = 0; i < 10; ++i)
+	{
+		value = 'A' + rand() % ('z' - 'A');
+		ft_stack_f.push(value);
+		std_stack_f.push(value);
+	}
+
+	std::cout << RED << "      Cloned parent container, top element: " << ft_stack_s.top() << RESET << std::endl;
+	std::cout << GREEN << "      Cloned parent container, top element: " << std_stack_s.top() << RESET << std::endl;
+
+	std::cout << RED << "      Pushed back 10 values, top element is: " << ft_stack_f.top() << RESET << std::endl;
+	std::cout << GREEN << "      Pushed back 10 values, top element is: " << std_stack_f.top() << RESET << std::endl;
+
+	std::cout << RED << "      Size of container is: " << ft_stack_f.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container is: " << std_stack_f.size() << RESET << std::endl;
+
+	ft::stack<char> ft_stack_th(ft_stack_f);
+	std::stack<char> std_stack_th(std_stack_f);
+
+	std::cout << RED << "      Copy constructor, top element is: " << ft_stack_th.top() << RESET << std::endl;
+	std::cout << GREEN << "      Copy constructor, top element is: " << std_stack_th.top() << RESET << std::endl;
+
+	ft_stack_th.pop();
+	std_stack_th.pop();
+	ft_stack_th.pop();
+	std_stack_th.pop();
+
+	std::cout << RED << "      Popping two elements, top element is: " << ft_stack_th.top() << RESET << std::endl;
+	std::cout << GREEN << "      Popping two elements, top element is: " << std_stack_th.top() << RESET << std::endl;
+
+
+}
 
 int main()
 {
 	srand(time(NULL));
 
-	//list tests
-	list_tests();
+	//list_tests();
+	stack_tests();
 
 }
 
