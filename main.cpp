@@ -88,6 +88,15 @@ void comparison_print(MY _ft, DEF _std, std::string str)
 }
 
 
+typedef struct unaryPredicate {
+		unaryPredicate() {};
+		bool operator()(int a) { return (a % 2 == 0); }
+	}			unaryPredicate;
+
+bool binaryPredicate(int a, int b) {
+	return (b > a + 10);
+}
+
 void list_tests()
 {
 	std::cout << YELLOW << "List constructors: " << RESET << std::endl;
@@ -256,12 +265,12 @@ void list_tests()
 	ft_list_ft.erase(++++++ft_list_ft.begin(), ------ft_list_ft.end());
 	std_list_ft.erase(++++++std_list_ft.begin(), ------std_list_ft.end());
 
-	comparison_print(ft_list_ft, ft_list_ft, "Erased part of list: ");
+	comparison_print(ft_list_ft, std_list_ft, "Erased part of list: ");
 
 	ft_list_ft.erase(++ft_list_ft.begin());
 	std_list_ft.erase(++std_list_ft.begin());
 
-	comparison_print(ft_list_ft, ft_list_ft, "Erased element after begin: ");
+	comparison_print(ft_list_ft, std_list_ft, "Erased element after begin: ");
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -270,7 +279,7 @@ void list_tests()
 		std_list_ft.push_back(value);
 	}
 
-	comparison_print(ft_list_ft, ft_list_ft, "Pushed 10 elements: ");
+	comparison_print(ft_list_ft, std_list_ft, "Pushed 10 elements: ");
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -278,8 +287,162 @@ void list_tests()
 		std_list_ft.pop_back();
 	}
 
-	comparison_print(ft_list_ft, ft_list_ft, "Poped 10 elements: ");
+	comparison_print(ft_list_ft, std_list_ft, "Poped 10 elements: ");
 
+	for (int i = 0; i < 10; ++i)
+	{
+		value = rand() % 100;
+		ft_list_ft.push_front(value);
+		std_list_ft.push_front(value);
+	}
+
+	comparison_print(ft_list_ft, std_list_ft, "Pushed front 10 elements: ");
+
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_list_ft.pop_front();
+		std_list_ft.pop_front();
+	}
+
+	comparison_print(ft_list_ft, std_list_ft, "Popped front 10 elements: ");
+
+	ft_list_ft.resize(ft_list_ft.size() + 3, 10);
+	std_list_ft.resize(std_list_ft.size() + 3, 10);
+
+	comparison_print(ft_list_ft, std_list_ft, "Resizing list with more elements: ");
+
+	ft_list_ft.resize(6, 10);
+	std_list_ft.resize(6, 10);
+
+	comparison_print(ft_list_ft, std_list_ft, "Reducing list to first 6 elements: ");
+
+	ft_list_s.resize(0, 10);
+	std_list_s.resize(0, 10);
+
+	comparison_print(ft_list_s, std_list_s, "Resizing other list to zero: ");
+
+	comparison_print(ft_list_ft, std_list_ft, "First list: ");
+	comparison_print(ft_list_f, std_list_f, "Second list: ");
+
+	ft_list_ft.swap(ft_list_f);
+	std_list_ft.swap(std_list_f);
+
+	comparison_print(ft_list_ft, std_list_ft, "Swapped first list: ");
+	comparison_print(ft_list_f, std_list_f, "Swapped second list: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "List operations: " << RESET << std::endl;
+
+	ft_list_ft.sort(std::greater<int>());
+	std_list_ft.sort(std::greater<int>());
+
+	comparison_print(ft_list_ft, std_list_ft, "Sorted first list in descending order: ");
+
+	ft_list_f.sort(std::greater<int>());
+	std_list_f.sort(std::greater<int>());
+
+	comparison_print(ft_list_f, std_list_f, "Sorted second list in descending order: ");
+
+	ft_list_ft.sort();
+	std_list_ft.sort();
+
+	comparison_print(ft_list_ft, std_list_ft, "Sorted first list in ascending order: ");
+
+	ft_list_f.sort();
+	std_list_f.sort();
+
+	comparison_print(ft_list_f, std_list_f, "Sorted second list in ascending order: ");
+
+	ft_list_f.merge(ft_list_ft);
+	std_list_f.merge(std_list_ft);
+
+	comparison_print(ft_list_f, std_list_f, "Merg two sorted lists: ");
+
+	for (int i = 0; i < 20; ++i)
+	{
+		value = rand() % 100;
+		ft_list_s.push_back(value);
+		std_list_s.push_back(value);
+	}
+
+	comparison_print(ft_list_s, std_list_s, "Pushing back 20 values to other list: ");
+
+	ft_list_s.sort();
+	std_list_s.sort();
+
+	comparison_print(ft_list_s, std_list_s, "Sorted list: ");
+
+	ft_list_s.merge(ft_list_f, std::greater<int>());
+	std_list_s.merge(std_list_f, std::greater<int>());
+
+	comparison_print(ft_list_s, std_list_s, "Merged with std::greater order: ");
+
+	for (int i = 0; i < 20; ++i)
+	{
+		value = rand() % 100;
+		ft_list_f.push_back(value);
+		std_list_f.push_back(value);
+	}
+
+	comparison_print(ft_list_f, std_list_f, "Pushing back 20 values to other list: ");
+
+	ft_list_s.splice(ft_list_s.begin(), ft_list_f, ft_list_f.begin());
+	std_list_s.splice(std_list_s.begin(), std_list_f, std_list_f.begin());
+
+	comparison_print(ft_list_s, std_list_s, "Transfer beginning of second list to beginning of first: ");
+	comparison_print(ft_list_f, std_list_f, "Second list after transfer: ");
+
+	ft_list_s.splice(ft_list_s.begin(), ft_list_f, ++++ft_list_f.begin(), ----ft_list_f.end());
+	std_list_s.splice(std_list_s.begin(), std_list_f, ++++std_list_f.begin(), ----std_list_f.end());
+
+	comparison_print(ft_list_s, std_list_s, "Transfer from third element to third from end "
+										 "of second list to beginning of first:\n      ");
+	comparison_print(ft_list_f, std_list_f, "Second list after transfer: ");
+
+	ft_list_f.splice(ft_list_f.end(), ft_list_s);
+	std_list_f.splice(std_list_f.end(), std_list_s);
+
+	comparison_print(ft_list_f, std_list_f, "Transfer full first list to end of second:\n      ");
+	comparison_print(ft_list_s, std_list_s, "First list: ");
+
+	ft_list_f.insert(++ft_list_f.begin(), 10);
+	ft_list_f.insert(++++++++++++ft_list_f.begin(), 10);
+	ft_list_f.insert(--ft_list_f.end(), 10);
+	std_list_f.insert(++std_list_f.begin(), 10);
+	std_list_f.insert(++++++++++++std_list_f.begin(), 10);
+	std_list_f.insert(--std_list_f.end(), 10);
+
+	comparison_print(ft_list_f, std_list_f, "Inserting 3 elements of value 10 into list:\n      ");
+
+	ft_list_f.remove(10);
+	std_list_f.remove(10);
+
+	comparison_print(ft_list_f, std_list_f, "Removing 3 elements of value 10:\n      ");
+
+	ft_list_f.remove_if(unaryPredicate());
+	std_list_f.remove_if(unaryPredicate());
+
+	comparison_print(ft_list_f, std_list_f, "All even elements removed: ");
+
+	ft_list_f.reverse();
+	std_list_f.reverse();
+
+	comparison_print(ft_list_f, std_list_f, "Reversed list: ");
+
+	ft_list_f.sort();
+	std_list_f.sort();
+
+	comparison_print(ft_list_f, std_list_f, "Sorted: ");
+
+	ft_list_f.unique();
+	std_list_f.unique();
+
+	comparison_print(ft_list_f, std_list_f, "Left only unique elements: ");
+
+	ft_list_f.unique(binaryPredicate);
+	std_list_f.unique(binaryPredicate);
+
+	comparison_print(ft_list_f, std_list_f, "Left only elemnts that less than prev by 10 or more: ");
 }
 
 
