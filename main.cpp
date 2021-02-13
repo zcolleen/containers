@@ -99,6 +99,8 @@ bool binaryPredicate(int a, int b) {
 
 void list_tests()
 {
+	std::cout << BLUE << "///////////////////////LIST TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
 	std::cout << YELLOW << "List constructors: " << RESET << std::endl;
 
 	ft::list<size_t> ft_list_f;
@@ -442,7 +444,72 @@ void list_tests()
 	ft_list_f.unique(binaryPredicate);
 	std_list_f.unique(binaryPredicate);
 
-	comparison_print(ft_list_f, std_list_f, "Left only elemnts that less than prev by 10 or more: ");
+	comparison_print(ft_list_f, std_list_f, "Left only elements that less than prev by 10 or more: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Non-member overloads: " << RESET << std::endl;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_list_s.push_back(10);
+		ft_list_t.push_back(10);
+		std_list_s.push_back(10);
+		std_list_t.push_back(10);
+	}
+
+	comparison_print(ft_list_t, std_list_t, "Pushed back 10 elements to two lists: ");
+	comparison_print(ft_list_s, std_list_s, "Pushed back 10 elements to two lists: ");
+
+	if (ft_list_t == ft_list_s)
+		std::cout << RED << "      Lists are equal" << RESET << std::endl;
+	if (std_list_t == std_list_s)
+		std::cout << GREEN << "      Lists are equal" << RESET << std::endl;
+
+	ft_list_t.push_back(9);
+	std_list_t.push_back(9);
+
+	comparison_print(ft_list_t, std_list_t, "Now pushing back 1 element to second list: ");
+
+	if (ft_list_t >= ft_list_s)
+		std::cout << RED << "      Second list is >= than first" << RESET << std::endl;
+	if (std_list_t >= std_list_s)
+		std::cout << GREEN << "      Second list is >= than first" << RESET << std::endl;
+	if (ft_list_t > ft_list_s)
+		std::cout << RED << "      Second list is > than first" << RESET << std::endl;
+	if (std_list_t > std_list_s)
+		std::cout << GREEN << "      Second list is > than first" << RESET << std::endl;
+	if (ft_list_t != ft_list_s)
+		std::cout << RED << "      Lists are not equal" << RESET << std::endl;
+	if (std_list_t != std_list_s)
+		std::cout << GREEN << "      Lists are not equal" << RESET << std::endl;
+
+	ft_list_t.pop_back();
+	ft_list_t.pop_back();
+	std_list_t.pop_back();
+	std_list_t.pop_back();
+
+	comparison_print(ft_list_t, std_list_t, "Now popping back 2 elements from second list: ");
+
+	if (ft_list_t < ft_list_s)
+		std::cout << RED << "      Second list is < than first" << RESET << std::endl;
+	if (std_list_t < std_list_s)
+		std::cout << GREEN << "      Second list is < than first" << RESET << std::endl;
+	if (ft_list_t <= ft_list_s)
+		std::cout << RED << "      Second list is <= than first" << RESET << std::endl;
+	if (std_list_t <= std_list_s)
+		std::cout << GREEN << "      Second list is <= than first" << RESET << std::endl;
+
+	comparison_print(ft_list_f, std_list_f, "First list: ");
+	comparison_print(ft_list_s, std_list_s, "Second list: ");
+
+	ft::swap(ft_list_f, ft_list_s);
+	std::swap(std_list_f, std_list_s);
+
+	comparison_print(ft_list_f, std_list_f, "First list: ");
+	comparison_print(ft_list_s, std_list_s, "Second list: ");
+
+	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////END OF LIST TESTS///////////////////////" << RESET << std::endl;
 }
 
 
