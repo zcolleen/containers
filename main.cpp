@@ -774,13 +774,84 @@ void queue_tests()
 	std::cout << std::endl;
 }
 
+void vector_tests()
+{
+	std::cout << BLUE << "///////////////////////VECTOR TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Vector constructors: " << RESET << std::endl;
+
+	ft::vector<double> ft_vector_f;
+	std::vector<double> std_vector_f;
+
+	ft::vector<double> ft_vector_s(10, 8.2);
+	std::vector<double> std_vector_s(10, 8.2);
+
+	comparison_print(ft_vector_s, std_vector_s, "Range constructor: ");
+
+	ft::vector<double> ft_vector_th(ft_vector_s.begin(), ft_vector_s.end());
+	std::vector<double> std_vector_th(std_vector_s.begin(), std_vector_s.end());
+
+	comparison_print(ft_vector_th, std_vector_th, "Iterator constructor: ");
+
+	ft::vector<double> ft_vector_ft(ft_vector_th);
+	std::vector<double> std_vector_ft(std_vector_th);
+
+	comparison_print(ft_vector_ft, std_vector_ft, "Copy constructor: ");
+
+	ft_vector_f = ft_vector_ft;
+	std_vector_f = std_vector_ft;
+
+	comparison_print(ft_vector_f, std_vector_f, "Assignation operator: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Member functions: " << RESET << std::endl;
+
+	ft_vector_f.assign(3, 6.89);
+	std_vector_f.assign(3, 6.89);
+
+	comparison_print(ft_vector_f, std_vector_f, "Range assignment: ");
+
+	ft_vector_s.assign(ft_vector_f.begin(), ft_vector_f.end());
+	std_vector_s.assign(std_vector_f.begin(), std_vector_f.end());
+
+	comparison_print(ft_vector_s, std_vector_s, "Iterator assignment: ");
+
+	ft_vector_s.push_back(12.1);
+	std_vector_s.push_back(12.1);
+
+	comparison_print(ft_vector_s, std_vector_s, "Pushing back 1 element: ");
+
+	std::cout << RED << "      Last element with at: " << ft_vector_s.at(ft_vector_s.size() - 1) << RESET << std::endl;
+	std::cout << GREEN << "      Last element with at: " << std_vector_s.at(std_vector_s.size() - 1) << RESET << std::endl;
+
+	std::cout << RED << "      Last element with []: " << ft_vector_s[ft_vector_s.size() - 1] << RESET << std::endl;
+	std::cout << GREEN << "      Last element with []: " << std_vector_s[std_vector_s.size() - 1] << RESET << std::endl;
+
+	try {
+		ft_vector_s.at(100);
+	}
+	catch (std::exception &ex){
+		std::cout << RED << "     Exception with at: " << ex.what() << RESET << std::endl;
+	}
+	try {
+		std_vector_s.at(100);
+	}
+	catch (std::exception &ex) {
+		std::cout << GREEN << "     Exception with at: " << ex.what() << RESET << std::endl;
+	}
+
+
+}
+
 int main()
 {
 	srand(time(NULL));
 
-	list_tests();
-	stack_tests();
-	queue_tests();
+	//list_tests();
+	//stack_tests();
+	//queue_tests();
+	vector_tests();
 }
 
 //
