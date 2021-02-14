@@ -822,6 +822,8 @@ void vector_tests()
 
 	comparison_print(ft_vector_s, std_vector_s, "Pushing back 1 element: ");
 
+	std::cout << std::endl;
+	std::cout << YELLOW << "Element access tests: " << RESET << std::endl;
 	std::cout << RED << "      Last element with at: " << ft_vector_s.at(ft_vector_s.size() - 1) << RESET << std::endl;
 	std::cout << GREEN << "      Last element with at: " << std_vector_s.at(std_vector_s.size() - 1) << RESET << std::endl;
 
@@ -832,14 +834,153 @@ void vector_tests()
 		ft_vector_s.at(100);
 	}
 	catch (std::exception &ex){
-		std::cout << RED << "     Exception with at: " << ex.what() << RESET << std::endl;
+		std::cout << RED << "      Exception with at: " << ex.what() << RESET << std::endl;
 	}
 	try {
 		std_vector_s.at(100);
 	}
 	catch (std::exception &ex) {
-		std::cout << GREEN << "     Exception with at: " << ex.what() << RESET << std::endl;
+		std::cout << GREEN << "      Exception with at: " << ex.what() << RESET << std::endl;
 	}
+
+	std::cout << RED << "      Back element is: " << ft_vector_s.back() << RESET << std::endl;
+	std::cout << GREEN << "      Back element is: " << std_vector_s.back() << RESET << std::endl;
+
+	ft_vector_s.insert(ft_vector_s.begin(), 10.12);
+	std_vector_s.insert(std_vector_s.begin(), 10.12);
+
+	comparison_print(ft_vector_s, std_vector_s, "Inserting value to the front: ");
+
+	std::cout << RED << "      Front element is: " << ft_vector_s.front() << RESET << std::endl;
+	std::cout << GREEN << "      Front element is: " << std_vector_s.front() << RESET << std::endl;
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Iterators tests: " << RESET << std::endl;
+
+	ft::vector<double>::const_iterator it = ft_vector_s.begin();
+	ft::vector<double>::const_iterator end = ft_vector_s.end();
+
+	std::cout << RED << "      Vector straight order: ";
+	while (it != end)
+	{
+		std::cout << " " << *it;
+		it++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::vector<double>::const_iterator def_it = std_vector_s.begin();
+	std::vector<double>::const_iterator def_end = std_vector_s.end();
+
+	std::cout << GREEN << "      Vector straight order: ";
+	while (def_it != def_end)
+	{
+		std::cout << " " << *def_it;
+		def_it++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::vector<double>::const_reverse_iterator r_it = ft_vector_s.rbegin();
+	ft::vector<double>::const_reverse_iterator r_end = ft_vector_s.rend();
+
+	std::cout << RED << "      Vector reversed order: ";
+	while (r_it != r_end)
+	{
+		std::cout << " " << *r_it;
+		r_it = 1 + r_it;
+	}
+	std::cout << RESET << std::endl;
+
+	std::vector<double>::const_reverse_iterator def_r_it = std_vector_s.rbegin();
+	std::vector<double>::const_reverse_iterator def_r_end = std_vector_s.rend();
+
+	std::cout << GREEN << "      Vector reversed order: ";
+	while (def_r_it != def_r_end)
+	{
+		std::cout << " " << *def_r_it;
+		def_r_it = 1 + def_r_it;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::vector<double>::iterator iter;
+	std::vector<double>::iterator iter_def;
+
+
+	iter = ft_vector_s.end();
+	iter_def = std_vector_s.end();
+
+	iter -= 3;
+	iter_def -= 3;
+
+	*iter = 14.87;
+	*iter_def = 14.87;
+
+	comparison_print(ft_vector_s, std_vector_s, "Changed value of middle element with iterator: ");
+
+	std::cout << RED << "      Size of vector calculated with iterators: " << ft_vector_s.end() - ft_vector_s.begin()
+	<< RESET << std::endl;
+	std::cout << GREEN << "      Size of vector calculated with iterators: " << std_vector_s.end() - std_vector_s.begin()
+	<< RESET << std::endl;
+
+	std::cout << RED << "      Size of vector with size function: " << ft_vector_s.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of vector with size function: " << std_vector_s.size() << RESET << std::endl;
+
+	if (ft_vector_s.end() > ft_vector_s.begin())
+		std::cout << RED << "      End iterator is > than begin" << RESET << std::endl;
+	if (std_vector_s.end() > std_vector_s.begin())
+		std::cout << GREEN << "      End iterator is > than begin" << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_vector_s.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_vector_s.empty() << RESET << std::endl;
+
+	ft_vector_s.clear();
+	std_vector_s.clear();
+
+	std::cout << RED << "      Now clering container, size: " << ft_vector_s.size() << RESET << std::endl;
+	std::cout << GREEN << "      Now clering container, size: " << std_vector_s.size() << RESET << std::endl;
+
+
+	std::cout << RED << "      Checking if container empty: " << ft_vector_s.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container empty: " << std_vector_s.empty() << RESET << std::endl;
+
+	std::cout << RED << "      Capacity of container is: " << ft_vector_s.capacity() << RESET << std::endl;
+	std::cout << GREEN << "      Capacity of container is: " << std_vector_s.capacity() << RESET << std::endl;
+
+	std::cout << RED << "      Max size of container is: " << ft_vector_s.max_size() << RESET << std::endl;
+	std::cout << GREEN << "      Max size of container is: " << std_vector_s.max_size() << RESET << std::endl;
+
+	ft_vector_s.reserve(12);
+	std_vector_s.reserve(12);
+
+	std::cout << RED << "      Reserving for 12 elements, capacity is: " << ft_vector_s.capacity() << RESET << std::endl;
+	std::cout << GREEN << "      Reserving for 12 elements, capacity is: " << std_vector_s.capacity() << RESET << std::endl;
+
+	ft_vector_s.insert(ft_vector_s.begin(), 13, 4.12);
+	std_vector_s.insert(std_vector_s.begin(), 13, 4.12);
+
+	comparison_print(ft_vector_s, std_vector_s, "Inserting 13 elements: ");
+
+	std::cout << RED << "      New capacity is: " << ft_vector_s.capacity() << " and size: " << ft_vector_s.size() << RESET << std::endl;
+	std::cout << GREEN << "      New capacity is: " << std_vector_s.capacity() << " and size: " << std_vector_s.size() << RESET << std::endl;
+
+	ft_vector_s.insert(++ft_vector_s.begin(), 9.3);
+	std_vector_s.insert(++std_vector_s.begin(), 9.3);
+
+	comparison_print(ft_vector_s, std_vector_s, "Inserting 1 value after begin: ");
+
+	ft_vector_th.insert(ft_vector_th.end(), ----ft_vector_s.end(), ft_vector_s.end());
+	std_vector_th.insert(std_vector_th.end(), ----std_vector_s.end(), std_vector_s.end());
+
+	comparison_print(ft_vector_th, std_vector_th, "Inserting 2 values into another vector: ");
+
+	ft_vector_th.erase(ft_vector_th.begin(), ft_vector_th.end() - 4);
+	std_vector_th.erase(std_vector_th.begin(), std_vector_th.end() - 4);
+
+	comparison_print(ft_vector_th, std_vector_th, "Erasing elements: ");
+
+	ft_vector_th.erase(ft_vector_th.begin());
+	std_vector_th.erase(std_vector_th.begin());
+
+	comparison_print(ft_vector_th, std_vector_th, "Erasing first element: ");
 
 
 }

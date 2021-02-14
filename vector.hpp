@@ -59,12 +59,16 @@ namespace ft {
 		{
 			if (count)
 			{
-				_array = _allocator.allocate(count);
+				if (count > _capacity)
+				{
+					_allocator.deallocate(_array, _capacity);
+					_array = _allocator.allocate(count);
+					_capacity = count;
+				}
 				for (size_type i = 0; i < count; ++i)
 					_allocator.construct(_array + i, value);
 			}
 			_size = count;
-			_capacity = _size;
 		}
 
 		template<class InputIt>
@@ -74,10 +78,16 @@ namespace ft {
 			for (InputIt tmp(first); tmp != last; ++tmp)
 				++_size;
 			if (_size)
-				_array = _allocator.allocate(_size);
+			{
+				if (_size > _capacity)
+				{
+					_allocator.deallocate(_array, _capacity);
+					_array = _allocator.allocate(_size);
+					_capacity = _size;
+				}
+			}
 			for (size_type p = 0; first != last; ++p, ++first)
 				_allocator.construct(_array + p, *first);
-			_capacity = _size;
 		}
 		void delete_vector(bool deallocate = true) {
 			for (size_type i = 0; i < _size; ++i)
@@ -88,7 +98,6 @@ namespace ft {
 				_array = NULL;
 			}
 			_size = 0;
-			//_array = NULL;
 		}
 
 		void print_vector()
@@ -105,13 +114,13 @@ namespace ft {
 		vector() : _array(NULL), _size(0) {}
 		explicit vector( const Allocator& alloc ) : _array(NULL), _size(0), _allocator(alloc) {}
 		explicit vector( size_type count, const T& value = T(), const Allocator& alloc = Allocator()) : _array(NULL),
-		 _allocator(alloc) {
+		_size(0), _capacity(0), _allocator(alloc) {
 			init_array(count, value);
 		}
 		template< class InputIt >
 		vector( InputIt first, InputIt last, const Allocator& alloc = Allocator(),
 		  typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0 ) :
-		  _array(NULL), _allocator(alloc) {
+		  _array(NULL), _size(0), _capacity(0), _allocator(alloc) {
 			init_array_it(first, last);
 		}
 		vector( const vector& other ) : _array(NULL), _size(0) { *this = other; }
@@ -212,14 +221,14 @@ namespace ft {
 		}									const_reverse_iterator;
 
 		void assign( size_type count, const T& value ) {
-			delete_vector();
+			delete_vector(false);
 			init_array(count, value);
 		}
 
 		template< class InputIt >
 		void assign( InputIt first, InputIt last,
 			   typename enable_if< !std::numeric_limits<InputIt>::is_specialized >::type* = 0 ) {
-			delete_vector();
+			delete_vector(false);
 			init_array_it(first, last);
 		}
 
