@@ -17,52 +17,6 @@
 #define FT false
 
 
-class Some_class {
-
-
-public:
-
-	int *ptr;
-	int _a;
-	Some_class()
-	{
-		ptr = new int[10];
-		std::cout << "constructor" << std::endl;
-		for (int i = 0; i < 10; ++i)
-			ptr[i] = i;
-	}
-
-	Some_class(const Some_class &obj) {
-
-		_a = obj._a;
-		ptr = new int[_a];
-		std::cout << "constructor copy" << std::endl;
-		for (int i = 0; i < _a; ++i)
-			ptr[i] = obj.ptr[i];
-	}
-	Some_class(int a)
-	{
-		_a = a;
-		ptr = new int[a];
-		std::cout << "constructor2" << std::endl;
-		for (int i = 0; i < a; ++i)
-			ptr[i] = a;
-	}
-	void scream(){
-		std::cout << "Suka" << std::endl;
-	}
-	~Some_class(){
-
-		std::cout << "destructor" << std::endl;
-		delete ptr;
-	}
-	friend std::ostream& operator<< (std::ostream &out, const Some_class &point) {
-
-		out << "A: " << point._a;
-		return (out);
-	}
-};
-
 template <typename T>
 void print(T first, T last, std::string str, bool colour)
 {
@@ -929,6 +883,9 @@ void vector_tests()
 	if (std_vector_s.end() > std_vector_s.begin())
 		std::cout << GREEN << "      End iterator is > than begin" << RESET << std::endl;
 
+	std::cout << std::endl;
+	std::cout << YELLOW << "Member functions: " << RESET << std::endl;
+
 	std::cout << RED << "      Checking if container is empty: " << ft_vector_s.empty() << RESET << std::endl;
 	std::cout << GREEN << "      Checking if container is empty: " << std_vector_s.empty() << RESET << std::endl;
 
@@ -982,92 +939,125 @@ void vector_tests()
 
 	comparison_print(ft_vector_th, std_vector_th, "Erasing first element: ");
 
+	double value;
 
+	for (int i = 0; i < 5; ++i)
+	{
+		value =fmod(rand(), 102.2);
+		ft_vector_th.push_back(value);
+		std_vector_th.push_back(value);
+	}
+
+	comparison_print(ft_vector_th, std_vector_th, "Pushing back 5 random elements: ");
+
+	ft_vector_th.pop_back();
+	ft_vector_th.pop_back();
+	std_vector_th.pop_back();
+	std_vector_th.pop_back();
+
+	comparison_print(ft_vector_th, std_vector_th, "Now popping back 2 elements: ");
+
+	ft_vector_th.resize(4, 10.2);
+	std_vector_th.resize(4, 10.2);
+
+	comparison_print(ft_vector_th, std_vector_th, "Resizing container with 4 elements: ");
+
+	value = fmod(rand(), 102.4);
+	ft_vector_th.resize(7, value);
+	std_vector_th.resize(7, value);
+
+	comparison_print(ft_vector_th, std_vector_th, "Now resizing container with 7 elements: ");
+
+	comparison_print(ft_vector_s, std_vector_s, "First vector: ");
+	comparison_print(ft_vector_th, std_vector_th, "Second vector: ");
+
+	ft_vector_th.swap(ft_vector_s);
+	std_vector_th.swap(std_vector_s);
+
+	comparison_print(ft_vector_s, std_vector_s, "Swapped first vector: ");
+	comparison_print(ft_vector_th, std_vector_th, "Swapped second vector: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Non-member overloads: " << RESET << std::endl;
+
+	ft_vector_th.clear();
+	std_vector_th.clear();
+	ft_vector_s.clear();
+	std_vector_s.clear();
+
+	std::cout << RED << "      Cleared two lists, sizes are: " << ft_vector_th.size() << ", " << ft_vector_s.size() << RESET << std::endl;
+	std::cout << GREEN << "      Cleared two lists, sizes are: " << std_vector_th.size() << ", " << std_vector_s.size() << RESET << std::endl;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_vector_s.push_back(10.3);
+		ft_vector_th.push_back(10.3);
+		std_vector_s.push_back(10.3);
+		std_vector_th.push_back(10.3);
+	}
+
+	comparison_print(ft_vector_s, std_vector_s, "Pushed back 10 elements to two lists: ");
+	comparison_print(ft_vector_th, std_vector_th, "Pushed back 10 elements to two lists: ");
+
+	if (ft_vector_s == ft_vector_th)
+		std::cout << RED << "      Vectors are equal" << RESET << std::endl;
+	if (std_vector_s == std_vector_th)
+		std::cout << GREEN << "      Vectors are equal" << RESET << std::endl;
+
+	ft_vector_th.push_back(9.1);
+	std_vector_th.push_back(9.1);
+
+	comparison_print(ft_vector_th, std_vector_th, "Now pushing back 1 element to second list: ");
+
+	if (ft_vector_th >= ft_vector_s)
+		std::cout << RED << "      Second vector is >= than first" << RESET << std::endl;
+	if (std_vector_th >= std_vector_s)
+		std::cout << GREEN << "      Second vector is >= than first" << RESET << std::endl;
+	if (ft_vector_th > ft_vector_s)
+		std::cout << RED << "      Second vector is > than first" << RESET << std::endl;
+	if (std_vector_th > std_vector_s)
+		std::cout << GREEN << "      Second vector is > than first" << RESET << std::endl;
+	if (ft_vector_th != ft_vector_s)
+		std::cout << RED << "      Vectors are not equal" << RESET << std::endl;
+	if (std_vector_th != std_vector_s)
+		std::cout << GREEN << "      Vectors are not equal" << RESET << std::endl;
+
+	ft_vector_th.pop_back();
+	ft_vector_th.pop_back();
+	std_vector_th.pop_back();
+	std_vector_th.pop_back();
+
+	comparison_print(ft_vector_th, std_vector_th, "Now popping back 2 elements from second vector: ");
+
+	if (ft_vector_th < ft_vector_s)
+		std::cout << RED << "      Second vector is < than first" << RESET << std::endl;
+	if (std_vector_th < std_vector_s)
+		std::cout << GREEN << "      Second vector is < than first" << RESET << std::endl;
+	if (ft_vector_th <= ft_vector_s)
+		std::cout << RED << "      Second vector is <= than first" << RESET << std::endl;
+	if (std_vector_th <= std_vector_s)
+		std::cout << GREEN << "      Second vector is <= than first" << RESET << std::endl;
+
+	comparison_print(ft_vector_f, std_vector_f, "First list: ");
+	comparison_print(ft_vector_s, std_vector_s, "Second list: ");
+
+	ft::swap(ft_vector_f, ft_vector_s);
+	std::swap(std_vector_f, std_vector_s);
+
+	comparison_print(ft_vector_f, std_vector_f, "First list: ");
+	comparison_print(ft_vector_s, std_vector_s, "Second list: ");
+
+	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////END OF VECTOR TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
 }
 
 int main()
 {
 	srand(time(NULL));
 
-	//list_tests();
-	//stack_tests();
-	//queue_tests();
+	list_tests();
+	stack_tests();
+	queue_tests();
 	vector_tests();
 }
-
-//
-//#include <sys/time.h>
-//
-//int main()
-//{
-//	srand(time(NULL));
-//
-//	ft::list<int> sorto;
-//	ft::vector<int> vec;
-//	std::list<int> sort_d;
-////	int value;
-//	size_t i = 0;
-//
-////	while (i < 1000000)
-////	{
-////		std::cout << "p" << std::endl;
-////		++i;
-////	}
-////	i = 0;
-//
-//
-//	std::cout << "st" << std::endl;
-////	while (i < 10000)
-////	{
-//////		value = rand() % 100;
-//////		std::cout << "E" << std::endl;
-////		sort.push_back(1);
-//////		std::cout << "G" << std::endl;
-//////		sort_d.push_back(value);
-////		++i;
-////	}
-//
-//
-//	i = 0;
-//	int j = 1;
-//	while (j < 2)
-//	{
-//		i = 0;
-//		while (i < 2000000)
-//		{
-//	//		sorto.push_back( rand() % 10000);
-//			sort_d.push_back(1);
-//			++i;
-//		}
-//		++j;
-//	}
-//
-//	std::cout << "lol" << std::endl;
-//////	struct timeval tv_start;
-//////	struct timeval tv_end;
-////
-//////	gettimeofday(&tv_start, NULL);
-////
-//	sort_d.sort();
-////
-////
-//////	gettimeofday(&tv_end, NULL);
-//	print(sort_d.begin(), sort_d.end(), "Sort: ", FT);
-//////	long long usecs = tv_end.tv_usec - tv_start.tv_usec;
-////
-//////	std::cout << RED << "Sec: " <<   ((tv_end.tv_sec - tv_start.tv_sec) * 10000) + (double )(tv_end.tv_usec - tv_start.tv_usec)/100 << "           Usec: " << usecs << RESET << std::endl;
-////
-////	gettimeofday(&tv_start, NULL);
-////
-////	sort_d.sort();
-////
-////	gettimeofday(&tv_end, NULL);
-////
-////	long long usecs_def = tv_end.tv_usec - tv_start.tv_usec;
-////
-//////	std::cout << GREEN << "Sec: " << tv_end.tv_sec - tv_start.tv_sec << "           Usec: " << usecs_def << RESET << std::endl;
-////
-//////	std::cout << "Percentage: " << usecs_def / usecs * 100 << std::endl;
-//
-//
-//}

@@ -123,7 +123,7 @@ namespace ft {
 		  _array(NULL), _size(0), _capacity(0), _allocator(alloc) {
 			init_array_it(first, last);
 		}
-		vector( const vector& other ) : _array(NULL), _size(0) { *this = other; }
+		vector( const vector& other ) : _array(NULL), _size(0), _capacity(0) { *this = other; }
 
 		vector& operator=( const vector& other ) {
 			if (this == &other)
