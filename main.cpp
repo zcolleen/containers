@@ -642,7 +642,137 @@ void stack_tests()
 	std::cout << std::endl;
 }
 
+void queue_tests()
+{
+	std::cout << BLUE << "///////////////////////QUEUE TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
 
+	ft::queue<char> ft_queue_f;
+	std::queue<char> std_queue_f;
+
+	ft::list<char> ft_list(10, 'a');
+	ft::queue<char> ft_queue_s(ft_list);
+
+	std::deque<char> std_list(10, 'a');
+	std::queue<char> std_queue_s(std_list);
+
+	char value;
+	for (int i = 0; i < 10; ++i)
+	{
+		value = 'A' + rand() % ('z' - 'A');
+		ft_queue_f.push(value);
+		std_queue_f.push(value);
+	}
+
+	std::cout << RED << "      Cloned parent container, front element: " << ft_queue_f.front() << RESET << std::endl;
+	std::cout << GREEN << "      Cloned parent container, front element: " << std_queue_s.front() << RESET << std::endl;
+
+	std::cout << RED << "      Pushed back 10 values, front element is: " << ft_queue_f.front() << RESET << std::endl;
+	std::cout << GREEN << "      Pushed back 10 values, front element is: " << std_queue_f.front() << RESET << std::endl;
+
+	std::cout << RED << "      Back element is: " << ft_queue_f.back() << RESET << std::endl;
+	std::cout << GREEN << "      Back element is: " << std_queue_f.back() << RESET << std::endl;
+
+	std::cout << RED << "      Size of container is: " << ft_queue_f.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container is: " << std_queue_f.size() << RESET << std::endl;
+
+	ft::queue<char> ft_queue_th(ft_queue_f);
+	std::queue<char> std_queue_th(std_queue_f);
+
+	std::cout << RED << "      Copy constructor, front element is: " << ft_queue_th.front() << RESET << std::endl;
+	std::cout << GREEN << "      Copy constructor, front element is: " << std_queue_th.front() << RESET << std::endl;
+
+	ft_queue_th.pop();
+	std_queue_th.pop();
+	ft_queue_th.pop();
+	std_queue_th.pop();
+
+	std::cout << RED << "      Popping two elements, front element is: " << ft_queue_th.front() << RESET << std::endl;
+	std::cout << GREEN << "      Popping two elements, front element is: " << std_queue_th.front() << RESET << std::endl;
+
+	ft_queue_s = ft_queue_th;
+	std_queue_s = std_queue_th;
+
+	std::cout << RED << "      Assignation operator, front element is: " << ft_queue_s.front() << RESET << std::endl;
+	std::cout << GREEN << "      Assignation operator, front element is: " << std_queue_s.front() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_queue_s.empty()
+			  << "  Size: " << ft_queue_s.size() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_queue_s.empty()
+			  << "  Size: " << std_queue_s.size() << RESET << std::endl;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		ft_queue_s.pop();
+		std_queue_s.pop();
+	}
+
+	std::cout << RED << "      Popping 8 elements, checking if container is empty: " << ft_queue_s.empty()
+			  << "  Size: "  << ft_queue_s.size() << RESET << std::endl;
+	std::cout << GREEN << "      Popping 8 elements, checking if container is empty: " << std_queue_s.empty()
+			  << "  Size: "  << std_queue_s.size() << RESET << std::endl;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_queue_f.pop();
+		std_queue_f.pop();
+	}
+
+	for (int i = 0; i < 5; ++i)
+	{
+		ft_queue_s.push('a');
+		std_queue_s.push('a');
+		ft_queue_f.push('a');
+		std_queue_f.push('a');
+	}
+	std::cout << RED << "      Clearing 2 queues and pushing 5 equal elements to it, back is: " << ft_queue_s.back() << RESET << std::endl;
+	std::cout << GREEN << "      Clearing 2 queues and pushing 5 equal elements to it, front is: " << std_queue_s.back() << RESET << std::endl;
+
+	if (ft_queue_s == ft_queue_f)
+		std::cout << RED << "      Containers are equal" << RESET << std::endl;
+	if (std_queue_s == std_queue_f)
+		std::cout << GREEN << "      Containers are equal" << RESET << std::endl;
+
+	ft_queue_s.pop();
+	std_queue_s.pop();
+
+	std::cout << RED << "      Now popping one element from second container" << RESET << std::endl;
+	std::cout << GREEN << "      Now popping one element from second container" << RESET << std::endl;
+
+	if (ft_queue_f > ft_queue_s)
+		std::cout << RED << "      First queue is > than second" << RESET << std::endl;
+	if (std_queue_f > std_queue_s)
+		std::cout << GREEN << "      First queue is > than second" << RESET << std::endl;
+	if (ft_queue_f >= ft_queue_s)
+		std::cout << RED << "      First queue is >= than second" << RESET << std::endl;
+	if (std_queue_f >= std_queue_s)
+		std::cout << GREEN << "      First queue is >= than second" << RESET << std::endl;
+
+	ft_queue_f.pop();
+	std_queue_f.pop();
+	ft_queue_f.pop();
+	std_queue_f.pop();
+
+	std::cout << RED << "      Now popping 2 elements from first container" << RESET << std::endl;
+	std::cout << GREEN << "      Now popping 2 elements from first container" << RESET << std::endl;
+
+	if (ft_queue_f < ft_queue_s)
+		std::cout << RED << "      First container is < than second" << RESET << std::endl;
+	if (std_queue_f < std_queue_s)
+		std::cout << GREEN << "      First container is < than second" << RESET << std::endl;
+	if (ft_queue_f <= ft_queue_s)
+		std::cout << RED << "      First container is <= than second" << RESET << std::endl;
+	if (std_queue_f <= std_queue_s)
+		std::cout << GREEN << "      First container is <= than second" << RESET << std::endl;
+	if (ft_queue_f != ft_queue_s)
+		std::cout << RED << "      Queues are not equal" << RESET << std::endl;
+	if (std_queue_f != std_queue_s)
+		std::cout << GREEN << "      Queues are not equal" << RESET << std::endl;
+
+	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////END OF QUEUE TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
+}
 
 int main()
 {
@@ -650,7 +780,7 @@ int main()
 
 	list_tests();
 	stack_tests();
-
+	queue_tests();
 }
 
 //
