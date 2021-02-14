@@ -8,6 +8,8 @@
 #include <queue>
 #include <list>
 
+#include "binary_tree.hpp"
+
 #define YELLOW  "\033[1;33m"
 #define RED "\033[1;31m"
 #define GREEN "\033[1;32m"
@@ -82,8 +84,6 @@ void list_tests()
 	std_list_f = std_list_ft;
 
 	comparison_print(ft_list_f, std_list_f, "Assignation operation: ");
-
-
 
 	ft_list_f.assign(2, 42);
 	std_list_f.assign(2, 42);
@@ -1052,12 +1052,24 @@ void vector_tests()
 	std::cout << std::endl;
 }
 
+//int main()
+//{
+//	srand(time(NULL));
+//
+//	list_tests();
+//	stack_tests();
+//	queue_tests();
+//	vector_tests();
+//}
+
 int main()
 {
-	srand(time(NULL));
+	BinaryTree<int, double> tree;
 
-	list_tests();
-	stack_tests();
-	queue_tests();
-	vector_tests();
+	tree.insert(15, 7.23);
+
+	tree.insert(78, 2.3);
+
+	tree.insert(14, 12);
+
 }
