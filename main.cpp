@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 #include "list.hpp"
 #include "stack.hpp"
 #include "queue.hpp"
@@ -943,7 +944,7 @@ void vector_tests()
 
 	for (int i = 0; i < 5; ++i)
 	{
-		value =fmod(rand(), 102.2);
+		value = fmod(rand(), 102.2);
 		ft_vector_th.push_back(value);
 		std_vector_th.push_back(value);
 	}
@@ -1052,24 +1053,12 @@ void vector_tests()
 	std::cout << std::endl;
 }
 
-//int main()
-//{
-//	srand(time(NULL));
-//
-//	list_tests();
-//	stack_tests();
-//	queue_tests();
-//	vector_tests();
-//}
-
 int main()
 {
-	BinaryTree<int, double> tree;
+	srand(time(NULL));
 
-	tree.insert(15, 7.23);
-
-	tree.insert(78, 2.3);
-
-	tree.insert(14, 12);
-
+	list_tests();
+	stack_tests();
+	queue_tests();
+	vector_tests();
 }
