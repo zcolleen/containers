@@ -16,6 +16,8 @@ int main()
 	tree.insert(432, 324.32);
 
 	tree.insert(300, 3.5);
+
+	tree.insert(8, 12.12);
 	//tree.show();
 	tree.show();
 }

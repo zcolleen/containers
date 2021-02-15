@@ -4,6 +4,9 @@
 #define CONTAINERS_BINARY_TREE_HPP
 #define BLACK_L false
 #define RED_L true
+#define RED "\033[1;31m"
+#define RESET "\033[0m"
+#define GREEN "\033[1;32m"
 
 #include <iostream>
 
@@ -40,11 +43,6 @@ public:
 		else
 			insert(key, value, _root);
 
-	}
-
-	void show()
-	{
-		show(_root);
 	}
 
 	void rotateRight(Node *leaf)
@@ -106,16 +104,16 @@ public:
 				{
 					//если дядя красный, тогда мы просто перекрашиваем дерево и проверяем  условие для деда
 					uncle->_color = BLACK_L;
-					uncle->_parent = RED_L;
-					uncle->_parent->_left = BLACK_L;
+					uncle->_parent->_color = RED_L;
+					uncle->_parent->_left->_color = BLACK_L;
 					leaf = leaf->_parent->_parent;
 				} else
 				{
 					//если дядя черный, делаем большой поворот вправо
 					if (leaf == leaf->_parent->_right)
 					{
-						leaf = leaf->_parent;
 						//если дед и отец в разных направлениях, совершаем малый поворот влево
+						leaf = leaf->_parent;
 						rotateLeft(leaf);
 					}
 					//перекраска
@@ -130,16 +128,16 @@ public:
 				{
 					//если дядя красный, тогда мы просто перекрашиваем дерево и проверяем  условие для деда
 					uncle->_color = BLACK_L;
-					uncle->_parent = RED_L;
-					uncle->_parent->_right = BLACK_L;
+					uncle->_parent->_color = RED_L;
+					uncle->_parent->_right->_color = BLACK_L;
 					leaf = leaf->_parent->_parent;
 				} else
 				{
-					//если дядя черный, делаем большой поворот вправо
+					//если дядя черный, делаем большой поворот влево
 					if (leaf == leaf->_parent->_left)
 					{
+						//если дед и отец в разных направлениях, совершаем малый поворот вправо
 						leaf = leaf->_parent;
-						//если дед и отец в разных направлениях, совершаем малый поворот влево
 						rotateRight(leaf);
 					}
 					//перекраска
@@ -164,8 +162,6 @@ public:
 				{
 					leaf->_left = new Node(key, value);
 					leaf->_left->_parent = leaf;
-//					if (leaf->_color == RED_L)
-//						leaf->_left = BLACK_L;
 					insertFixup(leaf->_left);
 					break;
 				}
@@ -178,8 +174,6 @@ public:
 				{
 					leaf->_right = new Node(key, value);
 					leaf->_right->_parent = leaf;
-//					if (leaf->_color == RED_L)
-//						leaf->_right = BLACK_L;
 					insertFixup(leaf->_right);
 					break;
 				}
@@ -192,15 +186,23 @@ public:
 		return (leaf->_color == RED_L);
 	}
 
-
-	void show(Node *leaf)
+	void show()
 	{
-		if (leaf != NULL)
-		{
-			std::cout << leaf->_value << std::endl;
-			show(leaf->_left);
-			show(leaf->_right);
-		}
+		show(_root, 10);
+	}
+
+	void show(Node *leaf, int level)
+	{
+		if (leaf->_right)
+			show(leaf->_right, level + 1);
+		for (int i = 0; i < level; ++i)
+			std::cout << "     ";
+		if (leaf->_color == RED_L)
+			std::cout << RED << leaf->_key << ":" << leaf->_value << RESET << std::endl;
+		else
+			std::cout << GREEN << leaf->_key << ":" << leaf->_value << RESET << std::endl;
+		if (leaf->_left)
+			show(leaf->_left, level + 1);
 	}
 
 
