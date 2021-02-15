@@ -1,11 +1,13 @@
 
 #include "binary_tree.hpp"
+#include <deque>
+
 
 int main()
 {
 	BinaryTree<int, double> tree;
 
-	tree.insert(15, 7.23);
+	tree.insert(18, 7.23);
 
 	tree.insert(78, 2.3);
 
@@ -13,11 +15,20 @@ int main()
 
 	tree.insert(22, 43.3);
 
-	tree.insert(432, 324.32);
+	tree.insert(432, 324);
 
-	tree.insert(300, 3.5);
+	tree.insert(10, 3.5);
 
-	tree.insert(8, 12.12);
-	//tree.show();
+	//tree.insert(15, 12.12);
+
+	tree.insert(12, 32.32);
+
+	tree.insert(300, 32);
+
+	tree.insert(280, 3);
+
+	tree.insert(14, 19);
+
 	tree.show();
+
 }

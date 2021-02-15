@@ -29,8 +29,9 @@ public:
 
 	Node *_root;
 	Compare _comparator;
+	bool _is_key_repeated;
 
-	BinaryTree() : _root(NULL) {}
+	BinaryTree(bool repeat = false) : _root(NULL), _is_key_repeated(repeat) {}
 	~BinaryTree() { delete_tree(_root); }
 
 	void insert(const Key &key, const T &value)
@@ -154,7 +155,12 @@ public:
 	{
 		while (leaf != NULL)
 		{
-			if (_comparator(key, leaf->_key))
+			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
+			{
+				leaf->_value = value;
+				break;
+			}
+			else if (_comparator(key, leaf->_key))
 			{
 				if (leaf->_left != NULL)
 					leaf = leaf->_left;
@@ -179,11 +185,6 @@ public:
 				}
 			}
 		}
-	}
-
-	bool is_red(Node *leaf)
-	{
-		return (leaf->_color == RED_L);
 	}
 
 	void show()
