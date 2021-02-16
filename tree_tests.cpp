@@ -1,7 +1,9 @@
 
-#include "binary_tree.hpp"
+//#define MAP_ONLY
+//#include "binary_tree.hpp"
+#include "smth.hpp"
+#include "smth2.hpp"
 #include <deque>
-
 
 int main()
 {

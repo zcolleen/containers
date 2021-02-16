@@ -1,5 +1,7 @@
 
 
+#ifdef MAP_ONLY
+//#undef MAP_ONLY
 #ifndef CONTAINERS_BINARY_TREE_HPP
 #define CONTAINERS_BINARY_TREE_HPP
 #define BLACK_L false
@@ -31,7 +33,7 @@ public:
 	Compare _comparator;
 	bool _is_key_repeated;
 
-	BinaryTree(bool repeat = false) : _root(NULL), _is_key_repeated(repeat) {}
+	explicit BinaryTree(bool repeat = false) : _root(NULL), _is_key_repeated(repeat) {}
 	~BinaryTree() { delete_tree(_root); }
 
 	void insert(const Key &key, const T &value)
@@ -93,6 +95,7 @@ public:
 		child->_left = leaf;
 		leaf->_parent = child;
 	}
+
 	void insertFixup(Node *leaf)
 	{
 		Node *uncle;
@@ -206,35 +209,6 @@ public:
 			show(leaf->_left, level + 1);
 	}
 
-
-	void print()
-	{
-		print(_root, 10);
-	}
-
-	void print(Node *leaf, int level)
-	{
-		bool in_right = false;
-
-		for (int ix = 0; ix < level; ++ix)
-			std::cout << ' ';
-		std::cout << leaf->_key << ":" << leaf->_value << std::endl;
-		if (leaf->_left)
-		{
-			in_right = true;
-			level -= 2;
-			std::cout << std::endl;
-			print(leaf->_left, level);
-		}
-		if (leaf->_right)
-		{
-			if (!in_right)
-				std::cout << std::endl;
-			level += 2;
-			print(leaf->_right, level);
-		}
-	}
-
 	void delete_tree(Node *node)
 	{
 		if (node != NULL)
@@ -247,4 +221,5 @@ public:
 };
 
 
+#endif
 #endif
