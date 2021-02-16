@@ -190,19 +190,17 @@ public:
 		}
 	}
 
-//	void delete_node(const Key &key)
-//	{
-//
-//	}
+	void delete_node(const Key &key)
+	{
+		delete_node(key, _root);
+	}
 
 	void delete_node(const Key &key, Node *leaf)
 	{
 		while (leaf != NULL)
 		{
 			if (!_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
-			{
-
-			}
+				delete_node(leaf);
 			else if (_comparator(key, leaf->_key))
 				leaf = leaf->_left;
 			else
@@ -214,20 +212,81 @@ public:
 	{
 		if (leaf->_left == NULL && leaf->_right == NULL)
 		{
-			if (leaf == leaf->_parent->_left)
-				leaf->_parent->_left = NULL;
+			if (leaf->_color == RED_L)
+				case_red_leaf_zero_childs(leaf);
 			else
-				leaf->_parent->_right = NULL;
-			delete leaf;
+				case_black_leaf_zero_childs(leaf);
 		}
-		else if (leaf->_left == NULL)
+		if ((leaf->_left == NULL && leaf->_right != NULL ) || (leaf->_right == NULL && leaf->_left != NULL))
+			case_black_leaf_one_child(leaf);
+		else
+			case_red_or_black_leaf_two_childs(leaf);
+	}
+
+	void case_red_or_black_leaf_two_childs(Node *leaf)
+	{
+		Node *max_left_element = leaf->_left;
+
+		while (max_left_element->_right != NULL)
+			max_left_element = max_left_element->_right;
+
+		T tmp_val = max_left_element->_value;
+		Key tmp_key = max_left_element->_key;
+		max_left_element->_value = leaf->_value;
+		leaf->_value = tmp_val;
+		max_left_element->_key = leaf->_key;
+		leaf->_key = tmp_key;
+		if (max_left_element->_color == RED_L)
+			case_red_leaf_zero_childs(leaf);
+		else
 		{
-			if (leaf == leaf->_parent->_left)
-				leaf->_parent->_left = leaf->_left;
+			if (max_left_element->_right == NULL && max_left_element->_left == NULL)
+				case_black_leaf_zero_childs(leaf);
 			else
-				leaf->_parent->_right = leaf->_right;
-			delete leaf;
+				case_black_leaf_one_child(leaf);
 		}
+	}
+
+	void case_black_leaf_one_child(Node *leaf)
+	{
+		if (leaf->_right != NULL)
+		{
+			leaf->_right->_parent = leaf->_parent;
+			if (leaf->_parent->_right == leaf)
+				leaf->_parent->_right = leaf->_right;
+			else
+				leaf->_parent->_left = leaf->_right;
+			leaf->_right->_color = BLACK_L;
+		}
+		else
+		{
+			leaf->_left->_parent = leaf->_parent;
+			if (leaf->_parent->_right == leaf)
+				leaf->_parent->_right = leaf->_right;
+			else
+				leaf->_parent->_left = leaf->_right;
+			leaf->_left->_color = BLACK_L;
+		}
+		delete leaf;
+	}
+
+	void case_red_leaf_zero_childs(Node *leaf)
+	{
+		if (leaf->_parent->_right == leaf)
+			leaf->_parent->_right = NULL;
+		else
+			leaf->_parent->_left = NULL;
+		delete leaf;
+	}
+
+	void case_black_leaf_zero_childs(Node *leaf)
+	{
+		if (leaf->_parent->_right == leaf)
+			leaf->_parent->_right = NULL;
+		else
+			leaf->_parent->_left = NULL;
+		delete leaf;
+		//eraseFixup()
 	}
 
 	void show()
