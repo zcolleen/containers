@@ -158,7 +158,7 @@ public:
 	{
 		while (leaf != NULL)
 		{
-			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
+			if (!_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
 			{
 				leaf->_value = value;
 				break;
@@ -187,6 +187,46 @@ public:
 					break;
 				}
 			}
+		}
+	}
+
+//	void delete_node(const Key &key)
+//	{
+//
+//	}
+
+	void delete_node(const Key &key, Node *leaf)
+	{
+		while (leaf != NULL)
+		{
+			if (!_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
+			{
+
+			}
+			else if (_comparator(key, leaf->_key))
+				leaf = leaf->_left;
+			else
+				leaf = leaf->_right;
+		}
+	}
+
+	void delete_node(Node *leaf)
+	{
+		if (leaf->_left == NULL && leaf->_right == NULL)
+		{
+			if (leaf == leaf->_parent->_left)
+				leaf->_parent->_left = NULL;
+			else
+				leaf->_parent->_right = NULL;
+			delete leaf;
+		}
+		else if (leaf->_left == NULL)
+		{
+			if (leaf == leaf->_parent->_left)
+				leaf->_parent->_left = leaf->_left;
+			else
+				leaf->_parent->_right = leaf->_right;
+			delete leaf;
 		}
 	}
 
