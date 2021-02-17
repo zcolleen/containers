@@ -292,14 +292,179 @@ public:
 		delete leaf;
 	}
 
-	void fixup_case_parent_red_child_red(Node *leaf)
+	void fixup_case_parent_red_child_black_grandchild_black(Node *leaf)
 	{
-//		if (leaf->_right != NULL)
-//
+		if (leaf->_left != NULL)
+				leaf->_left->_color = RED_L;
+		else
+			leaf->_right->_color = RED_L;
+		leaf->_color = BLACK_L;
+
 	}
 
-	void eraseFixup(Node *leaf)
+	void fixup_case_parent_red_child_black_grandchild_red(Node *leaf)
 	{
+		if (leaf->_left != NULL)
+		{
+			if (leaf->_left->_right != NULL && leaf->_left->_right->_color == RED_L)
+				rotateLeft(leaf->_left);
+			rotateRight(leaf);
+			leaf->_parent = RED_L;
+			leaf->_color = BLACK_L;
+			leaf->_parent->_left = BLACK_L;
+		}
+		else
+		{
+			if (leaf->_right->_left != NULL && leaf->_right->_left->_color == RED_L)
+				rotateRight(leaf->_right);
+			rotateLeft(leaf);
+			leaf->_parent = RED_L;
+			leaf->_color = BLACK_L;
+			leaf->_parent->_right = BLACK_L;
+		}
+	}
+
+	void fixup_case_parent_black_child_red_grandchild_black(Node *leaf)
+	{
+		if (leaf->_left != NULL)
+		{
+			rotateRight(leaf);
+			leaf->_parent->_color = BLACK_L;
+			leaf->_left->_color = RED_L;
+		}
+		else
+		{
+			rotateLeft(leaf);
+			leaf->_parent->_color = BLACK_L;
+			leaf->_right->_color = RED_L;
+		}
+	}
+
+	void fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(Node *leaf)
+	{
+		if (leaf->_left != NULL)
+		{
+			rotateLeft(leaf->_left);
+			rotateRight(leaf);
+			if (leaf->_parent->_left->_right != NULL)
+				leaf->_parent->_left->_right->_color = BLACK_L;
+
+		}
+		else
+		{
+			rotateRight(leaf->_left);
+			rotateLeft(leaf);
+			if (leaf->_parent->_right->_left != NULL)
+				leaf->_parent->_right->_left->_color = BLACK_L;
+		}
+	}
+
+	void fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(Node *leaf)
+	{
+		if (leaf->_left != NULL)
+		{
+			rotateLeft(leaf->_left);
+			rotateRight(leaf);
+			leaf->_parent = BLACK_L;
+
+		}
+		else
+		{
+			rotateRight(leaf->_left);
+			rotateLeft(leaf);
+			leaf->_parent = BLACK_L;
+		}
+	}
+
+	void fixup_case_all_black(Node *leaf)
+	{
+		if (leaf->_left != NULL)
+		{
+			leaf->_left->_color = RED_L;
+			if (leaf->_parent->_right == leaf)
+				eraseFixup(leaf->_parent, 1);
+			else
+				eraseFixup(leaf->_parent, 2);
+		}
+		else
+		{
+			leaf->_right->_color = RED_L;
+			if (leaf->_parent->_right == leaf)
+				eraseFixup(leaf->_parent, 1);
+			else
+				eraseFixup(leaf->_parent, 2);
+		}
+	}
+
+
+	bool condition_case_all_black(Node *leaf, std::string part)
+	{
+
+		if (part == "LEFT")
+		{
+			return ( leaf->_color == BLACK_L && leaf->_left->_color == BLACK_L &&
+			(leaf->_left->_left == NULL || leaf->_left->_left->_color == BLACK_L) &&
+			(leaf->_left->_right == NULL || leaf->_left->_right->_color == BLACK_L));
+		}
+		else
+		{
+			return ( leaf->_color == BLACK_L && leaf->_right->_color == BLACK_L &&
+			(leaf->_right->_right == NULL || leaf->_right->_right->_color == BLACK_L) &&
+			(leaf->_right->_left == NULL || leaf->_right->_left->_color == BLACK_L));
+		}
+	}
+
+	bool condition_case_second(Node *leaf, std::string part)
+	{
+		if (part == "LEFT")
+		{
+			return (leaf->_color == RED_L && leaf->_left->_color == BLACK_L &&
+			(       (leaf->_left->_left != NULL && leaf->_left->_left->_color == RED_L )
+			|| (leaf->_left->_right != NULL && leaf->_left->_right->_color == RED_L)    ));
+		}
+		else
+		{
+			return (leaf->_color == RED_L && leaf->_right->_color == BLACK_L &&
+			(       (leaf->_right->_right != NULL && leaf->_right->_right->_color == RED_L )
+			|| (leaf->_right->_left != NULL && leaf->_right->_left->_color == RED_L)    ));
+		}
+	}
+
+	bool condition_case_first(Node *leaf, std::string part)
+	{
+		if (part == "LEFT")
+
+
+			return (leaf->_color == RED_L &&
+			leaf->_left->_color == BLACK_L && (   leaf->_left->_left == NULL ||
+			(leaf->_left->_left != NULL && leaf->_left->_left->_color = BLACK_L)  ) && (    leaf->_left->_right == NULL ||
+			(leaf->_left->_right != NULL && leaf->_left->_right->_color = BLACK_L)   ));
+		else
+
+
+			return (leaf->_color == RED_L &&
+			leaf->_right->_color == BLACK_L && (    leaf->_right->_right == NULL ||
+			(leaf->_right->_right != NULL && leaf->_right->_right->_color = BLACK_L)      ) && (     leaf->_right->_left == NULL ||
+			(leaf->_right->_left != NULL && leaf->_right->_left->_color = BLACK_L)    ));
+	}
+
+	void eraseFixup(Node *leaf, int recursion = 0)
+	{
+		if (leaf->_right == NULL || recursion == 1)
+		{
+			if (condition_case_first(leaf, "LEFT"))
+				fixup_case_parent_red_child_black_grandchild_black(leaf);
+			else if (condition_case_second(leaf, "LEFT"))
+				fixup_case_parent_red_child_black_grandchild_red(leaf);
+
+		}
+		else if (leaf->_left == NULL || recursion == 2)
+		{
+			if (condition_case_first(leaf, "RIGHT"))
+				fixup_case_parent_red_child_black_grandchild_black(leaf);
+			else if (condition_case_second(leaf, "RIGHT"))
+				fixup_case_parent_red_child_black_grandchild_red(leaf);
+		}
 
 	}
 
