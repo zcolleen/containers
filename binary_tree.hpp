@@ -292,9 +292,9 @@ public:
 		delete leaf;
 	}
 
-	void fixup_case_parent_red_child_black_grandchild_black(Node *leaf)
+	void fixup_case_parent_red_child_black_grandchild_black(Node *leaf, std::string part)
 	{
-		if (leaf->_left != NULL)
+		if (part == "LEFT")
 				leaf->_left->_color = RED_L;
 		else
 			leaf->_right->_color = RED_L;
@@ -302,9 +302,9 @@ public:
 
 	}
 
-	void fixup_case_parent_red_child_black_grandchild_red(Node *leaf)
+	void fixup_case_parent_red_child_black_grandchild_red(Node *leaf, std::string part)
 	{
-		if (leaf->_left != NULL)
+		if (part == "LEFT")
 		{
 			if (leaf->_left->_right != NULL && leaf->_left->_right->_color == RED_L)
 				rotateLeft(leaf->_left);
@@ -324,9 +324,9 @@ public:
 		}
 	}
 
-	void fixup_case_parent_black_child_red_grandchild_black(Node *leaf)
+	void fixup_case_parent_black_child_red_grandchild_black(Node *leaf, std::string part)
 	{
-		if (leaf->_left != NULL)
+		if (part == "LEFT")
 		{
 			rotateRight(leaf);
 			leaf->_parent->_color = BLACK_L;
@@ -340,9 +340,9 @@ public:
 		}
 	}
 
-	void fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(Node *leaf)
+	void fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(Node *leaf, std::string part)
 	{
-		if (leaf->_left != NULL)
+		if (part == "LEFT")
 		{
 			rotateLeft(leaf->_left);
 			rotateRight(leaf);
@@ -359,9 +359,9 @@ public:
 		}
 	}
 
-	void fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(Node *leaf)
+	void fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(Node *leaf, std::string part)
 	{
-		if (leaf->_left != NULL)
+		if (part == "LEFT")
 		{
 			rotateLeft(leaf->_left);
 			rotateRight(leaf);
@@ -376,9 +376,9 @@ public:
 		}
 	}
 
-	void fixup_case_all_black(Node *leaf)
+	void fixup_case_all_black(Node *leaf, std::string part)
 	{
-		if (leaf->_left != NULL)
+		if (part == "LEFT")
 		{
 			leaf->_left->_color = RED_L;
 			if (leaf->_parent->_right == leaf)
@@ -490,25 +490,25 @@ public:
 		if (leaf->_right == NULL || recursion == 1)
 		{
 			if (condition_case_first(leaf, "LEFT"))
-				fixup_case_parent_red_child_black_grandchild_black(leaf);
+				fixup_case_parent_red_child_black_grandchild_black(leaf, "LEFT");
 			else if (condition_case_second(leaf, "LEFT"))
-				fixup_case_parent_red_child_black_grandchild_red(leaf);
+				fixup_case_parent_red_child_black_grandchild_red(leaf, "LEFT");
 			else if (condition_case_third(leaf, "LEFT"))
-				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf);
+				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf, "LEFT");
 			else if (condition_case_forth(leaf, "LEFT"))
-				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf);
+				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf, "LEFT");
 
 		}
 		else if (leaf->_left == NULL || recursion == 2)
 		{
 			if (condition_case_first(leaf, "RIGHT"))
-				fixup_case_parent_red_child_black_grandchild_black(leaf);
+				fixup_case_parent_red_child_black_grandchild_black(leaf, "RIGHT");
 			else if (condition_case_second(leaf, "RIGHT"))
-				fixup_case_parent_red_child_black_grandchild_red(leaf);
+				fixup_case_parent_red_child_black_grandchild_red(leaf, "RIGHT");
 			else if (condition_case_third(leaf, "RIGHT"))
-				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf);
+				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf, "RIGHT");
 			else if (condition_case_forth(leaf, "RIGHT"))
-				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf);
+				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf, "RIGHT");
 
 		}
 
