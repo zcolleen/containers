@@ -414,6 +414,43 @@ public:
 		}
 	}
 
+	bool condition_case_third(Node *leaf, std::string part)
+	{
+		if (part == "LEFT")
+		{
+			return (leaf->_color == BLACK_L && leaf->_left->_color == RED_L &&
+			(  ( (leaf->_left->_left->_left != NULL && leaf->_left->_left->_left->_color == RED_L)  ||
+			(leaf->_left->_left->_right != NULL && leaf->_left->_left->_right->_color == RED_L) )  ||
+			 ( (leaf->_left->_right->_left != NULL && leaf->_left->_right->_left->_color == RED_L) ||
+			 (leaf->_left->_right->_right != NULL && leaf->_left->_right->_right->_color == RED_L)  )  )  );
+		}
+		else
+		{
+			return (leaf->_color == BLACK_L && leaf->_right->_color == RED_L &&
+			(  ( (leaf->_right->_right->_right != NULL && leaf->_right->_right->_right->_color == RED_L)  ||
+			(leaf->_right->_right->_left != NULL && leaf->_right->_right->_left->_color == RED_L) )  ||
+			( (leaf->_right->_left->_right != NULL && leaf->_right->_left->_right->_color == RED_L) ||
+			(leaf->_right->_left->_left != NULL && leaf->_right->_left->_left->_color == RED_L)  )  )  );
+		}
+	}
+
+	bool condition_case_forth(Node *leaf, std::string part)
+	{
+		if (part == "LEFT")
+		{
+			return (leaf->_color == BLACK_L && leaf->_left->_color == RED_L &&
+			(leaf->_left->_left->_left == NULL && leaf->_left->_left->_right == NULL &&
+			leaf->_left->_right->_left == NULL && leaf->_left->_right->_right == NULL) );
+		}
+		else
+		{
+			return (leaf->_color == BLACK_L && leaf->_right->_color == RED_L &&
+			(leaf->_right->_right->_right == NULL && leaf->_right->_right->_left == NULL &&
+			leaf->_right->_left->_right == NULL && leaf->_right->_left->_left == NULL) );
+		}
+	}
+
+
 	bool condition_case_second(Node *leaf, std::string part)
 	{
 		if (part == "LEFT")
@@ -456,6 +493,10 @@ public:
 				fixup_case_parent_red_child_black_grandchild_black(leaf);
 			else if (condition_case_second(leaf, "LEFT"))
 				fixup_case_parent_red_child_black_grandchild_red(leaf);
+			else if (condition_case_third(leaf, "LEFT"))
+				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf);
+			else if (condition_case_forth(leaf, "LEFT"))
+				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf);
 
 		}
 		else if (leaf->_left == NULL || recursion == 2)
@@ -464,6 +505,11 @@ public:
 				fixup_case_parent_red_child_black_grandchild_black(leaf);
 			else if (condition_case_second(leaf, "RIGHT"))
 				fixup_case_parent_red_child_black_grandchild_red(leaf);
+			else if (condition_case_third(leaf, "RIGHT"))
+				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf);
+			else if (condition_case_forth(leaf, "RIGHT"))
+				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf);
+
 		}
 
 	}
