@@ -8,30 +8,6 @@ int main()
 {
 	BinaryTree<int, double> tree;
 
-	std::map<int, int> map;
-	std::pair<int, int> pair(5, 89);
-
-	map[2] = 2;
-	map[15] = 4;
-	map[10] = 10;
-
-	map.insert(++++map.begin(), pair);
-
-	if (map.count(5))
-		std::cout << "jopa";
-
-	std::map<int, int>::iterator it = map.begin();
-//	std::map<int, int>::iterator end = map.end();
-//
-////	--it;
-////	end;
-//
-	while (it != map.end())
-	{
-		std::cout << it->first << std::endl;
-		++it;
-	}
-
 	tree.insert(18, 7.23);
 
 	tree.insert(78, 2.3);
@@ -54,6 +30,32 @@ int main()
 
 	tree.insert(14, 19);
 
-	tree.show();
+//	tree.show();
+
+	std::cout << std::endl << std::endl;
+
+	tree.delete_node(18);
+
+//	tree.show();
+
+	BinaryTree<int, double> new_tree;
+
+	new_tree.insert(15, 17);
+
+	new_tree.insert(10, 12);
+
+	new_tree.insert(28, 21);
+
+	new_tree.insert(29, 1);
+
+	new_tree.insert(13, 12);
+
+	new_tree.show();
+
+	std::cout << std::endl << std::endl;
+
+	new_tree.delete_node(10);
+
+	new_tree.show();
 
 }
