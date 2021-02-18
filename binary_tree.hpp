@@ -1,7 +1,5 @@
 
 
-#ifdef MAP_ONLY
-//#undef MAP_ONLY
 #ifndef CONTAINERS_BINARY_TREE_HPP
 #define CONTAINERS_BINARY_TREE_HPP
 #define BLACK_L false
@@ -39,7 +37,7 @@ public:
 	explicit BinaryTree(bool repeat = false) : _NULL(new Node), _root(_NULL), _is_key_repeated(repeat) {}
 	~BinaryTree() {
 		delete_tree(_root);
-	//	delete _NULL;
+		delete _NULL;
 	}
 
 	void insert(const Key &key, const T &value)
@@ -170,7 +168,7 @@ public:
 	{
 		while (leaf != _NULL)
 		{
-			if (!_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
+			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
 			{
 				leaf->_value = value;
 				break;
@@ -238,6 +236,45 @@ public:
 			case_red_or_black_leaf_two_childs(leaf);
 	}
 
+//	void case_red_leaf_one_child(Node *leaf)
+//	{
+//		if (leaf->_right != _NULL)
+//		{
+//			if (leaf != _root)
+//				leaf->_right->_parent = leaf->_parent;
+//			else
+//			{
+//				_root = leaf->_right;
+//				_root->_parent = _NULL;
+//			}
+//			if (leaf->_parent != _NULL && leaf->_parent->_right == leaf)
+//				leaf->_parent->_right = leaf->_right;
+//			else if (leaf->_parent != _NULL)
+//				leaf->_parent->_left = leaf->_right;
+////			else
+////				leaf->_parent = _NULL;
+//			leaf->_right->_color = BLACK_L;
+//		}
+//		else
+//		{
+//			if (leaf != _root)
+//				leaf->_left->_parent = leaf->_parent;
+//			else
+//			{
+//				_root = leaf->_left;
+//				_root->_parent = _NULL;
+//			}
+//			if (leaf->_parent != _NULL && leaf->_parent->_left == leaf)
+//				leaf->_parent->_left = leaf->_left;
+//			else if (leaf->_parent != _NULL)
+//				leaf->_parent->_right = leaf->_left;
+////			else
+////				leaf->_parent = _NULL;
+//			leaf->_left->_color = BLACK_L;
+//		}
+//		delete leaf;
+//	}
+
 	void case_red_or_black_leaf_two_childs(Node *leaf)
 	{
 		Node *max_left_element = leaf->_left;
@@ -252,7 +289,12 @@ public:
 		max_left_element->_key = leaf->_key;
 		leaf->_key = tmp_key;
 		if (max_left_element->_color == RED_L)
-			case_red_leaf_zero_childs(max_left_element);
+		{
+			if (max_left_element->_right == _NULL && max_left_element->_left == _NULL)
+				case_red_leaf_zero_childs(max_left_element);
+			else//red
+				case_black_leaf_one_child(max_left_element);
+		}
 		else
 		{
 			if (max_left_element->_right == _NULL && max_left_element->_left == _NULL)
@@ -615,5 +657,4 @@ public:
 };
 
 
-#endif
 #endif

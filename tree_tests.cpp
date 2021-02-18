@@ -1,7 +1,6 @@
 
 //#define MAP_ONLY
-//#include "binary_tree.hpp"
-#include "smth2.hpp"
+#include "binary_tree.hpp"
 #include <map>
 
 template <class T, class E>
@@ -16,7 +15,7 @@ void debug_show(BinaryTree<T, E> &tree)
 int main()
 {
 	srand(time(NULL));
-	BinaryTree<int, double> tree;
+	BinaryTree<int, double> tree(true);
 
 	tree.insert(18, 7.23);
 
@@ -87,7 +86,7 @@ int main()
 
 	debug_show(tree);
 
-#define SIZE 1000
+#define SIZE 500
 
 	int *values = new int[SIZE];
 
