@@ -87,22 +87,43 @@ int main()
 
 	debug_show(tree);
 
-#define SIZE 16
+#define SIZE 1000
 
 	int *values = new int[SIZE];
 
+//	*(values) = 124;
+//	*(values + 1) = 646;
+//	*(values + 2) = 890;
+//	*(values + 3) = 472;
+//	*(values + 4) = 894;
+//	*(values + 5) = 384;
+//	*(values + 6) = 842;
+//	*(values + 7) = 125;
+//	*(values + 8) = 300;
+//	*(values + 9) = 246;
+//	*(values + 10) = 286;
+//	*(values + 11) = 995;
+//	*(values + 12) = 673;
+//	*(values + 13) = 161;
+//	*(values + 14) = 478;
+//	*(values + 15) = 667;
 	for (int i = 0; i < SIZE; ++i)
 	{
-		*(values + i) = i;/*rand() % 100;*/
+		*(values + i) = rand() % 1000;
+		std::cout << *(values + i) << std::endl;
 		tree.insert(*(values + i), 17);
 	}
 	debug_show(tree);
 
+	std::cout << "/////////////////END OF INSERTION/////////" << std::endl;
 //	tree.delete_node(0);
 
 	debug_show(tree);
 	for (int i = 0; i < SIZE; ++i)
 	{
+//		std::cout << *(values + i) << std::endl;
+//		tree.delete_node(*(values + i));
+		std::cout << *(values + SIZE - 1 - i) << std::endl;
 		tree.delete_node(*(values + SIZE - 1 - i));
 //		std::cout << RED << i << RESET << std::endl;
 		debug_show(tree);

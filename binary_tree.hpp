@@ -430,13 +430,13 @@ public:
 
 		if (part == "LEFT")
 		{
-			return ( leaf->_color == BLACK_L && leaf->_left->_color == BLACK_L &&
+			return ( leaf->_color == BLACK_L && leaf->_left != _NULL && leaf->_left->_color == BLACK_L &&
 			(leaf->_left->_left == _NULL || leaf->_left->_left->_color == BLACK_L) &&
 			(leaf->_left->_right == _NULL || leaf->_left->_right->_color == BLACK_L));
 		}
 		else
 		{
-			return ( leaf->_color == BLACK_L && leaf->_right->_color == BLACK_L &&
+			return ( leaf->_color == BLACK_L && leaf->_right != _NULL && leaf->_right->_color == BLACK_L &&
 			(leaf->_right->_right == _NULL || leaf->_right->_right->_color == BLACK_L) &&
 			(leaf->_right->_left == _NULL || leaf->_right->_left->_color == BLACK_L));
 		}
@@ -446,19 +446,19 @@ public:
 	{
 		if (part == "LEFT")
 		{
-			return (leaf->_color == BLACK_L && leaf->_left->_color == RED_L &&
-			(  ( (leaf->_left->_left->_left != _NULL && leaf->_left->_left->_left->_color == RED_L)  ||
-			(leaf->_left->_left->_right != _NULL && leaf->_left->_left->_right->_color == RED_L) )  ||
-			 ( (leaf->_left->_right->_left != _NULL && leaf->_left->_right->_left->_color == RED_L) ||
-			 (leaf->_left->_right->_right != _NULL && leaf->_left->_right->_right->_color == RED_L)  )  )  );
+			return (leaf->_color == BLACK_L && leaf->_left != _NULL && leaf->_left->_color == RED_L &&
+			(  ( (leaf->_left->_left != _NULL && leaf->_left->_left->_left != _NULL && leaf->_left->_left->_left->_color == RED_L)  ||
+			(leaf->_left->_left != _NULL && leaf->_left->_left->_right != _NULL && leaf->_left->_left->_right->_color == RED_L) )  ||
+			 ( (leaf->_left->_right != _NULL && leaf->_left->_right->_left != _NULL && leaf->_left->_right->_left->_color == RED_L) ||
+			 (leaf->_left->_right != _NULL && leaf->_left->_right->_right != _NULL && leaf->_left->_right->_right->_color == RED_L)  )  )  );
 		}
 		else
 		{
-			return (leaf->_color == BLACK_L && leaf->_right->_color == RED_L &&
-			(  ( (leaf->_right->_right->_right != _NULL && leaf->_right->_right->_right->_color == RED_L)  ||
-			(leaf->_right->_right->_left != _NULL && leaf->_right->_right->_left->_color == RED_L) )  ||
-			( (leaf->_right->_left->_right != _NULL && leaf->_right->_left->_right->_color == RED_L) ||
-			(leaf->_right->_left->_left != _NULL && leaf->_right->_left->_left->_color == RED_L)  )  )  );
+			return (leaf->_color == BLACK_L && leaf->_right != _NULL && leaf->_right->_color == RED_L &&
+			(  ( (leaf->_right->_right != _NULL && leaf->_right->_right->_right != _NULL && leaf->_right->_right->_right->_color == RED_L)  ||
+			(leaf->_right->_right != _NULL && leaf->_right->_right->_left != _NULL && leaf->_right->_right->_left->_color == RED_L) )  ||
+			( (leaf->_right->_left != _NULL && leaf->_right->_left->_right != _NULL && leaf->_right->_left->_right->_color == RED_L) ||
+			(leaf->_right->_left != _NULL && leaf->_right->_left->_left != _NULL && leaf->_right->_left->_left->_color == RED_L)  )  )  );
 		}
 	}
 
@@ -466,13 +466,15 @@ public:
 	{
 		if (part == "LEFT")
 		{
-			return (leaf->_color == BLACK_L && leaf->_left->_color == RED_L &&
+			return (leaf->_color == BLACK_L && leaf->_left != _NULL && leaf->_left->_color == RED_L &&
+			leaf->_left->_left != _NULL && leaf->_left->_right != _NULL &&
 			(leaf->_left->_left->_left == _NULL && leaf->_left->_left->_right == _NULL &&
 			leaf->_left->_right->_left == _NULL && leaf->_left->_right->_right == _NULL) );
 		}
 		else
 		{
-			return (leaf->_color == BLACK_L && leaf->_right->_color == RED_L &&
+			return (leaf->_color == BLACK_L && leaf->_right != _NULL && leaf->_right->_color == RED_L &&
+			leaf->_right->_right != _NULL && leaf->_right->_left != _NULL &&
 			(leaf->_right->_right->_right == _NULL && leaf->_right->_right->_left == _NULL &&
 			leaf->_right->_left->_right == _NULL && leaf->_right->_left->_left == _NULL) );
 		}
@@ -482,13 +484,13 @@ public:
 	{
 		if (part == "LEFT")
 		{
-			return ( leaf->_color == BLACK_L && leaf->_left->_color == BLACK_L &&
+			return ( leaf->_color == BLACK_L && leaf->_left != _NULL && leaf->_left->_color == BLACK_L &&
 			( (leaf->_left->_left != _NULL && leaf->_left->_left->_color == RED_L) ||
 			(leaf->_left->_right != _NULL && leaf->_left->_right->_color == RED_L) ) );
 		}
 		else
 		{
-			return ( leaf->_color == BLACK_L && leaf->_right->_color == BLACK_L &&
+			return ( leaf->_color == BLACK_L && leaf->_right != _NULL && leaf->_right->_color == BLACK_L &&
 			( (leaf->_right->_right != _NULL && leaf->_right->_right->_color == RED_L) ||
 			(leaf->_right->_left != _NULL && leaf->_right->_left->_color == RED_L) ) );
 
@@ -499,13 +501,13 @@ public:
 	{
 		if (part == "LEFT")
 		{
-			return (leaf->_color == RED_L && leaf->_left->_color == BLACK_L &&
+			return (leaf->_color == RED_L && leaf->_left != _NULL && leaf->_left->_color == BLACK_L &&
 			(       (leaf->_left->_left != _NULL && leaf->_left->_left->_color == RED_L )
 			|| (leaf->_left->_right != _NULL && leaf->_left->_right->_color == RED_L)    ));
 		}
 		else
 		{
-			return (leaf->_color == RED_L && leaf->_right->_color == BLACK_L &&
+			return (leaf->_color == RED_L && leaf->_right != _NULL && leaf->_right->_color == BLACK_L &&
 			(       (leaf->_right->_right != _NULL && leaf->_right->_right->_color == RED_L )
 			|| (leaf->_right->_left != _NULL && leaf->_right->_left->_color == RED_L)    ));
 		}
@@ -516,14 +518,14 @@ public:
 		if (part == "LEFT")
 
 
-			return (leaf->_color == RED_L &&
+			return (leaf->_color == RED_L && leaf->_left != _NULL &&
 			leaf->_left->_color == BLACK_L && (   leaf->_left->_left == _NULL ||
 			(leaf->_left->_left != _NULL && leaf->_left->_left->_color == BLACK_L)  ) && (    leaf->_left->_right == _NULL ||
 			(leaf->_left->_right != _NULL && leaf->_left->_right->_color == BLACK_L)   ));
 		else
 
 
-			return (leaf->_color == RED_L &&
+			return (leaf->_color == RED_L && leaf->_right != _NULL &&
 			leaf->_right->_color == BLACK_L && (    leaf->_right->_right == _NULL ||
 			(leaf->_right->_right != _NULL && leaf->_right->_right->_color == BLACK_L)      ) && (     leaf->_right->_left == _NULL ||
 			(leaf->_right->_left != _NULL && leaf->_right->_left->_color == BLACK_L)    ));
