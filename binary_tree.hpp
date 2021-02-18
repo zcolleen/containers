@@ -324,7 +324,7 @@ public:
 		}
 	}
 
-	void fixup_case_parent_black_child_red_grandchild_black(Node *leaf, std::string part)
+	void fixup_case_parent_black_child_black_grandchild_red(Node *leaf, std::string part)
 	{
 		if (part == "LEFT")
 		{
@@ -450,6 +450,22 @@ public:
 		}
 	}
 
+	bool conditional_case_fifth(Node *leaf, std::string part)
+	{
+		if (part == "LEFT")
+		{
+			return ( leaf->_color == BLACK_L && leaf->_left->_color == BLACK_L &&
+			( (leaf->_left->_left != NULL && leaf->_left->_left->_color == RED_L) ||
+			(leaf->_left->_right != NULL && leaf->_left->_right->_color == RED_L) ) );
+		}
+		else
+		{
+			return ( leaf->_color == BLACK_L && leaf->_right->_color == BLACK_L &&
+			( (leaf->_right->_right != NULL && leaf->_right->_right->_color == RED_L) ||
+			(leaf->_right->_left != NULL && leaf->_right->_left->_color == RED_L) ) );
+
+		}
+	}
 
 	bool condition_case_second(Node *leaf, std::string part)
 	{
@@ -497,6 +513,10 @@ public:
 				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf, "LEFT");
 			else if (condition_case_forth(leaf, "LEFT"))
 				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf, "LEFT");
+			else if (conditional_case_fifth(leaf, "LEFT"))
+				fixup_case_parent_black_child_black_grandchild_red(leaf, "LEFT");
+			else if (condition_case_all_black(leaf, "LEFT"))
+				fixup_case_all_black(leaf, "LEFT");
 
 		}
 		else if (leaf->_left == NULL || recursion == 2)
@@ -509,7 +529,10 @@ public:
 				fixup_case_parent_black_child_red_grandchild_black_grandgranchild_red(leaf, "RIGHT");
 			else if (condition_case_forth(leaf, "RIGHT"))
 				fixup_case_parent_black_child_red_grandchild_red_grandgrandchild_black(leaf, "RIGHT");
-
+			else if (conditional_case_fifth(leaf, "RIGHT"))
+				fixup_case_parent_black_child_black_grandchild_red(leaf, "RIGHT");
+			else if (condition_case_all_black(leaf, "RIGHT"))
+				fixup_case_all_black(leaf, "RIGHT");
 		}
 
 	}
