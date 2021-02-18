@@ -11,8 +11,11 @@ void debug_show(BinaryTree<T, E> &tree)
 	std::cout << std::endl << std::endl;
 }
 
+
+
 int main()
 {
+	srand(time(NULL));
 	BinaryTree<int, double> tree;
 
 	tree.insert(18, 7.23);
@@ -29,13 +32,13 @@ int main()
 
 	//tree.insert(15, 12.12);
 
-	tree.insert(12, 32.32);
+	//tree.insert(12, 32.32);
 
 	tree.insert(300, 32);
 
 	tree.insert(280, 3);
 
-	tree.insert(14, 19);
+//	tree.insert(14, 19);
 
 	tree.insert(435, 0);
 
@@ -83,6 +86,29 @@ int main()
 	tree.delete_node(435);
 
 	debug_show(tree);
+
+#define SIZE 16
+
+	int *values = new int[SIZE];
+
+	for (int i = 0; i < SIZE; ++i)
+	{
+		*(values + i) = i;/*rand() % 100;*/
+		tree.insert(*(values + i), 17);
+	}
+	debug_show(tree);
+
+//	tree.delete_node(0);
+
+	debug_show(tree);
+	for (int i = 0; i < SIZE; ++i)
+	{
+		tree.delete_node(*(values + SIZE - 1 - i));
+//		std::cout << RED << i << RESET << std::endl;
+		debug_show(tree);
+	}
+
+//	debug_show(tree);
 //	BinaryTree<int, double> new_tree;
 //
 //	new_tree.insert(15, 17);
