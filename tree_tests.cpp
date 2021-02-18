@@ -4,6 +4,13 @@
 #include "smth2.hpp"
 #include <map>
 
+template <class T, class E>
+void debug_show(BinaryTree<T, E> &tree)
+{
+	tree.show();
+	std::cout << std::endl << std::endl;
+}
+
 int main()
 {
 	BinaryTree<int, double> tree;
@@ -30,32 +37,70 @@ int main()
 
 	tree.insert(14, 19);
 
-//	tree.show();
+	tree.insert(435, 0);
 
-	std::cout << std::endl << std::endl;
+	tree.insert(12, 3);
+
+
+	debug_show(tree);
+
+	tree.delete_node(22);
+
+	debug_show(tree);
+
+	tree.delete_node(12);
+
+	debug_show(tree);
 
 	tree.delete_node(18);
 
-//	tree.show();
+	debug_show(tree);
 
-	BinaryTree<int, double> new_tree;
+	tree.delete_node(14);
 
-	new_tree.insert(15, 17);
+	debug_show(tree);
 
-	new_tree.insert(10, 12);
+	tree.delete_node(10);
 
-	new_tree.insert(28, 21);
+	debug_show(tree);
 
-	new_tree.insert(29, 1);
+	tree.delete_node(78);
 
-	new_tree.insert(13, 12);
+	debug_show(tree);
 
-	new_tree.show();
+	tree.delete_node(280);
 
-	std::cout << std::endl << std::endl;
+	debug_show(tree);
 
-	new_tree.delete_node(10);
+	tree.delete_node(300);
 
-	new_tree.show();
+	debug_show(tree);
+
+	tree.delete_node(432);
+
+	debug_show(tree);
+
+	tree.delete_node(435);
+
+	debug_show(tree);
+//	BinaryTree<int, double> new_tree;
+//
+//	new_tree.insert(15, 17);
+//
+//	new_tree.insert(10, 12);
+//
+//	new_tree.insert(28, 21);
+//
+//	new_tree.insert(29, 1);
+//
+//	new_tree.insert(13, 12);
+//
+//	new_tree.show();
+//
+//	std::cout << std::endl << std::endl;
+//
+//	new_tree.delete_node(10);
+//
+//	new_tree.show();
 
 }
