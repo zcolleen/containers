@@ -1090,6 +1090,17 @@ void map_tests()
 
 	ft_map_f.swap(ft_map_s);
 
+	std::pair<float, double> a(10, 12);
+
+	std::pair<std::string, int> b("lox", 34);
+	ft::pair<std::string, int> c("lox", 34);
+	ft::pair<std::string, int> e;
+
+	ft::pair<std::string, int> r = ft::make_pair("lox", 34);
+
+//	std::cout << r.first << e.first << r.second << e.second;
+
+	std::cout << (r != c) << std::endl;
 
 }
 

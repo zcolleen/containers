@@ -15,6 +15,65 @@
 //		class Allocator = std::allocator<std::pair<const Key, T> > >
 //class map;
 
+
+namespace ft {
+	template< class T1, class T2 >
+	struct pair {
+
+		typedef T1 first_type;
+		typedef T2 second_type;
+
+		T1 first;
+		T2 second;
+
+		pair() {}
+		pair( const T1& x, const T2& y ) : first(x), second(y) {}
+
+		template< class U1, class U2 >
+		pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
+		pair( const pair& p ) {
+			*this = p;
+		}
+		pair& operator=( const pair& other ) {
+			first = other.first;
+			second = other.second;
+			return (*this);
+		}
+
+	};
+	template< class T1, class T2 >
+	bool operator==( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
+		return (lhs.first == rhs.first && lhs.second == rhs.second);
+	}
+	template< class T1, class T2 >
+	bool operator!=( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
+		return (!(lhs == rhs));
+	}
+	template< class T1, class T2 >
+	bool operator<( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
+		if (lhs.first == rhs.first)
+			return (lhs.second < rhs.second);
+		return (lhs.first < rhs.first);
+	}
+	template< class T1, class T2 >
+	bool operator<=( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
+		return (!(rhs < lhs));
+	}
+	template< class T1, class T2 >
+	bool operator>( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
+		return (rhs < lhs);
+	}
+	template< class T1, class T2 >
+	bool operator>=( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
+		return (!(lhs < rhs));
+	}
+	template< class T1, class T2 >
+	ft::pair<T1,T2> make_pair( T1 t, T2 u ) { return (ft::pair<T1, T2>(t, u)); }
+}
+
+
+
+
 template< class Key, class T, class Compare = std::less<Key> >
 class BinaryTree {
 
@@ -63,7 +122,7 @@ protected:
 		return (newnode);
 	}
 
-	bool insert(const Key &key, const T &value)
+	ft::pair<T, bool> insert(const Key &key, const T &value)
 	{
 		if (_root == _NULL)
 		{
@@ -72,8 +131,7 @@ protected:
 		}
 		else
 			return (insert(key, value, _root));
-		return (true);
-
+		return ft::pair<T, bool>(value, true);
 	}
 
 	void rotateRight(Node *leaf)
@@ -188,14 +246,14 @@ protected:
 		}
 	}
 
-	bool insert(const Key &key, const T &value, Node *leaf)
+	ft::pair<T, bool> insert(const Key &key, const T &value, Node *leaf)
 	{
 		while (leaf != _NULL)
 		{
 			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
 			{
 				leaf->_value = value;
-				return (false);
+				return ft::pair<T, bool>(value, false);
 			}
 			else if (_comparator(key, leaf->_key))
 			{
@@ -222,7 +280,7 @@ protected:
 				}
 			}
 		}
-		return (true);
+		return ft::pair<T, bool>(value, true);
 	}
 
 	void delete_node(const Key &key)
@@ -674,7 +732,7 @@ public:
 //		if (leaf->_left != _NULL)
 //			show_parents(leaf->_left, level + 1);
 //	}
-};
 
+};
 
 #endif

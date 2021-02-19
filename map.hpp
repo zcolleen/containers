@@ -59,9 +59,10 @@ namespace ft {
 		map( InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() ) : BinaryTree<Key, T, Compare>(comp), _size(0),
 		_allocator(alloc)
 		{
+//			std::pair<T, bool> pair;
 			while (first != last)
 			{
-				if (this->insert(first->first, first->second))
+				if ((this->insert(first->first, first->second)).second)
 					++_size;
 				++first;
 			}
@@ -111,11 +112,10 @@ namespace ft {
 			_allocator = tmp_allocator;
 			this->_comparator = tmp_compare;
 		}
-//		T& operator[]( const Key& key ) {
-//
-//		}
+		T& operator[]( const Key& key ) {
+			return ((this->insert(key, T())).second);
+		}
 	};
-
 }
 
 
