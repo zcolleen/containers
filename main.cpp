@@ -1098,6 +1098,7 @@ void map_tests()
 
 	ft::pair<std::string, int> r = ft::make_pair("lox", 34);
 
+	//todo test []
 //	std::cout << r.first << e.first << r.second << e.second;
 
 	std::cout << (r != c) << std::endl;
