@@ -84,8 +84,33 @@ namespace ft {
 
 		bool empty() const { return (_size == 0); }
 		size_type size() const { return (_size); }
+		size_type max_size() const {
+			return (std::numeric_limits<size_type>::max() / sizeof (typename BinaryTree<Key, T, Compare>::Node));
+		}
+		void clear() {
+			this->delete_tree(this->_root);
+			this->_root = this->_NULL;
+		}
+		void swap( map& other ) {
 
-//		void show() { this->show(); }
+			typename BinaryTree<Key, T, Compare>::Node *tmp_root = other._root;
+			typename BinaryTree<Key, T, Compare>::Node *tmp_NULL = other._NULL;
+			size_type tmp_size = other._size;
+			Compare tmp_compare = other._comparator;
+			Allocator tmp_allocator = other._allocator;
+
+			other._root = this->_root;
+			other._NULL = this->_NULL;
+			other._size = _size;
+			other._allocator = _allocator;
+			other._comparator = this->_comparator;
+			this->_root = tmp_root;
+			this->_NULL = tmp_NULL;
+			_size = tmp_size;
+			_allocator = tmp_allocator;
+			this->_comparator = tmp_compare;
+		}
+		//todo member class, test clear, test parents while assigning
 //		T& operator[]( const Key& key ) {
 //
 //		}

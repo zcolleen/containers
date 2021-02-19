@@ -1085,6 +1085,11 @@ void map_tests()
 	std::cout << std::endl;
 
 	ft_map_s.show();
+
+	if (!ft_map_s.empty())
+		std::cout << ft_map_s.size() << std::endl;
+
+
 }
 
 
