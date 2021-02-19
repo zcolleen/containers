@@ -9,16 +9,26 @@
 #define GREEN "\033[1;32m"
 
 #include <iostream>
+//#include "map.hpp"
+
+//template< class Key, class T, class Compare = std::less<Key>,
+//		class Allocator = std::allocator<std::pair<const Key, T> > >
+//class map;
 
 template< class Key, class T, class Compare = std::less<Key> >
 class BinaryTree {
 
-public:
+protected:
+
+//	friend class map<Key, T>;
 
 	typedef struct Node {
 
+
 		Node() : _parent(NULL), _right(NULL), _left(NULL), _color(BLACK_L) {}
 
+		Node(const Node *other, struct Node *node) : _key(other->_key), _value(other->_value), _parent(node), _right(node),
+				_left(node), _color(other->_color) {}
 		Node(const Key &key, const T &value, struct Node *node) : _key(key), _value(value), _parent(node), _right(node),
 		_left(node), _color(RED_L) {}
 		Key			_key;
@@ -34,13 +44,35 @@ public:
 	Compare _comparator;
 	bool _is_key_repeated;
 
+
 	explicit BinaryTree(bool repeat = false) : _NULL(new Node), _root(_NULL), _is_key_repeated(repeat) {}
+	explicit BinaryTree(const Compare &comp, bool repeat = false) : _NULL(new Node), _root(_NULL), _comparator(comp), _is_key_repeated(repeat) {}
 	~BinaryTree() {
 		delete_tree(_root);
 		delete _NULL;
 	}
 
-	void insert(const Key &key, const T &value)
+//	BinaryTree& operator=(const BinaryTree& other)
+//	{
+//		delete_tree(_root);
+//		_root = _NULL;
+//		_comparator = other._comparator;
+//		_root = copy_tree(_NULL, other._root, other._NULL);
+//		return (*this);
+//	}
+
+	Node *copy_tree(Node *parent, Node *node, Node *other_NULL)
+	{
+		if (node == other_NULL)
+			return (_NULL);
+		Node *newnode = new Node(node, _NULL);
+		newnode->_parent = parent;
+		newnode->_left = copy_tree(newnode, node->_left, other_NULL);
+		newnode->_right = copy_tree(newnode, node->_right, other_NULL);
+		return (newnode);
+	}
+
+	bool insert(const Key &key, const T &value)
 	{
 		if (_root == _NULL)
 		{
@@ -48,7 +80,8 @@ public:
 			_root->_color = BLACK_L;
 		}
 		else
-			insert(key, value, _root);
+			return (insert(key, value, _root));
+		return (true);
 
 	}
 
@@ -164,14 +197,14 @@ public:
 		}
 	}
 
-	void insert(const Key &key, const T &value, Node *leaf)
+	bool insert(const Key &key, const T &value, Node *leaf)
 	{
 		while (leaf != _NULL)
 		{
 			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
 			{
 				leaf->_value = value;
-				break;
+				return (false);
 			}
 			else if (_comparator(key, leaf->_key))
 			{
@@ -198,6 +231,7 @@ public:
 				}
 			}
 		}
+		return (true);
 	}
 
 	void delete_node(const Key &key)
@@ -235,45 +269,6 @@ public:
 		else
 			case_red_or_black_leaf_two_childs(leaf);
 	}
-
-//	void case_red_leaf_one_child(Node *leaf)
-//	{
-//		if (leaf->_right != _NULL)
-//		{
-//			if (leaf != _root)
-//				leaf->_right->_parent = leaf->_parent;
-//			else
-//			{
-//				_root = leaf->_right;
-//				_root->_parent = _NULL;
-//			}
-//			if (leaf->_parent != _NULL && leaf->_parent->_right == leaf)
-//				leaf->_parent->_right = leaf->_right;
-//			else if (leaf->_parent != _NULL)
-//				leaf->_parent->_left = leaf->_right;
-////			else
-////				leaf->_parent = _NULL;
-//			leaf->_right->_color = BLACK_L;
-//		}
-//		else
-//		{
-//			if (leaf != _root)
-//				leaf->_left->_parent = leaf->_parent;
-//			else
-//			{
-//				_root = leaf->_left;
-//				_root->_parent = _NULL;
-//			}
-//			if (leaf->_parent != _NULL && leaf->_parent->_left == leaf)
-//				leaf->_parent->_left = leaf->_left;
-//			else if (leaf->_parent != _NULL)
-//				leaf->_parent->_right = leaf->_left;
-////			else
-////				leaf->_parent = _NULL;
-//			leaf->_left->_color = BLACK_L;
-//		}
-//		delete leaf;
-//	}
 
 	void case_red_or_black_leaf_two_childs(Node *leaf)
 	{
@@ -613,7 +608,6 @@ public:
 	{
 		if (leaf->_parent != _NULL)
 		{
-//			std::cout << leaf->_parent->_key << std::endl;
 			if (leaf->_parent->_right == leaf)
 				leaf->_parent->_right = _NULL;
 			else
@@ -623,12 +617,6 @@ public:
 		else
 			_root = _NULL;
 		delete leaf;
-	}
-
-	void show()
-	{
-		if (_root != _NULL)
-			show(_root, 5);
 	}
 
 	void show(Node *leaf, int level)
@@ -645,6 +633,25 @@ public:
 			show(leaf->_left, level + 1);
 	}
 
+	int tree_size()
+	{
+		int size = 0;
+
+		tree_size(_root, &size);
+
+		return (size);
+	}
+
+	void tree_size(Node *node, int *size)
+	{
+		if (node != _NULL)
+		{
+			tree_size(node->_left, size);
+			tree_size(node->_right, size);
+			(*size)++;
+		}
+	}
+
 	void delete_tree(Node *node)
 	{
 		if (node != _NULL)
@@ -653,6 +660,13 @@ public:
 			delete_tree(node->_right);
 			delete node;
 		}
+	}
+
+public:
+	void show()
+	{
+		if (_root != _NULL)
+			show(_root, 5);
 	}
 };
 

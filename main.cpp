@@ -4,12 +4,12 @@
 #include "stack.hpp"
 #include "queue.hpp"
 #include "vector.hpp"
+#include "map.hpp"
 #include <vector>
 #include <stack>
 #include <queue>
 #include <list>
-
-#include "binary_tree.hpp"
+#include <map>
 
 #define YELLOW  "\033[1;33m"
 #define RED "\033[1;31m"
@@ -1053,12 +1053,48 @@ void vector_tests()
 	std::cout << std::endl;
 }
 
+void map_tests()
+{
+	std::vector<std::string> vector(10, "a");
+
+	std::map<std::string, float> map;
+
+	map["perv"] = 10;
+	map["vtoro"] = 20;
+	map["giy"] = 9.3;
+	map["alex"] = 18.2;
+	map["rubanov"] = 90.3;
+	std::map<std::string, float> std_map(map.begin(), map.end());
+
+	std::map<std::string, float>::iterator it = std_map.begin();
+
+	while (it != std_map.end())
+	{
+		std::cout << "First: " << it->first << " Second: " << it->second << std::endl;
+		++it;
+	}
+
+	ft::map<std::string, float> ft_map_f(std_map.begin(), std_map.end());
+
+	ft::map<std::string, float> ft_map_s;
+
+	ft_map_f.show();
+
+	ft_map_s = ft_map_f;
+
+	std::cout << std::endl;
+
+	ft_map_s.show();
+}
+
+
 int main()
 {
 	srand(time(NULL));
 
-	list_tests();
-	stack_tests();
-	queue_tests();
-	vector_tests();
+	map_tests();
+	//list_tests();
+	//stack_tests();
+	//queue_tests();
+	//vector_tests();
 }
