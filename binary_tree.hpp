@@ -52,15 +52,6 @@ protected:
 		delete _NULL;
 	}
 
-//	BinaryTree& operator=(const BinaryTree& other)
-//	{
-//		delete_tree(_root);
-//		_root = _NULL;
-//		_comparator = other._comparator;
-//		_root = copy_tree(_NULL, other._root, other._NULL);
-//		return (*this);
-//	}
-
 	Node *copy_tree(Node *parent, Node *node, Node *other_NULL)
 	{
 		if (node == other_NULL)
@@ -668,6 +659,21 @@ public:
 		if (_root != _NULL)
 			show(_root, 5);
 	}
+//	void show_parents()
+//	{
+//		if (_root != _NULL)
+//			show_parents(_root, 2);
+//	}
+//	void show_parents(Node *leaf, int level)
+//	{
+//		if (leaf->_right != _NULL)
+//			show_parents(leaf->_right, level + 1);
+//		for (int i = 0; i < level; ++i)
+//			std::cout << "       ";
+//		std::cout << leaf->_parent->_key << ":" << leaf->_parent->_value << std::endl;
+//		if (leaf->_left != _NULL)
+//			show_parents(leaf->_left, level + 1);
+//	}
 };
 
 

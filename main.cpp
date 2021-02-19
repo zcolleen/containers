@@ -1066,28 +1066,29 @@ void map_tests()
 	map["rubanov"] = 90.3;
 	std::map<std::string, float> std_map(map.begin(), map.end());
 
-	std::map<std::string, float>::iterator it = std_map.begin();
-
-	while (it != std_map.end())
-	{
-		std::cout << "First: " << it->first << " Second: " << it->second << std::endl;
-		++it;
-	}
-
 	ft::map<std::string, float> ft_map_f(std_map.begin(), std_map.end());
 
 	ft::map<std::string, float> ft_map_s;
 
-	ft_map_f.show();
+	//ft_map_f.show();
 
 	ft_map_s = ft_map_f;
 
+	ft_map_s.show();
+	std::cout << std::endl;
 	std::cout << std::endl;
 
-	ft_map_s.show();
+	//ft_map_s.show();
 
 	if (!ft_map_s.empty())
 		std::cout << ft_map_s.size() << std::endl;
+
+	ft_map_s.clear();
+
+	if (ft_map_s.empty())
+		std::cout << "emdpty" << std::endl;
+
+	ft_map_f.swap(ft_map_s);
 
 
 }

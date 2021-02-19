@@ -90,6 +90,7 @@ namespace ft {
 		void clear() {
 			this->delete_tree(this->_root);
 			this->_root = this->_NULL;
+			_size = 0;
 		}
 		void swap( map& other ) {
 
@@ -110,7 +111,6 @@ namespace ft {
 			_allocator = tmp_allocator;
 			this->_comparator = tmp_compare;
 		}
-		//todo member class, test clear, test parents while assigning
 //		T& operator[]( const Key& key ) {
 //
 //		}
