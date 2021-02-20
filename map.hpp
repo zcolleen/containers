@@ -47,9 +47,35 @@ namespace ft {
 
 	private:
 
-		//BinaryTree<Key, T, Compare> _tree;
 		size_type _size;
 		allocator_type _allocator;
+		class base_iterator {
+
+		public:
+			typedef typename BinaryTree<Key, T, Compare>::Node Node;
+			//typedef BinaryTree<Key, T, Compare>::_NULL _NULL_iter;
+			base_iterator() : ptr(NULL), _NULL_(NULL) {}
+			explicit base_iterator(Node *ptr, Node *N) : ptr(ptr), _NULL_(N) {}
+			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
+			bool operator==(const base_iterator &iter) const { return (ptr == iter.ptr); }
+			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
+		protected:
+			Node *ptr;
+			Node *_NULL_;
+			Node *tree_min(Node *start) {
+				while (start->_left != _NULL_)
+					start = start->_left;
+				return (start);
+			}
+			Node *tree_max(Node *start) {
+				while (start->_right != _NULL_)
+					start = start->_right;
+				return (start);
+			}
+			//T &operator*() const { return (this->ptr->_element); }
+			//T *operator->() const { return (&(this->ptr->_element));}
+			//friend class map<Key, T>;
+		};
 
 	public:
 
@@ -62,7 +88,7 @@ namespace ft {
 //			std::pair<T, bool> pair;
 			while (first != last)
 			{
-				if ((this->insert(first->first, first->second)).second)
+				if (this->insert(first->first, first->second))
 					++_size;
 				++first;
 			}
@@ -112,9 +138,44 @@ namespace ft {
 			_allocator = tmp_allocator;
 			this->_comparator = tmp_compare;
 		}
-		T& operator[]( const Key& key ) {
-			return ((this->insert(key, T())).second);
-		}
+		typedef class iterator : public base_iterator
+		{
+		public:
+			iterator() : base_iterator() {}
+			iterator(const iterator &iter) : base_iterator(iter) {}
+			explicit iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : base_iterator(ptr, N) {}
+			iterator &operator=(const iterator &iter) {
+				if (this != &iter)
+					this->ptr = iter.ptr;
+				return (*this);
+			}
+			iterator &operator++() {
+				if (this->ptr->_right != NULL)
+					this->ptr = this->tree_min(this->ptr->_right);
+				//todo
+				return (*this);
+			}
+			iterator &operator--() {
+				if (this->ptr)
+					this->ptr = this->ptr->_prev;
+				return (*this);
+			}
+			iterator operator++(int ) {
+				iterator old_value(*this);
+				if (this->ptr)
+					this->ptr = this->ptr->_next;
+				return (old_value);
+			}
+			iterator operator--(int ) {
+				iterator old_value(*this);
+				if (this->ptr)
+					this->ptr = this->ptr->_prev;
+				return (old_value);
+			}
+		}								iterator;
+//		T& operator[]( const Key& key ) {
+//			return ((this->insert(key, T())).first);
+//		}
 	};
 }
 

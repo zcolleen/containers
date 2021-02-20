@@ -1098,10 +1098,28 @@ void map_tests()
 
 	ft::pair<std::string, int> r = ft::make_pair("lox", 34);
 
-	//todo test []
-//	std::cout << r.first << e.first << r.second << e.second;
+	std::map<int, std::string> map1;
 
-	std::cout << (r != c) << std::endl;
+	map1[22] = "k";
+	map1[29] = "ll";
+	map1[18] = "lask";
+	map1[20] = "dsak";
+	map1[19];
+	map1[14];
+	map1[17];
+//	map1[-20] = "d";
+//	map1[-19] = "e";
+
+	std::map<int, std::string>::iterator it = map1.begin();
+
+	while (it != map1.end())
+	{
+		std::cout << it->first << std::endl;
+		++it;
+	}
+
+	//	std::cout << r.first << e.first << r.second << e.second;
+
 
 }
 

@@ -72,8 +72,6 @@ namespace ft {
 }
 
 
-
-
 template< class Key, class T, class Compare = std::less<Key> >
 class BinaryTree {
 
@@ -122,7 +120,7 @@ protected:
 		return (newnode);
 	}
 
-	ft::pair<T, bool> insert(const Key &key, const T &value)
+	bool insert(const Key &key, const T &value)
 	{
 		if (_root == _NULL)
 		{
@@ -131,7 +129,7 @@ protected:
 		}
 		else
 			return (insert(key, value, _root));
-		return ft::pair<T, bool>(value, true);
+		return (true);
 	}
 
 	void rotateRight(Node *leaf)
@@ -246,14 +244,14 @@ protected:
 		}
 	}
 
-	ft::pair<T, bool> insert(const Key &key, const T &value, Node *leaf)
+	bool insert(const Key &key, const T &value, Node *leaf)
 	{
 		while (leaf != _NULL)
 		{
 			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
 			{
 				leaf->_value = value;
-				return ft::pair<T, bool>(value, false);
+				return (false);
 			}
 			else if (_comparator(key, leaf->_key))
 			{
@@ -280,7 +278,7 @@ protected:
 				}
 			}
 		}
-		return ft::pair<T, bool>(value, true);
+		return (true);
 	}
 
 	void delete_node(const Key &key)
