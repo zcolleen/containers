@@ -54,15 +54,19 @@ namespace ft {
 		public:
 			typedef typename BinaryTree<Key, T, Compare>::Node Node;
 			//typedef BinaryTree<Key, T, Compare>::_NULL _NULL_iter;
-			base_iterator() : ptr(NULL), _NULL_(NULL), pair() {}
+			base_iterator() : ptr(NULL), _NULL_(NULL) {}
 			base_iterator(Node *ptr, Node *N) : ptr(ptr), _NULL_(N) {}
-			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
+			base_iterator(const base_iterator &iter) {
+				this->_NULL_ = iter._NULL_;
+				this->ptr = iter.ptr;
+			}
 			bool operator==(const base_iterator &iter) const { return (ptr == iter.ptr); }
 			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
+			value_type &operator*() const { return (this->ptr->_pair); }
+			value_type *operator->() const { return (&(this->ptr->_pair));}
 		protected:
 			Node *ptr;
 			Node *_NULL_;
-			ft::pair<const Key, T&> pair;
 			Node *tree_min(Node *start) {
 				while (start->_left != _NULL_)
 					start = start->_left;
@@ -73,12 +77,6 @@ namespace ft {
 					start = start->_right;
 				return (start);
 			}
-			value_type &operator*() const {
-				pair.first = ptr->_key;
-				pair.second = ptr->_value;
-				return (pair);
-			}
-			//T *operator->() const { return (&(this->ptr->_element));}
 			//friend class map<Key, T>;
 		};
 
@@ -108,6 +106,8 @@ namespace ft {
 			this->delete_tree(this->_root);
 			this->_root = this->_NULL;
 			this->_comparator = other._comparator;
+			this->_min = other._min;
+			this->_max = other._max;
 			this->_root = this->copy_tree(this->_NULL, other._root, other._NULL);
 			_allocator = other._allocator;
 			_size = other._size;
@@ -122,27 +122,36 @@ namespace ft {
 		void clear() {
 			this->delete_tree(this->_root);
 			this->_root = this->_NULL;
+			this->_max = this->_NULL;
+			this->_min = this->_NULL;
 			_size = 0;
 		}
 		void swap( map& other ) {
 
 			typename BinaryTree<Key, T, Compare>::Node *tmp_root = other._root;
 			typename BinaryTree<Key, T, Compare>::Node *tmp_NULL = other._NULL;
+			typename BinaryTree<Key, T, Compare>::Node *tmp_min = other._min;
+			typename BinaryTree<Key, T, Compare>::Node *tmp_max = other._max;
 			size_type tmp_size = other._size;
 			Compare tmp_compare = other._comparator;
 			Allocator tmp_allocator = other._allocator;
 
 			other._root = this->_root;
 			other._NULL = this->_NULL;
+			other._min = this->_min;
+			other._max = this->_max;
 			other._size = _size;
 			other._allocator = _allocator;
 			other._comparator = this->_comparator;
 			this->_root = tmp_root;
 			this->_NULL = tmp_NULL;
+			this->_min = tmp_min;
+			this->_max = tmp_max;
 			_size = tmp_size;
 			_allocator = tmp_allocator;
 			this->_comparator = tmp_compare;
 		}
+
 		typedef class iterator : public base_iterator
 		{
 		public:
@@ -160,17 +169,19 @@ namespace ft {
 				if (this->ptr->_right != this->_NULL_)
 					this->ptr = this->tree_min(this->ptr->_right);
 				else {
-					while (this->ptr->_parent->_left != this->ptr)
+					while (this->ptr->_parent != this->_NULL_ && this->ptr->_parent->_left != this->ptr)
 						this->ptr = this->ptr->_parent;
 					this->ptr = this->ptr->_parent;
 				}
 				return (*this);
 			}
 			iterator &operator--() {
-				if (this->ptr->_left != this->_NULL_)
+				if (this->ptr == this->_NULL_)
+					this->ptr = this->_NULL_->_right;
+				else if (this->ptr->_left != this->_NULL_)
 					this->ptr = this->tree_max(this->ptr->_left);
 				else {
-					while (this->ptr->_parent->_right != this->ptr)
+					while (this->ptr->_parent != this->_NULL_ && this->ptr->_parent->_right != this->ptr)
 						this->ptr = this->ptr->_parent;
 					this->ptr = this->ptr->_parent;
 				}
@@ -187,6 +198,13 @@ namespace ft {
 				return (old_value);
 			}
 		}								iterator;
+		iterator begin() { return (iterator(this->_min, this->_NULL)); }
+		//const_iterator begin() const;
+		iterator end() { return (iterator(this->_NULL, this->_NULL)); }
+		//const_iterator end() const;
+		ft::pair<iterator,bool> insert( const value_type& value ) {
+			this->
+		}
 //		T& operator[]( const Key& key ) {
 //			return ((this->insert(key, T())).first);
 //		}

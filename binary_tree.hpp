@@ -84,12 +84,13 @@ protected:
 
 		Node() : _parent(NULL), _right(NULL), _left(NULL), _color(BLACK_L) {}
 
-		Node(const Node *other, struct Node *node) : _key(other->_key), _value(other->_value), _parent(node), _right(node),
+		Node(const Node *other, struct Node *node) : _pair(other->_pair.first, other->_pair.second), _parent(node), _right(node),
 				_left(node), _color(other->_color) {}
-		Node(const Key &key, const T &value, struct Node *node) : _key(key), _value(value), _parent(node), _right(node),
+		Node(const Key &key, const T &value, struct Node *node) : _pair(key, value), _parent(node), _right(node),
 		_left(node), _color(RED_L) {}
-		Key			_key;
-		T			_value;
+		ft::pair<const Key, T> _pair;
+	//	Key			_key;
+	//	T			_value;
 		struct Node *_parent;
 		struct Node *_right;
 		struct Node *_left;
@@ -98,12 +99,16 @@ protected:
 
 	Node *_NULL;
 	Node *_root;
+	Node *_min;
+	Node *_max;
 	Compare _comparator;
 	bool _is_key_repeated;
 
 
-	explicit BinaryTree(bool repeat = false) : _NULL(new Node), _root(_NULL), _is_key_repeated(repeat) {}
-	explicit BinaryTree(const Compare &comp, bool repeat = false) : _NULL(new Node), _root(_NULL), _comparator(comp), _is_key_repeated(repeat) {}
+	explicit BinaryTree(bool repeat = false) : _NULL(new Node), _root(_NULL), _min(_NULL),
+	_max(_NULL), _is_key_repeated(repeat) {}
+	explicit BinaryTree(const Compare &comp, bool repeat = false) : _NULL(new Node), _root(_NULL),  _min(_NULL),
+	_max(_NULL), _comparator(comp), _is_key_repeated(repeat) {}
 	~BinaryTree() {
 		delete_tree(_root);
 		delete _NULL;
@@ -126,6 +131,10 @@ protected:
 		{
 			_root = new Node(key, value, _NULL);
 			_root->_color = BLACK_L;
+			_min = _root;
+			_max = _root;
+			_NULL->_left = _root;
+			_NULL->_right = _root;
 		}
 		else
 			return (insert(key, value, _root));
@@ -244,16 +253,17 @@ protected:
 		}
 	}
 
-	bool insert(const Key &key, const T &value, Node *leaf)
+	ft::pair<Node*, bool> insert(const Key &key, const T &value, Node *leaf)
 	{
+		Node *return_val;
 		while (leaf != _NULL)
 		{
-			if (!_is_key_repeated && !_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
+			if (!_is_key_repeated && !_comparator(key, leaf->_pair.first) && !_comparator(leaf->_pair.first, key))
 			{
-				leaf->_value = value;
+				leaf->_pair.second = value;
 				return (false);
 			}
-			else if (_comparator(key, leaf->_key))
+			else if (_comparator(key, leaf->_pair.first))
 			{
 				if (leaf->_left != _NULL)
 					leaf = leaf->_left;
@@ -261,8 +271,13 @@ protected:
 				{
 					leaf->_left = new Node(key, value, _NULL);
 					leaf->_left->_parent = leaf;
+					if (leaf == _min) // for iterators
+					{
+						_min = leaf->_left;
+						_NULL->_left = _min;
+					}
 					insertFixup(leaf->_left);
-					break;
+					//return (ft::make_pair())
 				}
 			}
 			else
@@ -273,6 +288,11 @@ protected:
 				{
 					leaf->_right = new Node(key, value, _NULL);
 					leaf->_right->_parent = leaf;
+					if (leaf == _max) //for iterators
+					{
+						_max = leaf->_right;
+						_NULL->_right = _max;
+					}
 					insertFixup(leaf->_right);
 					break;
 				}
@@ -286,16 +306,56 @@ protected:
 		delete_node(key, _root);
 	}
 
+	Node *tree_min_delete(Node *start) {
+		if (start->_right != _NULL)
+		{
+			start = start->_right;
+			while (start->_left != _NULL)
+				start = start->_left;
+		}
+		else {
+			while (start->_parent->_left != start)
+				start = start->_parent;
+			start = start->_parent;
+		}
+		return (start);
+	}
+	Node *tree_max_delete(Node *start) {
+
+		if (start->_left != _NULL)
+		{
+			start = start->_left;
+			while (start->_right != _NULL)
+				start = start->_right;
+		}
+		else {
+			while (start->_parent->_right != start)
+				start = start->_parent;
+			start = start->_parent;
+		}
+		return (start);
+	}
+
 	void delete_node(const Key &key, Node *leaf)
 	{
 		while (leaf != _NULL)
 		{
-			if (!_comparator(key, leaf->_key) && !_comparator(leaf->_key, key))
+			if (!_comparator(key, leaf->_pair.first) && !_comparator(leaf->_pair.first, key))
 			{
+				if (_min == leaf)
+				{
+					_min = tree_min_delete(_min);
+					_NULL->_left = _min;
+				}
+				if (_max == leaf)
+				{
+					_max = tree_max_delete(_max);
+					_NULL->_right = _max;
+				}
 				delete_node(leaf);
 				break;
 			}
-			else if (_comparator(key, leaf->_key))
+			else if (_comparator(key, leaf->_pair.first))
 				leaf = leaf->_left;
 			else
 				leaf = leaf->_right;
@@ -324,12 +384,15 @@ protected:
 		while (max_left_element->_right != _NULL)
 			max_left_element = max_left_element->_right;
 
-		T tmp_val = max_left_element->_value;
-		Key tmp_key = max_left_element->_key;
-		max_left_element->_value = leaf->_value;
-		leaf->_value = tmp_val;
-		max_left_element->_key = leaf->_key;
-		leaf->_key = tmp_key;
+		ft::pair<const Key, T> tmp = max_left_element->_pair;
+		max_left_element->_pair = leaf->_pair;
+		leaf->_pair = tmp;
+//		T tmp_val = max_left_element->_value;
+//		Key tmp_key = max_left_element->_key;
+//		max_left_element->_value = leaf->_value;
+//		leaf->_value = tmp_val;
+//		max_left_element->_key = leaf->_key;
+//		leaf->_key = tmp_key;
 		if (max_left_element->_color == RED_L)
 		{
 			if (max_left_element->_right == _NULL && max_left_element->_left == _NULL)
@@ -673,9 +736,9 @@ protected:
 		for (int i = 0; i < level; ++i)
 			std::cout << "       ";
 		if (leaf->_color == RED_L)
-			std::cout << RED << leaf->_key << ":" << leaf->_value << RESET << std::endl;
+			std::cout << RED << leaf->_pair.first << ":" << leaf->_pair.second << RESET << std::endl;
 		else
-			std::cout << GREEN << leaf->_key << ":" << leaf->_value << RESET << std::endl;
+			std::cout << GREEN << leaf->_pair.first << ":" << leaf->_pair.second << RESET << std::endl;
 		if (leaf->_left != _NULL)
 			show(leaf->_left, level + 1);
 	}

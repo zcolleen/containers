@@ -1083,52 +1083,37 @@ void map_tests()
 	if (!ft_map_s.empty())
 		std::cout << ft_map_s.size() << std::endl;
 
-	ft_map_s.clear();
+	std::map<int, std::string> new_map;
 
-	if (ft_map_s.empty())
-		std::cout << "emdpty" << std::endl;
+	for (int i = 0; i < 100; ++i)
+		new_map[rand() % 1000];
 
-	ft_map_f.swap(ft_map_s);
+	ft::map<int, std::string> my_map(new_map.begin(), new_map.end());
 
-	std::pair<float, double> a(10, 12);
+	ft::map<int, std::string>::iterator it;
 
-	std::pair<std::string, int> b("lox", 34);
-	ft::pair<std::string, int> c("lox", 34);
-	ft::pair<std::string, int> e;
+	it = my_map.begin();
 
-	ft::pair<std::string, int> r = ft::make_pair("lox", 34);
-
-	std::map<int, std::string> map1;
-
-	map1[22] = "k";
-	map1[29] = "ll";
-	map1[18] = "lask";
-	map1[20] = "dsak";
-	map1[19];
-	map1[14];
-	map1[17];
-//	map1[-20] = "d";
-//	map1[-19] = "e";
-
-	std::map<int, std::string>::iterator it = map1.begin();
-
-
-	while (it != map1.end())
+	it = my_map.end();
+	it--;
+	while (my_map.begin() != it)
 	{
-		std::cout << it->first << std::endl;
-		++it;
+	//	std::cout << "Key: " << it->first << " Value: " << (*it).second << std::endl;
+		it--;
+	}
+	(++it)->second = "jena";
+
+	--it;
+	while (it != my_map.end())
+	{
+		std::cout << "Key: " << it->first << " Value: " << (*it).second << std::endl;
+		it++;
 	}
 
-	//	std::cout << r.first << e.first << r.second << e.second;
-	ft::map<std::string, float>::iterator iterator;
+	std::map<int, std::string>::iterator iterator = new_map.begin();
 
-	std::map<std::string, float>::iterator iterator1;
+	std::map<int, std::string>::iterator end = new_map.end();
 
-
-	(*iterator1).second;
-	std::pair<std::string, float> pair;
-
-	std::cout << "Pair: " << pair.first << "    " << pair.second;
 }
 
 
