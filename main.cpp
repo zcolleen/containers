@@ -1112,6 +1112,7 @@ void map_tests()
 
 	std::map<int, std::string>::iterator it = map1.begin();
 
+
 	while (it != map1.end())
 	{
 		std::cout << it->first << std::endl;
@@ -1119,8 +1120,15 @@ void map_tests()
 	}
 
 	//	std::cout << r.first << e.first << r.second << e.second;
+	ft::map<std::string, float>::iterator iterator;
+
+	std::map<std::string, float>::iterator iterator1;
 
 
+	(*iterator1).second;
+	std::pair<std::string, float> pair;
+
+	std::cout << "Pair: " << pair.first << "    " << pair.second;
 }
 
 

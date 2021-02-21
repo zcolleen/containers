@@ -54,14 +54,15 @@ namespace ft {
 		public:
 			typedef typename BinaryTree<Key, T, Compare>::Node Node;
 			//typedef BinaryTree<Key, T, Compare>::_NULL _NULL_iter;
-			base_iterator() : ptr(NULL), _NULL_(NULL) {}
-			explicit base_iterator(Node *ptr, Node *N) : ptr(ptr), _NULL_(N) {}
+			base_iterator() : ptr(NULL), _NULL_(NULL), pair() {}
+			base_iterator(Node *ptr, Node *N) : ptr(ptr), _NULL_(N) {}
 			base_iterator(const base_iterator &iter) { this->ptr = iter.ptr; }
 			bool operator==(const base_iterator &iter) const { return (ptr == iter.ptr); }
 			bool operator!=(const base_iterator &iter) const { return (!(*this == iter)); }
 		protected:
 			Node *ptr;
 			Node *_NULL_;
+			ft::pair<const Key, T&> pair;
 			Node *tree_min(Node *start) {
 				while (start->_left != _NULL_)
 					start = start->_left;
@@ -72,7 +73,11 @@ namespace ft {
 					start = start->_right;
 				return (start);
 			}
-			//T &operator*() const { return (this->ptr->_element); }
+			value_type &operator*() const {
+				pair.first = ptr->_key;
+				pair.second = ptr->_value;
+				return (pair);
+			}
 			//T *operator->() const { return (&(this->ptr->_element));}
 			//friend class map<Key, T>;
 		};
@@ -143,33 +148,42 @@ namespace ft {
 		public:
 			iterator() : base_iterator() {}
 			iterator(const iterator &iter) : base_iterator(iter) {}
-			explicit iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : base_iterator(ptr, N) {}
+			iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : base_iterator(ptr, N) {}
 			iterator &operator=(const iterator &iter) {
-				if (this != &iter)
-					this->ptr = iter.ptr;
+				if (this == &iter)
+					return (*this);
+				this->ptr = iter.ptr;
+				this->_NULL_ = iter._NULL_;
 				return (*this);
 			}
 			iterator &operator++() {
-				if (this->ptr->_right != NULL)
+				if (this->ptr->_right != this->_NULL_)
 					this->ptr = this->tree_min(this->ptr->_right);
-				//todo
+				else {
+					while (this->ptr->_parent->_left != this->ptr)
+						this->ptr = this->ptr->_parent;
+					this->ptr = this->ptr->_parent;
+				}
 				return (*this);
 			}
 			iterator &operator--() {
-				if (this->ptr)
-					this->ptr = this->ptr->_prev;
+				if (this->ptr->_left != this->_NULL_)
+					this->ptr = this->tree_max(this->ptr->_left);
+				else {
+					while (this->ptr->_parent->_right != this->ptr)
+						this->ptr = this->ptr->_parent;
+					this->ptr = this->ptr->_parent;
+				}
 				return (*this);
 			}
 			iterator operator++(int ) {
 				iterator old_value(*this);
-				if (this->ptr)
-					this->ptr = this->ptr->_next;
+				++(*this);
 				return (old_value);
 			}
 			iterator operator--(int ) {
 				iterator old_value(*this);
-				if (this->ptr)
-					this->ptr = this->ptr->_prev;
+				--(*this);
 				return (old_value);
 			}
 		}								iterator;
