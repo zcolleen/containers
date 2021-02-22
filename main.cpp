@@ -1187,16 +1187,17 @@ void map_tests()
 	}
 	std::cout << std::endl;
 
+	ft::map<int, std::string>::reverse_iterator rev_iter = my_map.rbegin();
+	ft::map<int, std::string>::reverse_iterator rev_iter_end = my_map.rend();
 
+	while (rev_iter != rev_iter_end)
+	{
+		std::cout << rev_iter->first << " ";
+		++rev_iter;
+	}
+	std::cout << std::endl;
 
 	std::cout << std::endl;
-	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> pair2 = my_map.equal_range(10);
-
-	ft::map<int, std::string>::const_iterator iterator2 = my_map.upper_bound(10);
-	std::cout << iterator2->first << std::endl;
-	std::cout << pair2.first->first << std::endl;
-	std::cout << pair2.second->first << std::endl;
-
 
 //	std::map<int, std::string>::iterator iterator = new_map.begin();
 

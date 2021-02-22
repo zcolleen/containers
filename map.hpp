@@ -207,10 +207,73 @@ namespace ft {
 		}									const_iterator;
 
 
+		typedef class reverse_iterator : public base_iterator
+		{
+		public:
+			reverse_iterator() : base_iterator() {}
+			reverse_iterator(const reverse_iterator &iter) : base_iterator(iter) {}
+			reverse_iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : base_iterator(ptr, N) {}
+			reverse_iterator &operator=(const reverse_iterator &iter) {
+				if (this == &iter)
+					return (*this);
+				this->ptr = iter.ptr;
+				this->_NULL_ = iter._NULL_;
+				return (*this);
+			}
+			reverse_iterator &operator++() {
+				if (this->ptr == this->_NULL_)
+					this->ptr = this->_NULL_->_right;
+				else if (this->ptr->_left != this->_NULL_)
+					this->ptr = this->tree_max(this->ptr->_left);
+				else {
+					while (this->ptr->_parent != this->_NULL_ && this->ptr->_parent->_right != this->ptr)
+						this->ptr = this->ptr->_parent;
+					this->ptr = this->ptr->_parent;
+				}
+				return (*this);
+			}
+			reverse_iterator &operator--() {
+				if (this->ptr->_right != this->_NULL_)
+					this->ptr = this->tree_min(this->ptr->_right);
+				else {
+					while (this->ptr->_parent != this->_NULL_ && this->ptr->_parent->_left != this->ptr)
+						this->ptr = this->ptr->_parent;
+					this->ptr = this->ptr->_parent;
+				}
+				return (*this);
+			}
+			reverse_iterator operator++(int ) {
+				reverse_iterator old_value(*this);
+				++(*this);
+				return (old_value);
+			}
+			reverse_iterator operator--(int ) {
+				reverse_iterator old_value(*this);
+				--(*this);
+				return (old_value);
+			}
+		}								reverse_iterator;
+
+		typedef class const_reverse_iterator : public reverse_iterator {
+		public:
+			const_reverse_iterator() : iterator() {}
+			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator(iter) {}
+			explicit const_reverse_iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : reverse_iterator(ptr, N) {}
+			const_reverse_iterator(iterator iter) : reverse_iterator(iter) {}
+			const value_type &operator*() { return (this->ptr->_pair); }
+			const value_type *operator->() const { return (&(this->ptr->_pair));}
+		}									const_reverse_iterator;
+
 		iterator begin() { return (iterator(this->_min, this->_NULL)); }
 		const_iterator begin() const { return (const_iterator(this->_min, this->_NULL)); }
 		iterator end() { return (iterator(this->_NULL, this->_NULL)); }
 		const_iterator end() const { return (const_iterator(this->_NULL, this->_NULL)); }
+
+		reverse_iterator rbegin() { return (reverse_iterator(this->_max, this->_NULL)); }
+		const_reverse_iterator rbegin() const { return (const_reverse_iterator(this->_max, this->_NULL)); }
+		reverse_iterator rend() { return (reverse_iterator(this->_NULL, this->_NULL)); }
+		const_reverse_iterator rend() const { return (const_reverse_iterator(this->_NULL, this->_NULL)); }
+
 		ft::pair<iterator,bool> insert( const value_type& value ) {
 			ft::pair<typename BinaryTree<Key, T, Compare>::Node *, bool> pair = this->insert_key(value.first, value.second);
 			if (pair.second)
