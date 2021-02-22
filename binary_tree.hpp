@@ -31,9 +31,7 @@ namespace ft {
 
 		template< class U1, class U2 >
 		pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
-		pair( const pair& p ) {
-			*this = p;
-		}
+		pair( const pair& p ) :  first(p.first), second(p.second) {}
 		pair& operator=( const pair& other ) {
 			first = other.first;
 			second = other.second;
@@ -303,9 +301,9 @@ protected:
 		return (ft::make_pair(return_val, true));
 	}
 
-	void delete_node(const Key &key)
+	size_t delete_node(const Key &key)
 	{
-		delete_node(key, _root);
+		return (delete_node(key, _root));
 	}
 
 	Node *tree_min_delete(Node *start) {
@@ -338,7 +336,7 @@ protected:
 		return (start);
 	}
 
-	void delete_node(const Key &key, Node *leaf)
+	size_t delete_node(const Key &key, Node *leaf)
 	{
 		while (leaf != _NULL)
 		{
@@ -355,13 +353,14 @@ protected:
 					_NULL->_right = _max;
 				}
 				delete_node(leaf);
-				break;
+				return (1);
 			}
 			else if (_comparator(key, leaf->_pair.first))
 				leaf = leaf->_left;
 			else
 				leaf = leaf->_right;
 		}
+		return (0);
 	}
 
 	void delete_node(Node *leaf)
@@ -387,8 +386,13 @@ protected:
 			max_left_element = max_left_element->_right;
 
 		ft::pair<const Key, T> tmp = max_left_element->_pair;
-		max_left_element->_pair = leaf->_pair;
-		leaf->_pair = tmp;
+		Key *non_cast_max_elem = const_cast<Key*>(&max_left_element->_pair.first);
+		*non_cast_max_elem = leaf->_pair.first;
+		//max_left_element->_pair.first = leaf->_pair.first;
+		max_left_element->_pair.second = leaf->_pair.second;
+		Key *non_cast_leaf_pair = const_cast<Key*>(&leaf->_pair.first);
+		*non_cast_leaf_pair = tmp.first;
+		leaf->_pair.second = tmp.second;
 //		T tmp_val = max_left_element->_value;
 //		Key tmp_key = max_left_element->_key;
 //		max_left_element->_value = leaf->_value;

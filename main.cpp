@@ -1148,14 +1148,56 @@ void map_tests()
 	my_map[3] = "ds";
 	my_map[2] = "jisd";
 	my_map[0];
+	my_map[88];
+	my_map[12];
+	for (int i = 0; i < 1000; ++i)
+	{
+		my_map[rand() % 1000];
+	}
 	ft::map<int, std::string>::iterator iterator1 = my_map.begin();
 	if (my_map.count(0) == 0)
 		std::cout << "kk" << std::endl;
 	while (iterator1 != my_map.end())
 	{
-		std::cout << iterator1->first << "  " << iterator1->second << std::endl;
+		std::cout << iterator1->first << " ";
 		++iterator1;
 	}
+	std::cout << std::endl;
+	my_map.erase(++++my_map.begin(), ----my_map.end());
+	my_map.erase(my_map.begin(), my_map.end());
+	for (int i = 0; i < 100; ++i)
+	{
+		my_map.insert(ft::make_pair(rand() % 1000, ""));
+	}
+//	if (my_map.erase(0) == 1)
+//		std::cout << "kk" << std::endl;
+//	else
+//		std::cout << "ko" << std::endl;
+	//my_map.show();
+	iterator1 = my_map.begin();
+	ft::map<int, std::string>::const_iterator c_iter = my_map.begin();
+	ft::map<int, std::string>::const_iterator c_end = my_map.end();
+//	ft::map<int, std::string>::const_iterator def = my_map.begin();
+
+
+	while (c_iter != c_end)
+	{
+		std::cout << c_iter->first << " ";
+		++c_iter;
+	}
+	std::cout << std::endl;
+
+
+
+	std::cout << std::endl;
+	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> pair2 = my_map.equal_range(10);
+
+	ft::map<int, std::string>::const_iterator iterator2 = my_map.upper_bound(10);
+	std::cout << iterator2->first << std::endl;
+	std::cout << pair2.first->first << std::endl;
+	std::cout << pair2.second->first << std::endl;
+
+
 //	std::map<int, std::string>::iterator iterator = new_map.begin();
 
 //	std::map<int, std::string>::iterator end = new_map.end();
