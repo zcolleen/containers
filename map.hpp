@@ -89,12 +89,7 @@ namespace ft {
 		_allocator(alloc)
 		{
 //			std::pair<T, bool> pair;
-			while (first != last)
-			{
-				if (this->insert(first->first, first->second))
-					++_size;
-				++first;
-			}
+			insert(first, last);
 		}
 		map( const map& other ) {
 			*this = other;
@@ -203,11 +198,41 @@ namespace ft {
 		iterator end() { return (iterator(this->_NULL, this->_NULL)); }
 		//const_iterator end() const;
 		ft::pair<iterator,bool> insert( const value_type& value ) {
-			this->
+			ft::pair<typename BinaryTree<Key, T, Compare>::Node *, bool> pair = this->insert_key(value.first, value.second);
+			if (pair.second)
+				++_size;
+			return (ft::make_pair(iterator(pair.first, this->_NULL), pair.second));
 		}
-//		T& operator[]( const Key& key ) {
-//			return ((this->insert(key, T())).first);
-//		}
+		template< class InputIt >
+		void insert( InputIt first, InputIt last ) {
+			while (first != last)
+			{
+				if ((this->insert_key(first->first, first->second)).second)
+					++_size;
+				++first;
+			}
+		}
+
+		iterator insert( iterator hint, const value_type& value ) {
+			(void )hint;
+			return (insert(value).first);
+		}
+		size_type count( const Key& key ) const {
+			typename BinaryTree<Key, T, Compare>::Node *iter = this->_root;
+			while (iter != this->_NULL)
+			{
+				if (!this->_comparator(key, iter->_pair.first) && !this->_comparator(iter->_pair.first, key))
+					return (1);
+				else if (this->_comparator(key, iter->_pair.first))
+					iter = iter->_left;
+				else
+					iter = iter->_right;
+			}
+			return (0);
+		}
+		T& operator[]( const Key& key ) {
+			return (insert(ft::make_pair(key, T())).first->second);
+		}
 	};
 }
 

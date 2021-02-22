@@ -1110,9 +1110,55 @@ void map_tests()
 		it++;
 	}
 
+	ft::pair<ft::map<int, std::string>::iterator, bool > pair = my_map.insert(ft::make_pair(898, "ll"));
+
+	std::cout << std::endl;
+	it = pair.first;
+	if (pair.second)
+	{
+		ft::map<int, std::string>::iterator save = it;
+		while (it != my_map.end())
+		{
+			std::cout << "Key: " << it->first << " Value: " << (*it).second << std::endl;
+			++it;
+		}
+		while (save != my_map.begin())
+		{
+			std::cout << "Key: " << save->first << " Value: " << (*save).second << std::endl;
+			--save;
+		}
+	}
+
+	ft::pair<int, std::string> pair1(43, "ds");
+	new_map.insert(++new_map.begin(), std::make_pair(-1, "ll"));
 	std::map<int, std::string>::iterator iterator = new_map.begin();
 
-	std::map<int, std::string>::iterator end = new_map.end();
+	while (iterator != new_map.end())
+	{
+		std::cout << iterator->first << std::endl;
+		++iterator;
+	}
+	my_map.clear();
+	std::cout << "Cleared" << std::endl;
+	my_map.insert(ft::make_pair(828, "X"));
+	my_map.insert(ft::make_pair(900, ""));
+	my_map.insert(ft::make_pair(2, ""));
+	my_map.insert(ft::make_pair(565, ""));
+	my_map.insert(ft::make_pair(850, ""));
+	my_map[3] = "ds";
+	my_map[2] = "jisd";
+	my_map[0];
+	ft::map<int, std::string>::iterator iterator1 = my_map.begin();
+	if (my_map.count(0) == 0)
+		std::cout << "kk" << std::endl;
+	while (iterator1 != my_map.end())
+	{
+		std::cout << iterator1->first << "  " << iterator1->second << std::endl;
+		++iterator1;
+	}
+//	std::map<int, std::string>::iterator iterator = new_map.begin();
+
+//	std::map<int, std::string>::iterator end = new_map.end();
 
 }
 

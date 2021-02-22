@@ -125,7 +125,7 @@ protected:
 		return (newnode);
 	}
 
-	bool insert(const Key &key, const T &value)
+	ft::pair<Node*, bool> insert_key(const Key &key, const T &value)
 	{
 		if (_root == _NULL)
 		{
@@ -138,7 +138,7 @@ protected:
 		}
 		else
 			return (insert(key, value, _root));
-		return (true);
+		return (ft::make_pair(_root, true));
 	}
 
 	void rotateRight(Node *leaf)
@@ -255,13 +255,13 @@ protected:
 
 	ft::pair<Node*, bool> insert(const Key &key, const T &value, Node *leaf)
 	{
-		Node *return_val;
+		Node *return_val = _NULL;
 		while (leaf != _NULL)
 		{
 			if (!_is_key_repeated && !_comparator(key, leaf->_pair.first) && !_comparator(leaf->_pair.first, key))
 			{
 				leaf->_pair.second = value;
-				return (false);
+				return (ft::make_pair(leaf, false));
 			}
 			else if (_comparator(key, leaf->_pair.first))
 			{
@@ -271,13 +271,14 @@ protected:
 				{
 					leaf->_left = new Node(key, value, _NULL);
 					leaf->_left->_parent = leaf;
+					return_val = leaf->_left;
 					if (leaf == _min) // for iterators
 					{
 						_min = leaf->_left;
 						_NULL->_left = _min;
 					}
 					insertFixup(leaf->_left);
-					//return (ft::make_pair())
+					break;
 				}
 			}
 			else
@@ -288,6 +289,7 @@ protected:
 				{
 					leaf->_right = new Node(key, value, _NULL);
 					leaf->_right->_parent = leaf;
+					return_val = leaf->_right;
 					if (leaf == _max) //for iterators
 					{
 						_max = leaf->_right;
@@ -298,7 +300,7 @@ protected:
 				}
 			}
 		}
-		return (true);
+		return (ft::make_pair(return_val, true));
 	}
 
 	void delete_node(const Key &key)
