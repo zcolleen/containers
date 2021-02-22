@@ -19,6 +19,29 @@
 #define STD true
 #define FT false
 
+template <typename T>
+void print_map(T first, T last, std::string str, bool colour)
+{
+	if (colour == STD)
+		std::cout << GREEN;
+	else
+		std::cout << RED;
+	std::cout << "      " + str;
+	while (first != last)
+	{
+		std::cout <<  first->first << ":" << first->second <<  "   ";
+		++first;
+	}
+	std::cout << RESET;
+	std::cout << std::endl;
+}
+
+template <typename DEF, typename MY>
+void comparison_print_map(MY _ft, DEF _std, std::string str)
+{
+	print_map(_ft.begin(), _ft.end(), str, FT);
+	print_map(_std.begin(), _std.end(), str, STD);
+}
 
 template <typename T>
 void print(T first, T last, std::string str, bool colour)
@@ -1053,156 +1076,107 @@ void vector_tests()
 	std::cout << std::endl;
 }
 
+#define STRINGS_SIZE 6
+
 void map_tests()
 {
-	std::vector<std::string> vector(10, "a");
-
-	std::map<std::string, float> map;
-
-	map["perv"] = 10;
-	map["vtoro"] = 20;
-	map["giy"] = 9.3;
-	map["alex"] = 18.2;
-	map["rubanov"] = 90.3;
-	std::map<std::string, float> std_map(map.begin(), map.end());
-
-	ft::map<std::string, float> ft_map_f(std_map.begin(), std_map.end());
-
-	ft::map<std::string, float> ft_map_s;
-
-	//ft_map_f.show();
-
-	ft_map_s = ft_map_f;
-
-	ft_map_s.show();
-	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////MAP TESTS///////////////////////" << RESET << std::endl;
 	std::cout << std::endl;
 
-	//ft_map_s.show();
+	std::string various_strings[] = {"lesha", "good", "nice", "loooool", "not_bad)", "good_map"};
+	std::string working_str;
+	int working_int;
 
-	if (!ft_map_s.empty())
-		std::cout << ft_map_s.size() << std::endl;
+	std::cout << YELLOW << "Constructor tests: " << RESET << std::endl;
+	ft::map<int, std::string> ft_map_f;
+	std::map<int, std::string> std_map_f;
 
-	std::map<int, std::string> new_map;
-
-	for (int i = 0; i < 100; ++i)
-		new_map[rand() % 1000];
-
-	ft::map<int, std::string> my_map(new_map.begin(), new_map.end());
-
-	ft::map<int, std::string>::iterator it;
-
-	it = my_map.begin();
-
-	it = my_map.end();
-	it--;
-	while (my_map.begin() != it)
+	for (int i = 0; i < 20; ++i)
 	{
-	//	std::cout << "Key: " << it->first << " Value: " << (*it).second << std::endl;
-		it--;
-	}
-	(++it)->second = "jena";
-
-	--it;
-	while (it != my_map.end())
-	{
-		std::cout << "Key: " << it->first << " Value: " << (*it).second << std::endl;
-		it++;
+		working_int = rand() % 100;
+		working_str = various_strings[rand() % STRINGS_SIZE];
+		ft_map_f.insert(ft::make_pair(working_int, working_str));
+		std_map_f.insert(std::make_pair(working_int, working_str));
 	}
 
-	ft::pair<ft::map<int, std::string>::iterator, bool > pair = my_map.insert(ft::make_pair(898, "ll"));
+	comparison_print_map(ft_map_f, std_map_f, "Inserting 20 values: ");
 
-	std::cout << std::endl;
-	it = pair.first;
-	if (pair.second)
-	{
-		ft::map<int, std::string>::iterator save = it;
-		while (it != my_map.end())
-		{
-			std::cout << "Key: " << it->first << " Value: " << (*it).second << std::endl;
-			++it;
-		}
-		while (save != my_map.begin())
-		{
-			std::cout << "Key: " << save->first << " Value: " << (*save).second << std::endl;
-			--save;
-		}
-	}
+	ft::map<int, std::string> ft_map_s(ft_map_f.begin(), ft_map_f.end());
+	std::map<int, std::string> std_map_s(std_map_f.begin(), std_map_f.end());
 
-	ft::pair<int, std::string> pair1(43, "ds");
-	new_map.insert(++new_map.begin(), std::make_pair(-1, "ll"));
-	std::map<int, std::string>::iterator iterator = new_map.begin();
+	comparison_print_map(ft_map_s, std_map_s, "Iterator constructor: ");
 
-	while (iterator != new_map.end())
-	{
-		std::cout << iterator->first << std::endl;
-		++iterator;
-	}
-	my_map.clear();
-	std::cout << "Cleared" << std::endl;
-	my_map.insert(ft::make_pair(828, "X"));
-	my_map.insert(ft::make_pair(900, ""));
-	my_map.insert(ft::make_pair(2, ""));
-	my_map.insert(ft::make_pair(565, ""));
-	my_map.insert(ft::make_pair(850, ""));
-	my_map[3] = "ds";
-	my_map[2] = "jisd";
-	my_map[0];
-	my_map[88];
-	my_map[12];
-	for (int i = 0; i < 1000; ++i)
-	{
-		my_map[rand() % 1000];
-	}
-	ft::map<int, std::string>::iterator iterator1 = my_map.begin();
-	if (my_map.count(0) == 0)
-		std::cout << "kk" << std::endl;
-	while (iterator1 != my_map.end())
-	{
-		std::cout << iterator1->first << " ";
-		++iterator1;
-	}
-	std::cout << std::endl;
-	my_map.erase(++++my_map.begin(), ----my_map.end());
-	my_map.erase(my_map.begin(), my_map.end());
-	for (int i = 0; i < 100; ++i)
-	{
-		my_map.insert(ft::make_pair(rand() % 1000, ""));
-	}
-//	if (my_map.erase(0) == 1)
-//		std::cout << "kk" << std::endl;
-//	else
-//		std::cout << "ko" << std::endl;
-	//my_map.show();
-	iterator1 = my_map.begin();
-	ft::map<int, std::string>::const_iterator c_iter = my_map.begin();
-	ft::map<int, std::string>::const_iterator c_end = my_map.end();
-//	ft::map<int, std::string>::const_iterator def = my_map.begin();
+	ft::map<int, std::string> ft_map_th(ft_map_s);
+	std::map<int, std::string> std_map_th(std_map_s);
 
+	comparison_print_map(ft_map_th, std_map_th, "Copy constructor: ");
 
-	while (c_iter != c_end)
-	{
-		std::cout << c_iter->first << " ";
-		++c_iter;
-	}
+	ft::map<int, std::string> ft_map_ft;
+	std::map<int, std::string> std_map_ft;
+
+	ft_map_ft = ft_map_th;
+	std_map_ft = std_map_th;
+
+	comparison_print_map(ft_map_ft, std_map_ft, "Assignation operator: ");
+
+	std::cout << RED << "      Accessing some element with []: " << ft_map_ft[working_int] << RESET << std::endl;
+	std::cout << GREEN << "      Accessing some element with []: " << std_map_ft[working_int] << RESET << std::endl;
+
+	ft_map_ft[-9] = "my_string";
+	std_map_ft[-9] = "my_string";
+
+	comparison_print_map(ft_map_ft, std_map_ft, "Inserting -9 with []: ");
+
+	std::cout << RED << "      Size of container: " << ft_map_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_map_ft.size() << RESET << std::endl;
 	std::cout << std::endl;
 
-	ft::map<int, std::string>::reverse_iterator rev_iter = my_map.rbegin();
-	ft::map<int, std::string>::reverse_iterator rev_iter_end = my_map.rend();
+	std::cout << YELLOW << "Iterator tests: " << RESET << std::endl;
 
-	while (rev_iter != rev_iter_end)
+	ft::map<int, std::string>::iterator ft_it = ft_map_ft.begin();
+	std::map<int, std::string>::iterator std_it = std_map_ft.begin();
+
+	std::cout << RED << "      Print with iterators: ";
+	while (ft_it != ft_map_ft.end())
 	{
-		std::cout << rev_iter->first << " ";
-		++rev_iter;
+		std::cout << ft_it->first << ":" << ft_it->second << "   ";
+		ft_it++;
 	}
-	std::cout << std::endl;
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Print with iterators: ";
+	while (std_it != std_map_ft.end())
+	{
+		std::cout << std_it->first << ":" << std_it->second << "   ";
+		std_it++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::map<int, std::string>::reverse_iterator ft_it_r = ft_map_ft.rbegin();
+	std::map<int, std::string>::reverse_iterator std_it_r = std_map_ft.rbegin();
+
+	std::cout << RED << "      With reverse: ";
+	while (ft_it_r != ft_map_ft.rend())
+	{
+		std::cout << ft_it_r->first << ":" << ft_it_r->second << "   ";
+		++ft_it_r;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With reverse: ";
+	while (std_it_r != std_map_ft.rend())
+	{
+		std::cout << std_it_r->first << ":" << std_it_r->second << "   ";
+		++std_it_r;
+	}
+	std::cout << RESET << std::endl;
+
+	//ft::map<int, std::string>::const_iterator ft_it_c = ft_map_ft.begin();
+	//std::map<int, std::string>::iterator std_it_c = std_map_ft.begin();
 
 	std::cout << std::endl;
-
-//	std::map<int, std::string>::iterator iterator = new_map.begin();
-
-//	std::map<int, std::string>::iterator end = new_map.end();
-
+	std::cout << BLUE << "///////////////////////END OF MAP TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
 }
 
 
@@ -1210,9 +1184,9 @@ int main()
 {
 	srand(time(NULL));
 
-	map_tests();
 	//list_tests();
 	//stack_tests();
 	//queue_tests();
-	//vector_tests();
+	vector_tests();
+	map_tests();
 }

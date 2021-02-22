@@ -93,19 +93,21 @@ namespace ft {
 //			std::pair<T, bool> pair;
 			insert(first, last);
 		}
-		map( const map& other ) {
+		map( const map& other ) : BinaryTree<Key, T, Compare>(), _size(0) {
 			*this = other;
 		}
 		~map() {}
 		map& operator=( const map& other ) {
 
 			//_tree = other._tree;
+			if (this == &other)
+				return (*this);
 			this->delete_tree(this->_root);
 			this->_root = this->_NULL;
 			this->_comparator = other._comparator;
-			this->_min = other._min;
-			this->_max = other._max;
-			this->_root = this->copy_tree(this->_NULL, other._root, other._NULL);
+			this->_root = this->copy_tree(this->_NULL, other._root, other._NULL, other._min, other._max);
+			this->_NULL->_right = this->_max;
+			this->_NULL->_left = this->_min;
 			_allocator = other._allocator;
 			_size = other._size;
 			return (*this);
@@ -311,10 +313,14 @@ namespace ft {
 			return (insert(ft::make_pair(key, T())).first->second);
 		}
 		void erase( iterator pos ) {
-			this->delete_node(pos->first);
+			if (this->delete_node(pos->first))
+				++_size;
 		}
 		size_type erase( const key_type& key ) {
-			return (this->delete_node(key));
+			size_type size = this->delete_node(key);
+			if (size)
+				++_size;
+			return (size);
 		}
 		void erase( iterator first, iterator last ) {
 			iterator tmp;
@@ -322,7 +328,8 @@ namespace ft {
 			{
 				tmp = first;
 				++first;
-				this->delete_node(tmp->first);
+				if (this->delete_node(tmp->first))
+					++_size;
 			}
 		}
 		iterator find( const Key& key ) {

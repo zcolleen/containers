@@ -112,14 +112,18 @@ protected:
 		delete _NULL;
 	}
 
-	Node *copy_tree(Node *parent, Node *node, Node *other_NULL)
+	Node *copy_tree(Node *parent, Node *node, Node *other_NULL, Node *other_min, Node *other_max)
 	{
 		if (node == other_NULL)
 			return (_NULL);
 		Node *newnode = new Node(node, _NULL);
+		if (node == other_min)
+			_min = newnode;
+		if (node == other_max)
+			_max = newnode;
 		newnode->_parent = parent;
-		newnode->_left = copy_tree(newnode, node->_left, other_NULL);
-		newnode->_right = copy_tree(newnode, node->_right, other_NULL);
+		newnode->_left = copy_tree(newnode, node->_left, other_NULL, other_min, other_max);
+		newnode->_right = copy_tree(newnode, node->_right, other_NULL, other_min, other_max);
 		return (newnode);
 	}
 
@@ -258,7 +262,7 @@ protected:
 		{
 			if (!_is_key_repeated && !_comparator(key, leaf->_pair.first) && !_comparator(leaf->_pair.first, key))
 			{
-				leaf->_pair.second = value;
+				//leaf->_pair.second = value;
 				return (ft::make_pair(leaf, false));
 			}
 			else if (_comparator(key, leaf->_pair.first))
@@ -778,26 +782,11 @@ protected:
 		}
 	}
 
-public:
-	void show()
-	{
-		if (_root != _NULL)
-			show(_root, 5);
-	}
-//	void show_parents()
+//public:
+//	void show()
 //	{
 //		if (_root != _NULL)
-//			show_parents(_root, 2);
-//	}
-//	void show_parents(Node *leaf, int level)
-//	{
-//		if (leaf->_right != _NULL)
-//			show_parents(leaf->_right, level + 1);
-//		for (int i = 0; i < level; ++i)
-//			std::cout << "       ";
-//		std::cout << leaf->_parent->_key << ":" << leaf->_parent->_value << std::endl;
-//		if (leaf->_left != _NULL)
-//			show_parents(leaf->_left, level + 1);
+//			show(_root, 5);
 //	}
 
 };
