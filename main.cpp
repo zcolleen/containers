@@ -1530,14 +1530,39 @@ void map_tests()
 	std::cout << std::endl;
 }
 
+void multimap_test()
+{
+	ft::map<int, std::string> map;
+	std::map<int, std::string> map1;
+
+	map[2];
+	map1[2];
+
+	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> pair = map.equal_range(10);
+	std::pair<std::map<int, std::string>::iterator, std::map<int, std::string>::iterator> pair1 = map1.equal_range(10);
+
+	while (pair.first != pair.second)
+	{
+		std::cout << pair.first->first << " f";
+		pair.first++;
+	}
+
+	while (pair1.first != pair1.second)
+	{
+		std::cout << pair1.first->first << " ";
+		pair1.first++;
+	}
+}
+
 
 int main()
 {
 	srand(time(NULL));
 
-	list_tests();
-	stack_tests();
-	queue_tests();
-	vector_tests();
-	map_tests();
+//	list_tests();
+//	stack_tests();
+//	queue_tests();
+//	vector_tests();
+//	map_tests();
+	multimap_test();
 }

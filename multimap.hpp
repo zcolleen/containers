@@ -54,8 +54,8 @@ namespace ft {
 		class base_iterator {
 
 		public:
+			friend class multimap<Key, T, Compare, Allocator>;
 			typedef typename BinaryTree<Key, T, Compare>::Node Node;
-			//typedef BinaryTree<Key, T, Compare>::_NULL _NULL_iter;
 			base_iterator() : ptr(NULL), _NULL_(NULL) {}
 			base_iterator(Node *ptr, Node *N) : ptr(ptr), _NULL_(N) {}
 			base_iterator(const base_iterator &iter) {
@@ -277,11 +277,11 @@ namespace ft {
 		reverse_iterator rend() { return (reverse_iterator(this->_NULL, this->_NULL)); }
 		const_reverse_iterator rend() const { return (const_reverse_iterator(this->_NULL, this->_NULL)); }
 
-		ft::pair<iterator,bool> insert( const value_type& value ) {
+		iterator insert( const value_type& value ) {
 			ft::pair<typename BinaryTree<Key, T, Compare>::Node *, bool> pair = this->insert_key(value.first, value.second);
 			if (pair.second)
 				++_size;
-			return (ft::make_pair(iterator(pair.first, this->_NULL), pair.second));
+			return (iterator(pair.first, this->_NULL));
 		}
 		template< class InputIt >
 		void insert( InputIt first, InputIt last ) {
@@ -295,29 +295,33 @@ namespace ft {
 
 		iterator insert( iterator hint, const value_type& value ) {
 			(void )hint;
-			return (insert(value).first);
+			return (insert(value));
 		}
 		size_type count( const Key& key ) const {
-			typename BinaryTree<Key, T, Compare>::Node *iter = this->_root;
-			while (iter != this->_NULL)
+			iterator it = begin();
+			size_type count = 0;
+			while (it != end())
 			{
-				if (!this->_comparator(key, iter->_pair.first) && !this->_comparator(iter->_pair.first, key))
-					return (1);
-				else if (this->_comparator(key, iter->_pair.first))
-					iter = iter->_left;
-				else
-					iter = iter->_right;
+				if (!this->_comparator(key, it->first) && !this->_comparator(it->first, key))
+					++count;
+				else if (this->_comparator(key, it->first))
+					break;
+				++it;
 			}
-			return (0);
+			return (count);
 		}
 		void erase( iterator pos ) {
-			if (this->delete_node(pos->first))
+			if (this->delete_node_ptr(pos.ptr))
 				--_size;
 		}
 		size_type erase( const key_type& key ) {
-			size_type size = this->delete_node(key);
-			if (size)
+			size_type size;
+
+			while (this->delete_node(key))
+			{
+				++size;
 				--_size;
+			}
 			return (size);
 		}
 		void erase( iterator first, iterator last ) {
@@ -326,7 +330,7 @@ namespace ft {
 			{
 				tmp = first;
 				++first;
-				if (this->delete_node(tmp->first))
+				if (this->delete_node_ptr(tmp.ptr))
 					--_size;
 			}
 		}
@@ -398,15 +402,17 @@ namespace ft {
 		}
 		ft::pair<iterator,iterator> equal_range( const Key& key ) {
 			iterator it = lower_bound(key);
-			if (!this->_comparator(key, it->first) && !this->_comparator(it->first, key))
-				return (ft::make_pair(it, ++it));
-			return (ft::make_pair(it, it));
+			iterator tmp = it;
+			while (tmp != end() && !this->_comparator(key, it->first) && !this->_comparator(it->first, key))
+				++tmp;
+			return (ft::make_pair(it, tmp));
 		}
 		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const {
 			const_iterator it = lower_bound(key);
-			if (!this->_comparator(key, it->first) && !this->_comparator(it->first, key))
-				return (ft::make_pair(it, ++it));
-			return (ft::make_pair(it, it));
+			const_iterator tmp = it;
+			while (tmp != end() && !this->_comparator(key, it->first) && !this->_comparator(it->first, key))
+				++tmp;
+			return (ft::make_pair(it, tmp));
 		}
 		key_compare key_comp() const {
 			return (this->_comparator);

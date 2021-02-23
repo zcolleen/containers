@@ -54,6 +54,7 @@ namespace ft {
 		class base_iterator {
 
 		public:
+			friend class map<Key, T, Compare, Allocator>;
 			typedef typename BinaryTree<Key, T, Compare>::Node Node;
 			//typedef BinaryTree<Key, T, Compare>::_NULL _NULL_iter;
 			base_iterator() : ptr(NULL), _NULL_(NULL) {}
@@ -313,7 +314,7 @@ namespace ft {
 			return (insert(ft::make_pair(key, T())).first->second);
 		}
 		void erase( iterator pos ) {
-			if (this->delete_node(pos->first))
+			if (this->delete_node_ptr(pos.ptr))
 				--_size;
 		}
 		size_type erase( const key_type& key ) {
@@ -328,7 +329,7 @@ namespace ft {
 			{
 				tmp = first;
 				++first;
-				if (this->delete_node(tmp->first))
+				if (this->delete_node_ptr(tmp.ptr))
 					--_size;
 			}
 		}
@@ -400,7 +401,7 @@ namespace ft {
 		}
 		ft::pair<iterator,iterator> equal_range( const Key& key ) {
 			iterator it = lower_bound(key);
-			if (!this->_comparator(key, it->first) && !this->_comparator(it->first, key))
+			if (it != end() && !this->_comparator(key, it->first) && !this->_comparator(it->first, key))
 				return (ft::make_pair(it, ++it));
 			return (ft::make_pair(it, it));
 		}

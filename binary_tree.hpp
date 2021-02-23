@@ -277,24 +277,29 @@ protected:
 		return (start);
 	}
 
+	size_t delete_node_ptr(Node *leaf)
+	{
+		if (_min == leaf)
+		{
+			_min = tree_min_delete(_min);
+			_NULL->_left = _min;
+		}
+		if (_max == leaf)
+		{
+			_max = tree_max_delete(_max);
+			_NULL->_right = _max;
+		}
+		delete_node(leaf);
+		return (1);
+	}
+
 	size_t delete_node(const Key &key, Node *leaf)
 	{
 		while (leaf != _NULL)
 		{
 			if (!_comparator(key, leaf->_pair.first) && !_comparator(leaf->_pair.first, key))
 			{
-				if (_min == leaf)
-				{
-					_min = tree_min_delete(_min);
-					_NULL->_left = _min;
-				}
-				if (_max == leaf)
-				{
-					_max = tree_max_delete(_max);
-					_NULL->_right = _max;
-				}
-				delete_node(leaf);
-				return (1);
+				return (delete_node_ptr(leaf));
 			}
 			else if (_comparator(key, leaf->_pair.first))
 				leaf = leaf->_left;
