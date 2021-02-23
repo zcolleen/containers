@@ -1209,6 +1209,270 @@ void map_tests()
 	}
 	std::cout << RESET << std::endl;
 
+	(----ft_map_ft.end())->second = "bro";
+	(----std_map_ft.end())->second = "bro";
+
+	comparison_print_map(ft_map_ft, std_map_ft, "Changing value of pre last element with iterator:\n      ");
+
+	ft::map<int, std::string>::iterator ft_copy_iter(ft_map_ft.begin());
+	std::map<int, std::string>::iterator std_copy_iter(std_map_ft.begin());
+	ft::map<int, std::string>::iterator ft_copy_iter_end(ft_map_ft.end());
+	std::map<int, std::string>::iterator std_copy_iter_end(std_map_ft.end());
+
+	std::cout << RED << "      Going from end to begin: ";
+	--ft_copy_iter_end;
+	while (ft_copy_iter != ft_copy_iter_end)
+	{
+		std::cout << ft_copy_iter_end->first << ":" << ft_copy_iter_end->second << "   ";
+		ft_copy_iter_end--;
+	}
+	std::cout << ft_copy_iter_end->first << ":" << ft_copy_iter_end->second << " " << RESET << std::endl;
+
+
+	std::cout << GREEN << "      Going from end to begin: ";
+	--std_copy_iter_end;
+	while (std_copy_iter != std_copy_iter_end)
+	{
+		std::cout << std_copy_iter_end->first << ":" << std_copy_iter_end->second << "   ";
+		std_copy_iter_end--;
+	}
+	std::cout << std_copy_iter_end->first << ":" << std_copy_iter_end->second << " " << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Capacity tests: " << RESET << std::endl;
+
+	std::cout << RED << "      Size of container: " << ft_map_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_map_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Max size of container: " << ft_map_ft.max_size() << RESET << std::endl;
+	std::cout << GREEN << "      Max size of container: " << std_map_ft.max_size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_map_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_map_ft.empty() << RESET << std::endl;
+
+	ft_map_ft.clear();
+	std_map_ft.clear();
+
+	std::cout << RED << "      Cleaning container, size: " << ft_map_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Cleaning container, size: " << std_map_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_map_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_map_ft.empty() << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Modifiers tests: " << RESET << std::endl;
+
+	ft_map_ft.insert(ft::make_pair(78, "ok"));
+	ft_map_ft.insert(ft::make_pair(90, "kk"));
+	ft_map_ft.insert(++ft_map_ft.begin(), ft::make_pair(33, "hi"));
+	ft_map_ft.insert(ft::make_pair(7, "lo"));
+	ft::pair<ft::map<int, std::string>::iterator, bool> ft_pair = ft_map_ft.insert(ft::make_pair(48, "io"));
+
+	std::cout << RED << "      Insertind values and start iterating from 48:\n      ";
+	while (ft_pair.first != ft_map_ft.end())
+	{
+		std::cout << ft_pair.first->first << ":" << ft_pair.first->second << " ";
+		ft_pair.first++;
+	}
+	std::cout << RESET << std::endl;
+
+
+	std_map_ft.insert(std::make_pair(78, "ok"));
+	std_map_ft.insert(std::make_pair(90, "kk"));
+	std_map_ft.insert(++std_map_ft.begin(), std::make_pair(33, "hi"));
+	std_map_ft.insert(std::make_pair(7, "lo"));
+	std::pair<std::map<int, std::string>::iterator, bool> std_pair = std_map_ft.insert(std::make_pair(48, "io"));
+
+	std::cout << GREEN << "      Insertind values and start iterating from 48:\n      ";
+	while (std_pair.first != std_map_ft.end())
+	{
+		std::cout << std_pair.first->first << ":" << std_pair.first->second << " ";
+		std_pair.first++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::pair<ft::map<int, std::string>::iterator, bool> ft_pair_s = ft_map_ft.insert(ft::make_pair(48, "other"));
+	std::pair<std::map<int, std::string>::iterator, bool> std_pair_s = std_map_ft.insert(std::make_pair(48, "other"));
+
+	std::cout << RED << "      Inserting excisting value, is value insertde: " << ft_pair_s.second << RESET << std::endl;
+	std::cout << GREEN << "      Inserting excisting value, is value insertde: " << std_pair_s.second << RESET << std::endl;
+
+	std::cout << RED << "      Checking value: " << ft_pair_s.first->first << ":" << ft_pair_s.first->second << RESET << std::endl;
+	std::cout << GREEN << "      Checking value: " << std_pair_s.first->first << ":" << std_pair_s.first->second << RESET << std::endl;
+
+	std::cout << RED << "      Checking size: " << ft_map_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Checking size: " << std_map_ft.size() << RESET << std::endl;
+
+	ft_map_f.clear();
+	std_map_f.clear();
+
+	comparison_print_map(ft_map_f, std_map_f, "Clearing other container: ");
+
+	std::cout << RED << "      Checking empty: " << ft_map_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking empty: " << std_map_f.empty() << RESET << std::endl;
+
+	ft_map_f.insert(++ft_map_ft.begin(), ft_map_ft.end());
+	std_map_f.insert(++std_map_ft.begin(), std_map_ft.end());
+
+	comparison_print_map(ft_map_ft, std_map_ft, "First container: ");
+
+	comparison_print_map(ft_map_f, std_map_f, "Inserted container with iterators after first value:\n      ");
+
+	ft_map_f.erase(ft_map_f.begin());
+	std_map_f.erase(std_map_f.begin());
+
+	comparison_print_map(ft_map_f, std_map_f, "Erasing first element: ");
+
+	size_t i = ft_map_f.erase(90);
+	size_t j = std_map_f.erase(90);
+
+	comparison_print_map(ft_map_f, std_map_f, "Erasing 90 value: ");
+
+	std::cout << RED << "      Checking if it realy erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Checking if it realy erased: " << j << RESET << std::endl;
+
+	i = ft_map_f.erase(22);
+	j = std_map_f.erase(22);
+
+	std::cout << RED << "      Erasing not existing, checking if it erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Erasing not existing, checking if it erased: " << j << RESET << std::endl;
+
+	ft_map_f.erase(ft_map_f.begin(), ft_map_f.end());
+	std_map_f.erase(std_map_f.begin(), std_map_f.end());
+
+	comparison_print_map(ft_map_f, std_map_f, "Erasing the rest with iterators: ");
+
+	std::cout << RED << "      Checking if its empty: " << ft_map_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if its empty: " << std_map_f.empty() << RESET << std::endl;
+
+	ft_map_f[66] = "minus";
+	ft_map_f[-5];
+	ft_map_f[-200] = "next_is_nothing";
+
+	std_map_f[66] = "minus";
+	std_map_f[-5];
+	std_map_f[-200] = "next_is_nothing";
+
+	comparison_print_map(ft_map_f, std_map_f, "Inserting with []: ");
+
+	comparison_print_map(ft_map_ft, std_map_ft, "Before swap: ");
+	comparison_print_map(ft_map_f, std_map_f, "Before swap: ");
+
+	ft_map_ft.swap(ft_map_f);
+	std_map_ft.swap(std_map_f);
+
+	comparison_print_map(ft_map_ft, std_map_ft, "After swap: ");
+	comparison_print_map(ft_map_f, std_map_f, "After swap: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Lookup: " << RESET << std::endl;
+
+	size_t ft_count = ft_map_f.count(90);
+	size_t std_count = std_map_f.count(90);
+
+	std::cout << RED << "      Counting 90 key: " << ft_count << RESET << std::endl;
+	std::cout << GREEN << "      Counting 90 key: " << std_count << RESET << std::endl;
+
+	size_t ft_count_s = ft_map_f.count(5);
+	size_t std_count_s = std_map_f.count(5);
+
+	std::cout << RED << "      Counting not existing key: " << ft_count_s << RESET << std::endl;
+	std::cout << GREEN << "      Counting not existing key: " << std_count_s << RESET << std::endl;
+
+	ft::map<int, std::string>::iterator ft_iterator = ft_map_f.find(90);
+	std::map<int, std::string>::iterator std_iterator = std_map_f.find(90);
+
+	std::cout << RED << "      Finding 90 key: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
+	std::cout << GREEN << "      Finding 90 key: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
+
+	ft_iterator = ft_map_f.find(2);
+	std_iterator = std_map_f.find(2);
+
+	if (ft_iterator == ft_map_f.end())
+		std::cout << RED << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	if (std_iterator == std_map_f.end())
+		std::cout << GREEN << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	comparison_print_map(ft_map_f, std_map_f, "Maps: ");
+
+	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> ft_eq = ft_map_f.equal_range(33);
+	std::pair<std::map<int, std::string>::iterator, std::map<int, std::string>::iterator> std_eq = std_map_f.equal_range(33);
+
+	std::cout << RED << "      Equal range of 33 value: ";
+	while (ft_eq.first != ft_eq.second)
+	{
+		std::cout << ft_eq.first->first << ":" << ft_eq.first->second << " ";
+		ft_eq.first++;
+	}
+	std::cout << ft_eq.first->first << ":" << ft_eq.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 33 value: ";
+	while (std_eq.first != std_eq.second)
+	{
+		std::cout << std_eq.first->first << ":" << std_eq.first->second << " ";
+		std_eq.first++;
+	}
+	std::cout << std_eq.first->first << ":" << std_eq.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	ft::pair<ft::map<int, std::string>::const_iterator , ft::map<int, std::string>::const_iterator > ft_eq_c = ft_map_f.equal_range(32);
+	std::pair<std::map<int, std::string>::const_iterator , std::map<int, std::string>::const_iterator >  std_eq_c = std_map_f.equal_range(32);
+
+	std::cout << RED << "      Equal range of 32 value: ";
+	while (ft_eq_c.first != ft_eq_c.second)
+	{
+		std::cout << ft_eq_c.first->first << ":" << ft_eq_c.first->second << " ";
+		ft_eq_c.first++;
+	}
+	std::cout << ft_eq_c.first->first << ":" << ft_eq_c.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 32 value: ";
+	while (std_eq_c.first != std_eq_c.second)
+	{
+		std::cout << std_eq_c.first->first << ":" << std_eq_c.first->second << " ";
+		std_eq_c.first++;
+	}
+	std::cout << std_eq_c.first->first << ":" << std_eq_c.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	ft_iterator = ft_map_f.lower_bound(33);
+	std_iterator = std_map_f.lower_bound(33);
+
+	std::cout << RED << "      Lower bound of 33: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
+	std::cout << GREEN << "      Lower bound of 33: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
+
+	ft_iterator = ft_map_f.upper_bound(33);
+	std_iterator = std_map_f.upper_bound(33);
+
+	std::cout << RED << "      Upper bound of 33: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
+	std::cout << GREEN << "      Upper bound of 33: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Observers tests: " << RESET << std::endl;
+
+	ft::map<int, std::string>::key_compare ft_comparator = ft_map_f.key_comp();
+	std::map<int, std::string>::key_compare std_comparator = std_map_f.key_comp();
+
+	comparison_print_map(ft_map_f, std_map_f, "Maps: ");
+
+	std::cout << RED << "      Comparing first and last with key_compare: " << ft_comparator(ft_map_f.begin()->first, (--ft_map_f.end())->first) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with key_compare: " << std_comparator(std_map_f.begin()->first, (--std_map_f.end())->first) << RESET << std::endl;
+
+	ft::map<int, std::string>::value_compare ft_v_comparator = ft_map_f.value_comp();
+	std::map<int, std::string>::value_compare std_v_comparator = std_map_f.value_comp();
+
+	std::cout << RED << "      Comparing first and last with value_compare: " << ft_v_comparator(*ft_map_f.begin(), *(--ft_map_f.end())) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with value_compare: " << std_v_comparator(*std_map_f.begin(), *(--std_map_f.end())) << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Non-member tests: " << RESET << std::endl;
+
 
 	std::cout << std::endl;
 	std::cout << BLUE << "///////////////////////END OF MAP TESTS///////////////////////" << RESET << std::endl;

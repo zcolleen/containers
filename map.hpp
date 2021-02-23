@@ -314,12 +314,12 @@ namespace ft {
 		}
 		void erase( iterator pos ) {
 			if (this->delete_node(pos->first))
-				++_size;
+				--_size;
 		}
 		size_type erase( const key_type& key ) {
 			size_type size = this->delete_node(key);
 			if (size)
-				++_size;
+				--_size;
 			return (size);
 		}
 		void erase( iterator first, iterator last ) {
@@ -329,7 +329,7 @@ namespace ft {
 				tmp = first;
 				++first;
 				if (this->delete_node(tmp->first))
-					++_size;
+					--_size;
 			}
 		}
 		iterator find( const Key& key ) {
