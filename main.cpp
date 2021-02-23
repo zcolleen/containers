@@ -1473,6 +1473,57 @@ void map_tests()
 
 	std::cout << YELLOW << "Non-member tests: " << RESET << std::endl;
 
+	ft_map_s.clear();
+	std_map_s.clear();
+
+	ft_map_s.insert(ft_map_f.begin(), ft_map_f.end());
+	std_map_s.insert(std_map_f.begin(), std_map_f.end());
+
+	comparison_print_map(ft_map_s, std_map_s, "Maps: ");
+	comparison_print_map(ft_map_f, std_map_f, "Maps: ");
+
+	std::cout << RED << "      Equality compare: " << (ft_map_f == ft_map_s) << RESET << std::endl;
+	std::cout << GREEN << "      Equality compare: " << (std_map_f == std_map_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= compare: " << (ft_map_f >= ft_map_s) << RESET << std::endl;
+	std::cout << GREEN << "      >= compare: " << (std_map_f >= std_map_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= compare: " << (ft_map_f <= ft_map_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= compare: " << (std_map_f <= std_map_s) << RESET << std::endl;
+
+	ft_map_s.erase(++ft_map_s.begin());
+	std_map_s.erase(++std_map_s.begin());
+
+	comparison_print_map(ft_map_s, std_map_s, "Erasing one value: ");
+
+	std::cout << RED << "      Non equality compare: " << (ft_map_f != ft_map_s) << RESET << std::endl;
+	std::cout << GREEN << "      Non equality compare: " << (std_map_f != std_map_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= Compare: " << (ft_map_s >= ft_map_f) << RESET << std::endl;
+	std::cout << GREEN << "      >= Compare: " << (std_map_s >= std_map_f) << RESET << std::endl;
+
+	std::cout << RED << "      > Compare: " << (ft_map_s > ft_map_f) << RESET << std::endl;
+	std::cout << GREEN << "      > Compare: " << (std_map_s > std_map_f) << RESET << std::endl;
+
+	ft_map_f.erase(++ft_map_f.begin(), ft_map_f.end());
+	std_map_f.erase(++std_map_f.begin(), std_map_f.end());
+
+	comparison_print_map(ft_map_f, std_map_f, "Erasing all values except begin from first: ");
+
+	std::cout << RED << "      < Compare: " << (ft_map_f < ft_map_s) << RESET << std::endl;
+	std::cout << GREEN << "      < Compare: " << (std_map_f < std_map_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= Compare: " << (ft_map_f <= ft_map_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= Compare: " << (std_map_f <= std_map_s) << RESET << std::endl;
+
+	comparison_print_map(ft_map_f, std_map_f, "First map: ");
+	comparison_print_map(ft_map_s, std_map_s, "Second map: ");
+
+	ft::swap(ft_map_f, ft_map_s);
+	std::swap(std_map_f, std_map_s);
+
+	comparison_print_map(ft_map_f, std_map_f, "First swapped map: ");
+	comparison_print_map(ft_map_s, std_map_s, "Second swapped map: ");
 
 	std::cout << std::endl;
 	std::cout << BLUE << "///////////////////////END OF MAP TESTS///////////////////////" << RESET << std::endl;
@@ -1484,9 +1535,9 @@ int main()
 {
 	srand(time(NULL));
 
-	//list_tests();
-	//stack_tests();
-	//queue_tests();
+	list_tests();
+	stack_tests();
+	queue_tests();
 	vector_tests();
 	map_tests();
 }

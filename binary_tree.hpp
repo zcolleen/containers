@@ -326,6 +326,8 @@ protected:
 		while (max_left_element->_right != _NULL)
 			max_left_element = max_left_element->_right;
 
+		if (_min == max_left_element)
+			_min = leaf;
 		ft::pair<const Key, T> tmp = max_left_element->_pair;
 		Key *non_cast_max_elem = const_cast<Key*>(&max_left_element->_pair.first);
 		*non_cast_max_elem = leaf->_pair.first;
@@ -693,12 +695,12 @@ protected:
 		}
 	}
 
-//public:
-//	void show()
-//	{
-//		if (_root != _NULL)
-//			show(_root, 5);
-//	}
+public:
+	void show()
+	{
+		if (_root != _NULL)
+			show(_root, 5);
+	}
 
 };
 
