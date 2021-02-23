@@ -1171,8 +1171,44 @@ void map_tests()
 	}
 	std::cout << RESET << std::endl;
 
-	//ft::map<int, std::string>::const_iterator ft_it_c = ft_map_ft.begin();
-	//std::map<int, std::string>::iterator std_it_c = std_map_ft.begin();
+	ft::map<int, std::string>::const_iterator ft_it_c = ft_map_ft.begin();
+	std::map<int, std::string>::const_iterator std_it_c = std_map_ft.begin();
+
+	std::cout << RED << "      With const: ";
+	while (ft_it_c != ft_map_ft.end())
+	{
+		std::cout << ft_it_c->first << ":" << ft_it_c->second << "   ";
+		++ft_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const: ";
+	while (std_it_c != std_map_ft.end())
+	{
+		std::cout << std_it_c->first << ":" << std_it_c->second << "   ";
+		++std_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::map<int, std::string>::const_reverse_iterator ft_it_r_c = ft_map_ft.rbegin();
+	std::map<int, std::string>::const_reverse_iterator std_it_r_c = std_map_ft.rbegin();
+
+	std::cout << RED << "      With const reverse: ";
+	while (ft_it_r_c != ft_map_ft.rend())
+	{
+		std::cout << ft_it_r_c->first << ":" << ft_it_r_c->second << "   ";
+		ft_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const reverse: ";
+	while (std_it_r_c != std_map_ft.rend())
+	{
+		std::cout << std_it_r_c->first << ":" << std_it_r_c->second << "   ";
+		std_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
 
 	std::cout << std::endl;
 	std::cout << BLUE << "///////////////////////END OF MAP TESTS///////////////////////" << RESET << std::endl;

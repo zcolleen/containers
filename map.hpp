@@ -261,7 +261,7 @@ namespace ft {
 			const_reverse_iterator() : iterator() {}
 			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator(iter) {}
 			explicit const_reverse_iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : reverse_iterator(ptr, N) {}
-			const_reverse_iterator(iterator iter) : reverse_iterator(iter) {}
+			const_reverse_iterator(reverse_iterator iter) : reverse_iterator(iter) {}
 			const value_type &operator*() { return (this->ptr->_pair); }
 			const value_type *operator->() const { return (&(this->ptr->_pair));}
 		}									const_reverse_iterator;

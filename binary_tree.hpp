@@ -9,73 +9,12 @@
 #define GREEN "\033[1;32m"
 
 #include <iostream>
-//#include "map.hpp"
-
-//template< class Key, class T, class Compare = std::less<Key>,
-//		class Allocator = std::allocator<std::pair<const Key, T> > >
-//class map;
-
-
-namespace ft {
-	template< class T1, class T2 >
-	struct pair {
-
-		typedef T1 first_type;
-		typedef T2 second_type;
-
-		T1 first;
-		T2 second;
-
-		pair() : first(T1()), second(T2()) {}
-		pair( const T1& x, const T2& y ) : first(x), second(y) {}
-
-		template< class U1, class U2 >
-		pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
-		pair( const pair& p ) :  first(p.first), second(p.second) {}
-		pair& operator=( const pair& other ) {
-			first = other.first;
-			second = other.second;
-			return (*this);
-		}
-
-	};
-	template< class T1, class T2 >
-	bool operator==( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
-		return (lhs.first == rhs.first && lhs.second == rhs.second);
-	}
-	template< class T1, class T2 >
-	bool operator!=( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
-		return (!(lhs == rhs));
-	}
-	template< class T1, class T2 >
-	bool operator<( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
-		if (lhs.first == rhs.first)
-			return (lhs.second < rhs.second);
-		return (lhs.first < rhs.first);
-	}
-	template< class T1, class T2 >
-	bool operator<=( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
-		return (!(rhs < lhs));
-	}
-	template< class T1, class T2 >
-	bool operator>( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
-		return (rhs < lhs);
-	}
-	template< class T1, class T2 >
-	bool operator>=( const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs ) {
-		return (!(lhs < rhs));
-	}
-	template< class T1, class T2 >
-	ft::pair<T1,T2> make_pair( T1 t, T2 u ) { return (ft::pair<T1, T2>(t, u)); }
-}
-
+#include "pair.hpp"
 
 template< class Key, class T, class Compare = std::less<Key> >
 class BinaryTree {
 
 protected:
-
-//	friend class map<Key, T>;
 
 	typedef struct Node {
 
@@ -87,8 +26,6 @@ protected:
 		Node(const Key &key, const T &value, struct Node *node) : _pair(key, value), _parent(node), _right(node),
 		_left(node), _color(RED_L) {}
 		ft::pair<const Key, T> _pair;
-	//	Key			_key;
-	//	T			_value;
 		struct Node *_parent;
 		struct Node *_right;
 		struct Node *_left;
@@ -392,17 +329,10 @@ protected:
 		ft::pair<const Key, T> tmp = max_left_element->_pair;
 		Key *non_cast_max_elem = const_cast<Key*>(&max_left_element->_pair.first);
 		*non_cast_max_elem = leaf->_pair.first;
-		//max_left_element->_pair.first = leaf->_pair.first;
 		max_left_element->_pair.second = leaf->_pair.second;
 		Key *non_cast_leaf_pair = const_cast<Key*>(&leaf->_pair.first);
 		*non_cast_leaf_pair = tmp.first;
 		leaf->_pair.second = tmp.second;
-//		T tmp_val = max_left_element->_value;
-//		Key tmp_key = max_left_element->_key;
-//		max_left_element->_value = leaf->_value;
-//		leaf->_value = tmp_val;
-//		max_left_element->_key = leaf->_key;
-//		leaf->_key = tmp_key;
 		if (max_left_element->_color == RED_L)
 		{
 			if (max_left_element->_right == _NULL && max_left_element->_left == _NULL)
@@ -751,25 +681,6 @@ protected:
 			std::cout << GREEN << leaf->_pair.first << ":" << leaf->_pair.second << RESET << std::endl;
 		if (leaf->_left != _NULL)
 			show(leaf->_left, level + 1);
-	}
-
-	int tree_size()
-	{
-		int size = 0;
-
-		tree_size(_root, &size);
-
-		return (size);
-	}
-
-	void tree_size(Node *node, int *size)
-	{
-		if (node != _NULL)
-		{
-			tree_size(node->_left, size);
-			tree_size(node->_right, size);
-			(*size)++;
-		}
 	}
 
 	void delete_tree(Node *node)
