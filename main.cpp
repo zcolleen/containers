@@ -6,12 +6,13 @@
 #include "vector.hpp"
 #include "map.hpp"
 #include "multimap.hpp"
+#include "set.hpp"
 #include <vector>
 #include <stack>
 #include <queue>
 #include <list>
 #include <map>
-//#include <multimap>
+#include <set>
 
 #define YELLOW  "\033[1;33m"
 #define RED "\033[1;31m"
@@ -2008,6 +2009,438 @@ void multimap_test()
 	std::cout << std::endl;
 }
 
+void set_tests()
+{
+	std::cout << BLUE << "///////////////////////SET TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
+
+	int working_int;
+
+	std::cout << YELLOW << "Constructor tests: " << RESET << std::endl;
+	ft::set<int> ft_set_f;
+	std::set<int> std_set_f;
+
+	for (int i = 0; i < 20; ++i)
+	{
+		working_int = rand() % 100;
+		ft_set_f.insert(working_int);
+		std_set_f.insert(working_int);
+	}
+
+	comparison_print(ft_set_f, std_set_f, "Inserting 20 values: ");
+
+	ft::set<int> ft_set_s(ft_set_f.begin(), ft_set_f.end());
+	std::set<int> std_set_s(std_set_f.begin(), std_set_f.end());
+
+	comparison_print(ft_set_s, std_set_s, "Iterator constructor: ");
+
+	ft::set<int> ft_set_th(ft_set_s);
+	std::set<int> std_set_th(std_set_s);
+
+	comparison_print(ft_set_th, std_set_th, "Copy constructor: ");
+
+	ft::set<int> ft_set_ft;
+	std::set<int> std_set_ft;
+
+	ft_set_ft = ft_set_th;
+	std_set_ft = std_set_th;
+
+	comparison_print(ft_set_ft, std_set_ft, "Assignation operator: ");
+
+
+	std::cout << RED << "      Size of container: " << ft_set_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_set_ft.size() << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Iterator tests: " << RESET << std::endl;
+
+	ft::set<int>::iterator ft_it = ft_set_ft.begin();
+	std::set<int>::iterator std_it = std_set_ft.begin();
+
+	std::cout << RED << "      Print with iterators: ";
+	while (ft_it != ft_set_ft.end())
+	{
+		std::cout << *ft_it << "   ";
+		ft_it++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Print with iterators: ";
+	while (std_it != std_set_ft.end())
+	{
+		std::cout << *std_it << "   ";
+		std_it++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::set<int>::reverse_iterator ft_it_r = ft_set_ft.rbegin();
+	std::set<int>::reverse_iterator std_it_r = std_set_ft.rbegin();
+
+	std::cout << RED << "      With reverse: ";
+	while (ft_it_r != ft_set_ft.rend())
+	{
+		std::cout << *ft_it_r << "   ";
+		++ft_it_r;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With reverse: ";
+	while (std_it_r != std_set_ft.rend())
+	{
+		std::cout << *std_it_r << "   ";
+		++std_it_r;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::set<int>::const_iterator ft_it_c = ft_set_ft.begin();
+	std::set<int>::const_iterator std_it_c = std_set_ft.begin();
+
+	std::cout << RED << "      With const: ";
+	while (ft_it_c != ft_set_ft.end())
+	{
+		std::cout << *ft_it_c << "   ";
+		++ft_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const: ";
+	while (std_it_c != std_set_ft.end())
+	{
+		std::cout << *std_it_c << "   ";
+		++std_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::set<int>::const_reverse_iterator ft_it_r_c = ft_set_ft.rbegin();
+	std::set<int>::const_reverse_iterator std_it_r_c = std_set_ft.rbegin();
+
+	std::cout << RED << "      With const reverse: ";
+	while (ft_it_r_c != ft_set_ft.rend())
+	{
+		std::cout << *ft_it_r_c << "   ";
+		ft_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const reverse: ";
+	while (std_it_r_c != std_set_ft.rend())
+	{
+		std::cout << *std_it_r_c << "   ";
+		std_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+
+	ft::set<int>::iterator ft_copy_iter(ft_set_ft.begin());
+	std::set<int>::iterator std_copy_iter(std_set_ft.begin());
+	ft::set<int>::iterator ft_copy_iter_end(ft_set_ft.end());
+	std::set<int>::iterator std_copy_iter_end(std_set_ft.end());
+
+	std::cout << RED << "      Going from end to begin: ";
+	--ft_copy_iter_end;
+	while (ft_copy_iter != ft_copy_iter_end)
+	{
+		std::cout << *ft_copy_iter_end << "   ";
+		ft_copy_iter_end--;
+	}
+	std::cout << *ft_copy_iter_end << " " << RESET << std::endl;
+
+
+	std::cout << GREEN << "      Going from end to begin: ";
+	--std_copy_iter_end;
+	while (std_copy_iter != std_copy_iter_end)
+	{
+		std::cout << *std_copy_iter_end << "   ";
+		std_copy_iter_end--;
+	}
+	std::cout << *std_copy_iter_end << " " << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Capacity tests: " << RESET << std::endl;
+
+	std::cout << RED << "      Size of container: " << ft_set_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_set_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Max size of container: " << ft_set_ft.max_size() << RESET << std::endl;
+	std::cout << GREEN << "      Max size of container: " << std_set_ft.max_size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_set_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_set_ft.empty() << RESET << std::endl;
+
+	ft_set_ft.clear();
+	std_set_ft.clear();
+
+	std::cout << RED << "      Cleaning container, size: " << ft_set_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Cleaning container, size: " << std_set_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_set_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_set_ft.empty() << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Modifiers tests: " << RESET << std::endl;
+
+	ft_set_ft.insert(78);
+	ft_set_ft.insert(90);
+	ft_set_ft.insert(++ft_set_ft.begin(), 33);
+	ft_set_ft.insert(7);
+	ft::pair<ft::set<int>::iterator, bool> ft_pair = ft_set_ft.insert(48);
+
+	std::cout << RED << "      Insertind values and start iterating from 48:\n      ";
+	while (ft_pair.first != ft_set_ft.end())
+	{
+		std::cout << *ft_pair.first << " ";
+		ft_pair.first++;
+	}
+	std::cout << RESET << std::endl;
+
+
+	std_set_ft.insert(78);
+	std_set_ft.insert(90);
+	std_set_ft.insert(++std_set_ft.begin(), 33);
+	std_set_ft.insert(7);
+	std::pair<std::set<int>::iterator, bool> std_pair = std_set_ft.insert(48);
+
+	std::cout << GREEN << "      Insertind values and start iterating from 48:\n      ";
+	while (std_pair.first != std_set_ft.end())
+	{
+		std::cout << *std_pair.first << " ";
+		std_pair.first++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::pair<ft::set<int>::iterator, bool> ft_pair_s = ft_set_ft.insert(48);
+	std::pair<std::set<int>::iterator, bool> std_pair_s = std_set_ft.insert(48);
+
+	std::cout << RED << "      Inserting excisting value, is value insertde: " << ft_pair_s.second << RESET << std::endl;
+	std::cout << GREEN << "      Inserting excisting value, is value insertde: " << std_pair_s.second << RESET << std::endl;
+
+	std::cout << RED << "      Checking value: " << *ft_pair_s.first << RESET << std::endl;
+	std::cout << GREEN << "      Checking value: " << *std_pair_s.first << RESET << std::endl;
+
+	std::cout << RED << "      Checking size: " << ft_set_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Checking size: " << std_set_ft.size() << RESET << std::endl;
+
+	ft_set_f.clear();
+	std_set_f.clear();
+
+	comparison_print(ft_set_f, std_set_f, "Clearing other container: ");
+
+	std::cout << RED << "      Checking empty: " << ft_set_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking empty: " << std_set_f.empty() << RESET << std::endl;
+
+	ft_set_f.insert(++ft_set_ft.begin(), ft_set_ft.end());
+	std_set_f.insert(++std_set_ft.begin(), std_set_ft.end());
+
+	comparison_print(ft_set_ft, std_set_ft, "First container: ");
+
+	comparison_print(ft_set_f, std_set_f, "Inserted container with iterators after first value:\n      ");
+
+	ft_set_f.erase(ft_set_f.begin());
+	std_set_f.erase(std_set_f.begin());
+
+	comparison_print(ft_set_f, std_set_f, "Erasing first element: ");
+
+	size_t i = ft_set_f.erase(90);
+	size_t j = std_set_f.erase(90);
+
+	comparison_print(ft_set_f, std_set_f, "Erasing 90 value: ");
+
+	std::cout << RED << "      Checking if it realy erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Checking if it realy erased: " << j << RESET << std::endl;
+
+	i = ft_set_f.erase(22);
+	j = std_set_f.erase(22);
+
+	std::cout << RED << "      Erasing not existing, checking if it erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Erasing not existing, checking if it erased: " << j << RESET << std::endl;
+
+	ft_set_f.erase(ft_set_f.begin(), ft_set_f.end());
+	std_set_f.erase(std_set_f.begin(), std_set_f.end());
+
+	comparison_print(ft_set_f, std_set_f, "Erasing the rest with iterators: ");
+
+	std::cout << RED << "      Checking if its empty: " << ft_set_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if its empty: " << std_set_f.empty() << RESET << std::endl;
+
+	ft_set_f.insert(40);
+	std_set_f.insert(40);
+
+	comparison_print(ft_set_ft, std_set_ft, "Before swap: ");
+	comparison_print(ft_set_f, std_set_f, "Before swap: ");
+
+	ft_set_ft.swap(ft_set_f);
+	std_set_ft.swap(std_set_f);
+
+	comparison_print(ft_set_ft, std_set_ft, "After swap: ");
+	comparison_print(ft_set_f, std_set_f, "After swap: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Lookup: " << RESET << std::endl;
+
+	size_t ft_count = ft_set_f.count(90);
+	size_t std_count = std_set_f.count(90);
+
+	std::cout << RED << "      Counting 90 key: " << ft_count << RESET << std::endl;
+	std::cout << GREEN << "      Counting 90 key: " << std_count << RESET << std::endl;
+
+	size_t ft_count_s = ft_set_f.count(5);
+	size_t std_count_s = std_set_f.count(5);
+
+	std::cout << RED << "      Counting not existing key: " << ft_count_s << RESET << std::endl;
+	std::cout << GREEN << "      Counting not existing key: " << std_count_s << RESET << std::endl;
+
+	ft::set<int>::iterator ft_iterator = ft_set_f.find(90);
+	std::set<int>::iterator std_iterator = std_set_f.find(90);
+
+	std::cout << RED << "      Finding 90 key: " << *ft_iterator << RESET << std::endl;
+	std::cout << GREEN << "      Finding 90 key: " << *std_iterator << RESET << std::endl;
+
+	ft_iterator = ft_set_f.find(2);
+	std_iterator = std_set_f.find(2);
+
+	if (ft_iterator == ft_set_f.end())
+		std::cout << RED << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	if (std_iterator == std_set_f.end())
+		std::cout << GREEN << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	comparison_print(ft_set_f, std_set_f, "sets: ");
+
+	ft::pair<ft::set<int>::iterator, ft::set<int>::iterator> ft_eq = ft_set_f.equal_range(33);
+	std::pair<std::set<int>::iterator, std::set<int>::iterator> std_eq = std_set_f.equal_range(33);
+
+	std::cout << RED << "      Equal range of 33 value: ";
+	while (ft_eq.first != ft_eq.second)
+	{
+		std::cout << *ft_eq.first << " ";
+		ft_eq.first++;
+	}
+	std::cout << *ft_eq.first << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 33 value: ";
+	while (std_eq.first != std_eq.second)
+	{
+		std::cout << *std_eq.first << " ";
+		std_eq.first++;
+	}
+	std::cout << *std_eq.first << " ";
+	std::cout << RESET << std::endl;
+
+	ft::pair<ft::set<int>::const_iterator , ft::set<int>::const_iterator > ft_eq_c = ft_set_f.equal_range(32);
+	std::pair<std::set<int>::const_iterator , std::set<int>::const_iterator >  std_eq_c = std_set_f.equal_range(32);
+
+	std::cout << RED << "      Equal range of 32 value: ";
+	while (ft_eq_c.first != ft_eq_c.second)
+	{
+		std::cout << *ft_eq_c.first << " ";
+		ft_eq_c.first++;
+	}
+	std::cout << *ft_eq_c.first << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 32 value: ";
+	while (std_eq_c.first != std_eq_c.second)
+	{
+		std::cout << *std_eq_c.first << " ";
+		std_eq_c.first++;
+	}
+	std::cout << *std_eq_c.first << " ";
+	std::cout << RESET << std::endl;
+
+	ft_iterator = ft_set_f.lower_bound(33);
+	std_iterator = std_set_f.lower_bound(33);
+
+	std::cout << RED << "      Lower bound of 33: " << *ft_iterator << RESET << std::endl;
+	std::cout << GREEN << "      Lower bound of 33: " << *std_iterator << RESET << std::endl;
+
+	ft_iterator = ft_set_f.upper_bound(33);
+	std_iterator = std_set_f.upper_bound(33);
+
+	std::cout << RED << "      Upper bound of 33: " << *ft_iterator << RESET << std::endl;
+	std::cout << GREEN << "      Upper bound of 33: " << *std_iterator << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Observers tests: " << RESET << std::endl;
+
+	ft::set<int>::key_compare ft_comparator = ft_set_f.key_comp();
+	std::set<int>::key_compare std_comparator = std_set_f.key_comp();
+
+	comparison_print(ft_set_f, std_set_f, "sets: ");
+
+	std::cout << RED << "      Comparing first and last with key_compare: " << ft_comparator(*ft_set_f.begin(), *(--ft_set_f.end())) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with key_compare: " << std_comparator(*std_set_f.begin(), *(--std_set_f.end())) << RESET << std::endl;
+
+	ft::set<int>::value_compare ft_v_comparator = ft_set_f.value_comp();
+	std::set<int>::value_compare std_v_comparator = std_set_f.value_comp();
+
+	std::cout << RED << "      Comparing first and last with value_compare: " << ft_v_comparator(*ft_set_f.begin(), *(--ft_set_f.end())) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with value_compare: " << std_v_comparator(*std_set_f.begin(), *(--std_set_f.end())) << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Non-member tests: " << RESET << std::endl;
+
+	ft_set_s.clear();
+	std_set_s.clear();
+
+	ft_set_s.insert(ft_set_f.begin(), ft_set_f.end());
+	std_set_s.insert(std_set_f.begin(), std_set_f.end());
+
+	comparison_print(ft_set_s, std_set_s, "sets: ");
+	comparison_print(ft_set_f, std_set_f, "sets: ");
+
+	std::cout << RED << "      Equality compare: " << (ft_set_f == ft_set_s) << RESET << std::endl;
+	std::cout << GREEN << "      Equality compare: " << (std_set_f == std_set_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= compare: " << (ft_set_f >= ft_set_s) << RESET << std::endl;
+	std::cout << GREEN << "      >= compare: " << (std_set_f >= std_set_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= compare: " << (ft_set_f <= ft_set_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= compare: " << (std_set_f <= std_set_s) << RESET << std::endl;
+
+	ft_set_s.erase(++ft_set_s.begin());
+	std_set_s.erase(++std_set_s.begin());
+
+	comparison_print(ft_set_s, std_set_s, "Erasing one value: ");
+
+	std::cout << RED << "      Non equality compare: " << (ft_set_f != ft_set_s) << RESET << std::endl;
+	std::cout << GREEN << "      Non equality compare: " << (std_set_f != std_set_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= Compare: " << (ft_set_s >= ft_set_f) << RESET << std::endl;
+	std::cout << GREEN << "      >= Compare: " << (std_set_s >= std_set_f) << RESET << std::endl;
+
+	std::cout << RED << "      > Compare: " << (ft_set_s > ft_set_f) << RESET << std::endl;
+	std::cout << GREEN << "      > Compare: " << (std_set_s > std_set_f) << RESET << std::endl;
+
+	ft_set_f.erase(++ft_set_f.begin(), ft_set_f.end());
+	std_set_f.erase(++std_set_f.begin(), std_set_f.end());
+
+	comparison_print(ft_set_f, std_set_f, "Erasing all values except begin from first: ");
+
+	std::cout << RED << "      < Compare: " << (ft_set_f < ft_set_s) << RESET << std::endl;
+	std::cout << GREEN << "      < Compare: " << (std_set_f < std_set_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= Compare: " << (ft_set_f <= ft_set_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= Compare: " << (std_set_f <= std_set_s) << RESET << std::endl;
+
+	comparison_print(ft_set_f, std_set_f, "First set: ");
+	comparison_print(ft_set_s, std_set_s, "Second set: ");
+
+	ft::swap(ft_set_f, ft_set_s);
+	std::swap(std_set_f, std_set_s);
+
+	comparison_print(ft_set_f, std_set_f, "First swapped set: ");
+	comparison_print(ft_set_s, std_set_s, "Second swapped set: ");
+
+	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////END OF SET TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
+}
+
+
 int main()
 {
 	srand(time(NULL));
@@ -2018,5 +2451,6 @@ int main()
 //	vector_tests();
 //	map_tests();
 //	multimap_test();
+	set_tests();
 
 }

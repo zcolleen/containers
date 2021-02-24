@@ -19,7 +19,7 @@ namespace ft {
 	typedef T mapped_type;
 	typedef ft::pair<const Key, T> value_type;
 	typedef size_t size_type;
-	typedef int defference_type;
+	typedef int difference_type;
 	typedef Compare key_compare;
 	typedef Allocator allocator_type;
 	typedef typename Allocator::reference reference;
