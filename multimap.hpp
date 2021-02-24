@@ -315,7 +315,7 @@ namespace ft {
 				--_size;
 		}
 		size_type erase( const key_type& key ) {
-			size_type size;
+			size_type size = 0;
 
 			while (this->delete_node(key))
 			{
@@ -403,7 +403,7 @@ namespace ft {
 		ft::pair<iterator,iterator> equal_range( const Key& key ) {
 			iterator it = lower_bound(key);
 			iterator tmp = it;
-			while (tmp != end() && !this->_comparator(key, it->first) && !this->_comparator(it->first, key))
+			while (tmp != end() && (!this->_comparator(key, tmp->first) && !this->_comparator(tmp->first, key)))
 				++tmp;
 			return (ft::make_pair(it, tmp));
 		}
