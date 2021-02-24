@@ -440,8 +440,7 @@ namespace ft {
 		return (!(it_lhs != lhs.end() || it_rhs != rhs.end()));
 	}
 	template< class Key, class T, class Compare, class Alloc >
-	bool operator!=( const ft::multimap<Key,T,Compare,Alloc>& lhs, const ft::multimap<Key,T,Compare,Alloc>& rhs )
-	{
+	bool operator!=( const ft::multimap<Key,T,Compare,Alloc>& lhs, const ft::multimap<Key,T,Compare,Alloc>& rhs ) {
 		return (!(lhs == rhs));
 	}
 	template< class Key, class T, class Compare, class Alloc >

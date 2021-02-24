@@ -1633,155 +1633,157 @@ void multimap_test()
 		++std_it_r;
 	}
 	std::cout << RESET << std::endl;
-//
-//	ft::multimap<int, std::string>::const_iterator ft_it_c = ft_multimap_ft.begin();
-//	std::multimap<int, std::string>::const_iterator std_it_c = std_multimap_ft.begin();
-//
-//	std::cout << RED << "      With const: ";
-//	while (ft_it_c != ft_multimap_ft.end())
-//	{
-//		std::cout << ft_it_c->first << ":" << ft_it_c->second << "   ";
-//		++ft_it_c;
-//	}
-//	std::cout << RESET << std::endl;
-//
-//	std::cout << GREEN << "      With const: ";
-//	while (std_it_c != std_multimap_ft.end())
-//	{
-//		std::cout << std_it_c->first << ":" << std_it_c->second << "   ";
-//		++std_it_c;
-//	}
-//	std::cout << RESET << std::endl;
-//
-//	ft::multimap<int, std::string>::const_reverse_iterator ft_it_r_c = ft_multimap_ft.rbegin();
-//	std::multimap<int, std::string>::const_reverse_iterator std_it_r_c = std_multimap_ft.rbegin();
-//
-//	std::cout << RED << "      With const reverse: ";
-//	while (ft_it_r_c != ft_multimap_ft.rend())
-//	{
-//		std::cout << ft_it_r_c->first << ":" << ft_it_r_c->second << "   ";
-//		ft_it_r_c++;
-//	}
-//	std::cout << RESET << std::endl;
-//
-//	std::cout << GREEN << "      With const reverse: ";
-//	while (std_it_r_c != std_multimap_ft.rend())
-//	{
-//		std::cout << std_it_r_c->first << ":" << std_it_r_c->second << "   ";
-//		std_it_r_c++;
-//	}
-//	std::cout << RESET << std::endl;
-//
-//	(----ft_multimap_ft.end())->second = "bro";
-//	(----std_multimap_ft.end())->second = "bro";
-//
-//	comparison_print_map(ft_multimap_ft, std_multimap_ft, "Changing value of pre last element with iterator:\n      ");
-//
-//	ft::multimap<int, std::string>::iterator ft_copy_iter(ft_multimap_ft.begin());
-//	std::multimap<int, std::string>::iterator std_copy_iter(std_multimap_ft.begin());
-//	ft::multimap<int, std::string>::iterator ft_copy_iter_end(ft_multimap_ft.end());
-//	std::multimap<int, std::string>::iterator std_copy_iter_end(std_multimap_ft.end());
-//
-//	std::cout << RED << "      Going from end to begin: ";
-//	--ft_copy_iter_end;
-//	while (ft_copy_iter != ft_copy_iter_end)
-//	{
-//		std::cout << ft_copy_iter_end->first << ":" << ft_copy_iter_end->second << "   ";
-//		ft_copy_iter_end--;
-//	}
-//	std::cout << ft_copy_iter_end->first << ":" << ft_copy_iter_end->second << " " << RESET << std::endl;
-//
-//
-//	std::cout << GREEN << "      Going from end to begin: ";
-//	--std_copy_iter_end;
-//	while (std_copy_iter != std_copy_iter_end)
-//	{
-//		std::cout << std_copy_iter_end->first << ":" << std_copy_iter_end->second << "   ";
-//		std_copy_iter_end--;
-//	}
-//	std::cout << std_copy_iter_end->first << ":" << std_copy_iter_end->second << " " << RESET << std::endl;
-//	std::cout << std::endl;
-//
-//	std::cout << YELLOW << "Capacity tests: " << RESET << std::endl;
-//
-//	std::cout << RED << "      Size of container: " << ft_multimap_ft.size() << RESET << std::endl;
-//	std::cout << GREEN << "      Size of container: " << std_multimap_ft.size() << RESET << std::endl;
-//
-//	std::cout << RED << "      Max size of container: " << ft_multimap_ft.max_size() << RESET << std::endl;
-//	std::cout << GREEN << "      Max size of container: " << std_multimap_ft.max_size() << RESET << std::endl;
-//
-//	std::cout << RED << "      Checking if container is empty: " << ft_multimap_ft.empty() << RESET << std::endl;
-//	std::cout << GREEN << "      Checking if container is empty: " << std_multimap_ft.empty() << RESET << std::endl;
-//
-//	ft_multimap_ft.clear();
-//	std_multimap_ft.clear();
-//
-//	std::cout << RED << "      Cleaning container, size: " << ft_multimap_ft.size() << RESET << std::endl;
-//	std::cout << GREEN << "      Cleaning container, size: " << std_multimap_ft.size() << RESET << std::endl;
-//
-//	std::cout << RED << "      Checking if container is empty: " << ft_multimap_ft.empty() << RESET << std::endl;
-//	std::cout << GREEN << "      Checking if container is empty: " << std_multimap_ft.empty() << RESET << std::endl;
-//
-//	std::cout << std::endl;
-//
-//	std::cout << YELLOW << "Modifiers tests: " << RESET << std::endl;
-//
-//	ft_multimap_ft.insert(ft::make_pair(78, "ok"));
-//	ft_multimap_ft.insert(ft::make_pair(90, "kk"));
-//	ft_multimap_ft.insert(++ft_multimap_ft.begin(), ft::make_pair(33, "hi"));
-//	ft_multimap_ft.insert(ft::make_pair(7, "lo"));
-//	ft::multimap<int, std::string>::iterator ft_pair = ft_multimap_ft.insert(ft::make_pair(48, "io"));
-//
-//	std::cout << RED << "      Insertind values and start iterating from 48:\n      ";
-//	while (ft_pair.first != ft_multimap_ft.end())
-//	{
-//		std::cout << ft_pair.first->first << ":" << ft_pair.first->second << " ";
-//		ft_pair.first++;
-//	}
-//	std::cout << RESET << std::endl;
-//
-//
-//	std_multimap_ft.insert(std::make_pair(78, "ok"));
-//	std_multimap_ft.insert(std::make_pair(90, "kk"));
-//	std_multimap_ft.insert(++std_multimap_ft.begin(), std::make_pair(33, "hi"));
-//	std_multimap_ft.insert(std::make_pair(7, "lo"));
-//	std::pair<std::multimap<int, std::string>::iterator, bool> std_pair = std_multimap_ft.insert(std::make_pair(48, "io"));
-//
-//	std::cout << GREEN << "      Insertind values and start iterating from 48:\n      ";
-//	while (std_pair.first != std_multimap_ft.end())
-//	{
-//		std::cout << std_pair.first->first << ":" << std_pair.first->second << " ";
-//		std_pair.first++;
-//	}
-//	std::cout << RESET << std::endl;
-//
-//	ft::pair<ft::multimap<int, std::string>::iterator, bool> ft_pair_s = ft_multimap_ft.insert(ft::make_pair(48, "other"));
-//	std::pair<std::multimap<int, std::string>::iterator, bool> std_pair_s = std_multimap_ft.insert(std::make_pair(48, "other"));
-//
-//	std::cout << RED << "      Inserting excisting value, is value insertde: " << ft_pair_s.second << RESET << std::endl;
-//	std::cout << GREEN << "      Inserting excisting value, is value insertde: " << std_pair_s.second << RESET << std::endl;
-//
-//	std::cout << RED << "      Checking value: " << ft_pair_s.first->first << ":" << ft_pair_s.first->second << RESET << std::endl;
-//	std::cout << GREEN << "      Checking value: " << std_pair_s.first->first << ":" << std_pair_s.first->second << RESET << std::endl;
-//
-//	std::cout << RED << "      Checking size: " << ft_multimap_ft.size() << RESET << std::endl;
-//	std::cout << GREEN << "      Checking size: " << std_multimap_ft.size() << RESET << std::endl;
-//
-//	ft_multimap_f.clear();
-//	std_multimap_f.clear();
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Clearing other container: ");
-//
-//	std::cout << RED << "      Checking empty: " << ft_multimap_f.empty() << RESET << std::endl;
-//	std::cout << GREEN << "      Checking empty: " << std_multimap_f.empty() << RESET << std::endl;
-//
-//	ft_multimap_f.insert(++ft_multimap_ft.begin(), ft_multimap_ft.end());
-//	std_multimap_f.insert(++std_multimap_ft.begin(), std_multimap_ft.end());
-//
-//	comparison_print_map(ft_multimap_ft, std_multimap_ft, "First container: ");
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Inserted container with iterators after first value:\n      ");
-//
+
+	ft::multimap<int, std::string>::const_iterator ft_it_c = ft_multimap_ft.begin();
+	std::multimap<int, std::string>::const_iterator std_it_c = std_multimap_ft.begin();
+
+	std::cout << RED << "      With const: ";
+	while (ft_it_c != ft_multimap_ft.end())
+	{
+		std::cout << ft_it_c->first << ":" << ft_it_c->second << "   ";
+		++ft_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const: ";
+	while (std_it_c != std_multimap_ft.end())
+	{
+		std::cout << std_it_c->first << ":" << std_it_c->second << "   ";
+		++std_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::multimap<int, std::string>::const_reverse_iterator ft_it_r_c = ft_multimap_ft.rbegin();
+	std::multimap<int, std::string>::const_reverse_iterator std_it_r_c = std_multimap_ft.rbegin();
+
+	std::cout << RED << "      With const reverse: ";
+	while (ft_it_r_c != ft_multimap_ft.rend())
+	{
+		std::cout << ft_it_r_c->first << ":" << ft_it_r_c->second << "   ";
+		ft_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const reverse: ";
+	while (std_it_r_c != std_multimap_ft.rend())
+	{
+		std::cout << std_it_r_c->first << ":" << std_it_r_c->second << "   ";
+		std_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+	(----ft_multimap_ft.end())->second = "bro";
+	(----std_multimap_ft.end())->second = "bro";
+
+	comparison_print_map(ft_multimap_ft, std_multimap_ft, "Changing value of pre last element with iterator:\n      ");
+
+	ft::multimap<int, std::string>::iterator ft_copy_iter(ft_multimap_ft.begin());
+	std::multimap<int, std::string>::iterator std_copy_iter(std_multimap_ft.begin());
+	ft::multimap<int, std::string>::iterator ft_copy_iter_end(ft_multimap_ft.end());
+	std::multimap<int, std::string>::iterator std_copy_iter_end(std_multimap_ft.end());
+
+	std::cout << RED << "      Going from end to begin: ";
+	--ft_copy_iter_end;
+	while (ft_copy_iter != ft_copy_iter_end)
+	{
+		std::cout << ft_copy_iter_end->first << ":" << ft_copy_iter_end->second << "   ";
+		ft_copy_iter_end--;
+	}
+	std::cout << ft_copy_iter_end->first << ":" << ft_copy_iter_end->second << " " << RESET << std::endl;
+
+
+	std::cout << GREEN << "      Going from end to begin: ";
+	--std_copy_iter_end;
+	while (std_copy_iter != std_copy_iter_end)
+	{
+		std::cout << std_copy_iter_end->first << ":" << std_copy_iter_end->second << "   ";
+		std_copy_iter_end--;
+	}
+	std::cout << std_copy_iter_end->first << ":" << std_copy_iter_end->second << " " << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Capacity tests: " << RESET << std::endl;
+
+	std::cout << RED << "      Size of container: " << ft_multimap_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_multimap_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Max size of container: " << ft_multimap_ft.max_size() << RESET << std::endl;
+	std::cout << GREEN << "      Max size of container: " << std_multimap_ft.max_size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_multimap_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_multimap_ft.empty() << RESET << std::endl;
+
+	ft_multimap_ft.clear();
+	std_multimap_ft.clear();
+
+	std::cout << RED << "      Cleaning container, size: " << ft_multimap_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Cleaning container, size: " << std_multimap_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_multimap_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_multimap_ft.empty() << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Modifiers tests: " << RESET << std::endl;
+
+	ft_multimap_ft.insert(ft::make_pair(78, "ok"));
+	ft_multimap_ft.insert(ft::make_pair(90, "kk"));
+	ft_multimap_ft.insert(++ft_multimap_ft.begin(), ft::make_pair(33, "hi"));
+	ft_multimap_ft.insert(ft::make_pair(78, "ok"));
+	ft_multimap_ft.insert(ft::make_pair(7, "lo"));
+	ft::multimap<int, std::string>::iterator ft_iter = ft_multimap_ft.insert(ft::make_pair(48, "io"));
+
+	std::cout << RED << "      Insertind values and start iterating from 48:\n      ";
+	while (ft_iter != ft_multimap_ft.end())
+	{
+		std::cout << ft_iter->first << ":" << ft_iter->second << " ";
+		ft_iter++;
+	}
+	std::cout << RESET << std::endl;
+
+
+	std_multimap_ft.insert(std::make_pair(78, "ok"));
+	std_multimap_ft.insert(std::make_pair(90, "kk"));
+	std_multimap_ft.insert(++std_multimap_ft.begin(), std::make_pair(33, "hi"));
+	std_multimap_ft.insert(std::make_pair(78, "ok"));
+	std_multimap_ft.insert(std::make_pair(7, "lo"));
+	std::multimap<int, std::string>::iterator std_iter = std_multimap_ft.insert(std::make_pair(48, "io"));
+
+	std::cout << GREEN << "      Insertind values and start iterating from 48:\n      ";
+	while (std_iter != std_multimap_ft.end())
+	{
+		std::cout << std_iter->first << ":" << std_iter->second << " ";
+		std_iter++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::multimap<int, std::string>::iterator ft_iter_s = ft_multimap_ft.insert(ft::make_pair(48, "other"));
+	std::multimap<int, std::string>::iterator std_iter_s = std_multimap_ft.insert(std::make_pair(48, "other"));
+
+	std::cout << RED << "      Inserting excisting value, is value insertde: " << ft_iter_s->first << ":" << ft_iter_s->second << RESET << std::endl;
+	std::cout << GREEN << "      Inserting excisting value, is value insertde: " << std_iter_s->first << ":" << std_iter_s->second << RESET << std::endl;
+
+	std::cout << RED << "      Checking value: " << ft_iter_s->first << ":" << ft_iter_s->second << RESET << std::endl;
+	std::cout << GREEN << "      Checking value: " << std_iter_s->first << ":" << std_iter_s->second << RESET << std::endl;
+
+	std::cout << RED << "      Checking size: " << ft_multimap_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Checking size: " << std_multimap_ft.size() << RESET << std::endl;
+
+	ft_multimap_f.clear();
+	std_multimap_f.clear();
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Clearing other container: ");
+
+	std::cout << RED << "      Checking empty: " << ft_multimap_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking empty: " << std_multimap_f.empty() << RESET << std::endl;
+
+ 	ft_multimap_f.insert(++ft_multimap_ft.begin(), ft_multimap_ft.end());
+	std_multimap_f.insert(++std_multimap_ft.begin(), std_multimap_ft.end());
+
+	comparison_print_map(ft_multimap_ft, std_multimap_ft, "First container: ");
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Inserted container with iterators after first value:\n      ");
+
 //	ft_multimap_f.erase(ft_multimap_f.begin());
 //	std_multimap_f.erase(std_multimap_f.begin());
 //
