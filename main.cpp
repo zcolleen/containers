@@ -1772,7 +1772,21 @@ void multimap_test()
 	ft_multimap_f.clear();
 	std_multimap_f.clear();
 
-	comparison_print_map(ft_multimap_f, std_multimap_f, "Clearing other container: ");
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_multimap_f.insert(ft::make_pair(21, "school"));
+		std_multimap_f.insert(std::make_pair(21, "school"));
+	}
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Inserting values in cleared map: ");
+
+	size_t i = ft_multimap_f.erase(21);
+	size_t j = std_multimap_f.erase(21);
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Clearing containers with erase: ");
+
+	std::cout << RED << "      How many values cleared: " << i << RESET << std::endl;
+	std::cout << GREEN << "      How many values cleared: " << j << RESET << std::endl;
 
 	std::cout << RED << "      Checking empty: " << ft_multimap_f.empty() << RESET << std::endl;
 	std::cout << GREEN << "      Checking empty: " << std_multimap_f.empty() << RESET << std::endl;
@@ -1784,207 +1798,214 @@ void multimap_test()
 
 	comparison_print_map(ft_multimap_f, std_multimap_f, "Inserted container with iterators after first value:\n      ");
 
-//	ft_multimap_f.erase(ft_multimap_f.begin());
-//	std_multimap_f.erase(std_multimap_f.begin());
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing first element: ");
-//
-//	size_t i = ft_multimap_f.erase(90);
-//	size_t j = std_multimap_f.erase(90);
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing 90 value: ");
-//
-//	std::cout << RED << "      Checking if it realy erased: " << i << RESET << std::endl;
-//	std::cout << GREEN << "      Checking if it realy erased: " << j << RESET << std::endl;
-//
-//	i = ft_multimap_f.erase(22);
-//	j = std_multimap_f.erase(22);
-//
-//	std::cout << RED << "      Erasing not existing, checking if it erased: " << i << RESET << std::endl;
-//	std::cout << GREEN << "      Erasing not existing, checking if it erased: " << j << RESET << std::endl;
-//
-//	ft_multimap_f.erase(ft_multimap_f.begin(), ft_multimap_f.end());
-//	std_multimap_f.erase(std_multimap_f.begin(), std_multimap_f.end());
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing the rest with iterators: ");
-//
-//	std::cout << RED << "      Checking if its empty: " << ft_multimap_f.empty() << RESET << std::endl;
-//	std::cout << GREEN << "      Checking if its empty: " << std_multimap_f.empty() << RESET << std::endl;
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Inserting with []: ");
-//
-//	comparison_print_map(ft_multimap_ft, std_multimap_ft, "Before swap: ");
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Before swap: ");
-//
-//	ft_multimap_ft.swap(ft_multimap_f);
-//	std_multimap_ft.swap(std_multimap_f);
-//
-//	comparison_print_map(ft_multimap_ft, std_multimap_ft, "After swap: ");
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "After swap: ");
-//
-//	std::cout << std::endl;
-//	std::cout << YELLOW << "Lookup: " << RESET << std::endl;
-//
-//	size_t ft_count = ft_multimap_f.count(90);
-//	size_t std_count = std_multimap_f.count(90);
-//
-//	std::cout << RED << "      Counting 90 key: " << ft_count << RESET << std::endl;
-//	std::cout << GREEN << "      Counting 90 key: " << std_count << RESET << std::endl;
-//
-//	size_t ft_count_s = ft_multimap_f.count(5);
-//	size_t std_count_s = std_multimap_f.count(5);
-//
-//	std::cout << RED << "      Counting not existing key: " << ft_count_s << RESET << std::endl;
-//	std::cout << GREEN << "      Counting not existing key: " << std_count_s << RESET << std::endl;
-//
-//	ft::multimap<int, std::string>::iterator ft_iterator = ft_multimap_f.find(90);
-//	std::multimap<int, std::string>::iterator std_iterator = std_multimap_f.find(90);
-//
-//	std::cout << RED << "      Finding 90 key: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
-//	std::cout << GREEN << "      Finding 90 key: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
-//
-//	ft_iterator = ft_multimap_f.find(2);
-//	std_iterator = std_multimap_f.find(2);
-//
-//	if (ft_iterator == ft_multimap_f.end())
-//		std::cout << RED << "      Finding non excisting key: iterator is end" << RESET << std::endl;
-//
-//	if (std_iterator == std_multimap_f.end())
-//		std::cout << GREEN << "      Finding non excisting key: iterator is end" << RESET << std::endl;
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Maps: ");
-//
-//	ft::pair<ft::multimap<int, std::string>::iterator, ft::multimap<int, std::string>::iterator> ft_eq = ft_multimap_f.equal_range(33);
-//	std::pair<std::multimap<int, std::string>::iterator, std::multimap<int, std::string>::iterator> std_eq = std_multimap_f.equal_range(33);
-//
-//	std::cout << RED << "      Equal range of 33 value: ";
-//	while (ft_eq.first != ft_eq.second)
-//	{
-//		std::cout << ft_eq.first->first << ":" << ft_eq.first->second << " ";
-//		ft_eq.first++;
-//	}
-//	std::cout << ft_eq.first->first << ":" << ft_eq.first->second << " ";
-//	std::cout << RESET << std::endl;
-//
-//	std::cout << GREEN << "      Equal range of 33 value: ";
-//	while (std_eq.first != std_eq.second)
-//	{
-//		std::cout << std_eq.first->first << ":" << std_eq.first->second << " ";
-//		std_eq.first++;
-//	}
-//	std::cout << std_eq.first->first << ":" << std_eq.first->second << " ";
-//	std::cout << RESET << std::endl;
-//
-//	ft::pair<ft::multimap<int, std::string>::const_iterator , ft::multimap<int, std::string>::const_iterator > ft_eq_c = ft_multimap_f.equal_range(32);
-//	std::pair<std::multimap<int, std::string>::const_iterator , std::multimap<int, std::string>::const_iterator >  std_eq_c = std_multimap_f.equal_range(32);
-//
-//	std::cout << RED << "      Equal range of 32 value: ";
-//	while (ft_eq_c.first != ft_eq_c.second)
-//	{
-//		std::cout << ft_eq_c.first->first << ":" << ft_eq_c.first->second << " ";
-//		ft_eq_c.first++;
-//	}
-//	std::cout << ft_eq_c.first->first << ":" << ft_eq_c.first->second << " ";
-//	std::cout << RESET << std::endl;
-//
-//	std::cout << GREEN << "      Equal range of 32 value: ";
-//	while (std_eq_c.first != std_eq_c.second)
-//	{
-//		std::cout << std_eq_c.first->first << ":" << std_eq_c.first->second << " ";
-//		std_eq_c.first++;
-//	}
-//	std::cout << std_eq_c.first->first << ":" << std_eq_c.first->second << " ";
-//	std::cout << RESET << std::endl;
-//
-//	ft_iterator = ft_multimap_f.lower_bound(33);
-//	std_iterator = std_multimap_f.lower_bound(33);
-//
-//	std::cout << RED << "      Lower bound of 33: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
-//	std::cout << GREEN << "      Lower bound of 33: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
-//
-//	ft_iterator = ft_multimap_f.upper_bound(33);
-//	std_iterator = std_multimap_f.upper_bound(33);
-//
-//	std::cout << RED << "      Upper bound of 33: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
-//	std::cout << GREEN << "      Upper bound of 33: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
-//
-//	std::cout << std::endl;
-//
-//	std::cout << YELLOW << "Observers tests: " << RESET << std::endl;
-//
-//	ft::multimap<int, std::string>::key_compare ft_comparator = ft_multimap_f.key_comp();
-//	std::multimap<int, std::string>::key_compare std_comparator = std_multimap_f.key_comp();
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Maps: ");
-//
-//	std::cout << RED << "      Comparing first and last with key_compare: " << ft_comparator(ft_multimap_f.begin()->first, (--ft_multimap_f.end())->first) << RESET << std::endl;
-//	std::cout << GREEN << "      Comparing first and last with key_compare: " << std_comparator(std_multimap_f.begin()->first, (--std_multimap_f.end())->first) << RESET << std::endl;
-//
-//	ft::multimap<int, std::string>::value_compare ft_v_comparator = ft_multimap_f.value_comp();
-//	std::multimap<int, std::string>::value_compare std_v_comparator = std_multimap_f.value_comp();
-//
-//	std::cout << RED << "      Comparing first and last with value_compare: " << ft_v_comparator(*ft_multimap_f.begin(), *(--ft_multimap_f.end())) << RESET << std::endl;
-//	std::cout << GREEN << "      Comparing first and last with value_compare: " << std_v_comparator(*std_multimap_f.begin(), *(--std_multimap_f.end())) << RESET << std::endl;
-//
-//	std::cout << std::endl;
-//
-//	std::cout << YELLOW << "Non-member tests: " << RESET << std::endl;
-//
-//	ft_multimap_s.clear();
-//	std_multimap_s.clear();
-//
-//	ft_multimap_s.insert(ft_multimap_f.begin(), ft_multimap_f.end());
-//	std_multimap_s.insert(std_multimap_f.begin(), std_multimap_f.end());
-//
-//	comparison_print_map(ft_multimap_s, std_multimap_s, "Maps: ");
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Maps: ");
-//
-//	std::cout << RED << "      Equality compare: " << (ft_multimap_f == ft_multimap_s) << RESET << std::endl;
-//	std::cout << GREEN << "      Equality compare: " << (std_multimap_f == std_multimap_s) << RESET << std::endl;
-//
-//	std::cout << RED << "      >= compare: " << (ft_multimap_f >= ft_multimap_s) << RESET << std::endl;
-//	std::cout << GREEN << "      >= compare: " << (std_multimap_f >= std_multimap_s) << RESET << std::endl;
-//
-//	std::cout << RED << "      <= compare: " << (ft_multimap_f <= ft_multimap_s) << RESET << std::endl;
-//	std::cout << GREEN << "      <= compare: " << (std_multimap_f <= std_multimap_s) << RESET << std::endl;
-//
-//	ft_multimap_s.erase(++ft_multimap_s.begin());
-//	std_multimap_s.erase(++std_multimap_s.begin());
-//
-//	comparison_print_map(ft_multimap_s, std_multimap_s, "Erasing one value: ");
-//
-//	std::cout << RED << "      Non equality compare: " << (ft_multimap_f != ft_multimap_s) << RESET << std::endl;
-//	std::cout << GREEN << "      Non equality compare: " << (std_multimap_f != std_multimap_s) << RESET << std::endl;
-//
-//	std::cout << RED << "      >= Compare: " << (ft_multimap_s >= ft_multimap_f) << RESET << std::endl;
-//	std::cout << GREEN << "      >= Compare: " << (std_multimap_s >= std_multimap_f) << RESET << std::endl;
-//
-//	std::cout << RED << "      > Compare: " << (ft_multimap_s > ft_multimap_f) << RESET << std::endl;
-//	std::cout << GREEN << "      > Compare: " << (std_multimap_s > std_multimap_f) << RESET << std::endl;
-//
-//	ft_multimap_f.erase(++ft_multimap_f.begin(), ft_multimap_f.end());
-//	std_multimap_f.erase(++std_multimap_f.begin(), std_multimap_f.end());
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing all values except begin from first: ");
-//
-//	std::cout << RED << "      < Compare: " << (ft_multimap_f < ft_multimap_s) << RESET << std::endl;
-//	std::cout << GREEN << "      < Compare: " << (std_multimap_f < std_multimap_s) << RESET << std::endl;
-//
-//	std::cout << RED << "      <= Compare: " << (ft_multimap_f <= ft_multimap_s) << RESET << std::endl;
-//	std::cout << GREEN << "      <= Compare: " << (std_multimap_f <= std_multimap_s) << RESET << std::endl;
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "First map: ");
-//	comparison_print_map(ft_multimap_s, std_multimap_s, "Second map: ");
-//
-//	ft::swap(ft_multimap_f, ft_multimap_s);
-//	std::swap(std_multimap_f, std_multimap_s);
-//
-//	comparison_print_map(ft_multimap_f, std_multimap_f, "First swapped map: ");
-//	comparison_print_map(ft_multimap_s, std_multimap_s, "Second swapped map: ");
-//
-//	std::cout << std::endl;
-//	std::cout << BLUE << "///////////////////////END OF MULTIMAP TESTS///////////////////////" << RESET << std::endl;
-//	std::cout << std::endl;
+
+	ft_multimap_f.erase(ft_multimap_f.begin());
+	std_multimap_f.erase(std_multimap_f.begin());
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing first element: ");
+
+	i = ft_multimap_f.erase(90);
+	j = std_multimap_f.erase(90);
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing 90 value: ");
+
+	std::cout << RED << "      Checking if it realy erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Checking if it realy erased: " << j << RESET << std::endl;
+
+	i = ft_multimap_f.erase(22);
+	j = std_multimap_f.erase(22);
+
+	std::cout << RED << "      Erasing not existing, checking if it erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Erasing not existing, checking if it erased: " << j << RESET << std::endl;
+
+	ft_multimap_f.erase(ft_multimap_f.begin(), ft_multimap_f.end());
+	std_multimap_f.erase(std_multimap_f.begin(), std_multimap_f.end());
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing the rest with iterators: ");
+
+	std::cout << RED << "      Checking if its empty: " << ft_multimap_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if its empty: " << std_multimap_f.empty() << RESET << std::endl;
+
+	ft_multimap_f.insert(ft::make_pair(890, "oops"));
+	ft_multimap_f.insert(ft::make_pair(770, "lel"));
+	ft_multimap_f.insert(ft::make_pair(456, "kek"));
+
+	std_multimap_f.insert(std::make_pair(890, "oops"));
+	std_multimap_f.insert(std::make_pair(770, "lel"));
+	std_multimap_f.insert(std::make_pair(456, "kek"));
+
+	comparison_print_map(ft_multimap_ft, std_multimap_ft, "Before swap: ");
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Before swap: ");
+
+	ft_multimap_ft.swap(ft_multimap_f);
+	std_multimap_ft.swap(std_multimap_f);
+
+	comparison_print_map(ft_multimap_ft, std_multimap_ft, "After swap: ");
+	comparison_print_map(ft_multimap_f, std_multimap_f, "After swap: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Lookup: " << RESET << std::endl;
+
+	size_t ft_count = ft_multimap_f.count(48);
+	size_t std_count = std_multimap_f.count(48);
+
+	std::cout << RED << "      Counting 48 key: " << ft_count << RESET << std::endl;
+	std::cout << GREEN << "      Counting 48 key: " << std_count << RESET << std::endl;
+
+	size_t ft_count_s = ft_multimap_f.count(5);
+	size_t std_count_s = std_multimap_f.count(5);
+
+	std::cout << RED << "      Counting not existing key: " << ft_count_s << RESET << std::endl;
+	std::cout << GREEN << "      Counting not existing key: " << std_count_s << RESET << std::endl;
+
+	ft::multimap<int, std::string>::iterator ft_iterator = ft_multimap_f.find(48);
+	std::multimap<int, std::string>::iterator std_iterator = std_multimap_f.find(48);
+
+	std::cout << RED << "      Finding 48 key: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
+	std::cout << GREEN << "      Finding 48 key: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
+
+	ft_iterator = ft_multimap_f.find(2);
+	std_iterator = std_multimap_f.find(2);
+
+	if (ft_iterator == ft_multimap_f.end())
+		std::cout << RED << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	if (std_iterator == std_multimap_f.end())
+		std::cout << GREEN << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Maps: ");
+
+	ft::pair<ft::multimap<int, std::string>::iterator, ft::multimap<int, std::string>::iterator> ft_eq = ft_multimap_f.equal_range(48);
+	std::pair<std::multimap<int, std::string>::iterator, std::multimap<int, std::string>::iterator> std_eq = std_multimap_f.equal_range(48);
+
+	std::cout << RED << "      Equal range of 48 value: ";
+	while (ft_eq.first != ft_eq.second)
+	{
+		std::cout << ft_eq.first->first << ":" << ft_eq.first->second << " ";
+		ft_eq.first++;
+	}
+	std::cout << ft_eq.first->first << ":" << ft_eq.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 48 value: ";
+	while (std_eq.first != std_eq.second)
+	{
+		std::cout << std_eq.first->first << ":" << std_eq.first->second << " ";
+		std_eq.first++;
+	}
+	std::cout << std_eq.first->first << ":" << std_eq.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	ft::pair<ft::multimap<int, std::string>::const_iterator , ft::multimap<int, std::string>::const_iterator > ft_eq_c = ft_multimap_f.equal_range(32);
+	std::pair<std::multimap<int, std::string>::const_iterator , std::multimap<int, std::string>::const_iterator >  std_eq_c = std_multimap_f.equal_range(32);
+
+	std::cout << RED << "      Equal range of 32 value: ";
+	while (ft_eq_c.first != ft_eq_c.second)
+	{
+		std::cout << ft_eq_c.first->first << ":" << ft_eq_c.first->second << " ";
+		ft_eq_c.first++;
+	}
+	std::cout << ft_eq_c.first->first << ":" << ft_eq_c.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 32 value: ";
+	while (std_eq_c.first != std_eq_c.second)
+	{
+		std::cout << std_eq_c.first->first << ":" << std_eq_c.first->second << " ";
+		std_eq_c.first++;
+	}
+	std::cout << std_eq_c.first->first << ":" << std_eq_c.first->second << " ";
+	std::cout << RESET << std::endl;
+
+	ft_iterator = ft_multimap_f.lower_bound(33);
+	std_iterator = std_multimap_f.lower_bound(33);
+
+	std::cout << RED << "      Lower bound of 33: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
+	std::cout << GREEN << "      Lower bound of 33: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
+
+	ft_iterator = ft_multimap_f.upper_bound(33);
+	std_iterator = std_multimap_f.upper_bound(33);
+
+	std::cout << RED << "      Upper bound of 33: " << ft_iterator->first << ":" << ft_iterator->second << RESET << std::endl;
+	std::cout << GREEN << "      Upper bound of 33: " << std_iterator->first << ":" << std_iterator->second << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Observers tests: " << RESET << std::endl;
+
+	ft::multimap<int, std::string>::key_compare ft_comparator = ft_multimap_f.key_comp();
+	std::multimap<int, std::string>::key_compare std_comparator = std_multimap_f.key_comp();
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Maps: ");
+
+	std::cout << RED << "      Comparing first and last with key_compare: " << ft_comparator(ft_multimap_f.begin()->first, (--ft_multimap_f.end())->first) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with key_compare: " << std_comparator(std_multimap_f.begin()->first, (--std_multimap_f.end())->first) << RESET << std::endl;
+
+	ft::multimap<int, std::string>::value_compare ft_v_comparator = ft_multimap_f.value_comp();
+	std::multimap<int, std::string>::value_compare std_v_comparator = std_multimap_f.value_comp();
+
+	std::cout << RED << "      Comparing first and last with value_compare: " << ft_v_comparator(*ft_multimap_f.begin(), *(--ft_multimap_f.end())) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with value_compare: " << std_v_comparator(*std_multimap_f.begin(), *(--std_multimap_f.end())) << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Non-member tests: " << RESET << std::endl;
+
+	ft_multimap_s.clear();
+	std_multimap_s.clear();
+
+	ft_multimap_s.insert(ft_multimap_f.begin(), ft_multimap_f.end());
+	std_multimap_s.insert(std_multimap_f.begin(), std_multimap_f.end());
+
+	comparison_print_map(ft_multimap_s, std_multimap_s, "Maps: ");
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Maps: ");
+
+	std::cout << RED << "      Equality compare: " << (ft_multimap_f == ft_multimap_s) << RESET << std::endl;
+	std::cout << GREEN << "      Equality compare: " << (std_multimap_f == std_multimap_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= compare: " << (ft_multimap_f >= ft_multimap_s) << RESET << std::endl;
+	std::cout << GREEN << "      >= compare: " << (std_multimap_f >= std_multimap_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= compare: " << (ft_multimap_f <= ft_multimap_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= compare: " << (std_multimap_f <= std_multimap_s) << RESET << std::endl;
+
+	ft_multimap_s.erase(++ft_multimap_s.begin());
+	std_multimap_s.erase(++std_multimap_s.begin());
+
+	comparison_print_map(ft_multimap_s, std_multimap_s, "Erasing one value: ");
+
+	std::cout << RED << "      Non equality compare: " << (ft_multimap_f != ft_multimap_s) << RESET << std::endl;
+	std::cout << GREEN << "      Non equality compare: " << (std_multimap_f != std_multimap_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= Compare: " << (ft_multimap_s >= ft_multimap_f) << RESET << std::endl;
+	std::cout << GREEN << "      >= Compare: " << (std_multimap_s >= std_multimap_f) << RESET << std::endl;
+
+	std::cout << RED << "      > Compare: " << (ft_multimap_s > ft_multimap_f) << RESET << std::endl;
+	std::cout << GREEN << "      > Compare: " << (std_multimap_s > std_multimap_f) << RESET << std::endl;
+
+	ft_multimap_f.erase(++ft_multimap_f.begin(), ft_multimap_f.end());
+	std_multimap_f.erase(++std_multimap_f.begin(), std_multimap_f.end());
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "Erasing all values except begin from first: ");
+
+	std::cout << RED << "      < Compare: " << (ft_multimap_f < ft_multimap_s) << RESET << std::endl;
+	std::cout << GREEN << "      < Compare: " << (std_multimap_f < std_multimap_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= Compare: " << (ft_multimap_f <= ft_multimap_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= Compare: " << (std_multimap_f <= std_multimap_s) << RESET << std::endl;
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "First map: ");
+	comparison_print_map(ft_multimap_s, std_multimap_s, "Second map: ");
+
+	ft::swap(ft_multimap_f, ft_multimap_s);
+	std::swap(std_multimap_f, std_multimap_s);
+
+	comparison_print_map(ft_multimap_f, std_multimap_f, "First swapped map: ");
+	comparison_print_map(ft_multimap_s, std_multimap_s, "Second swapped map: ");
+
+	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////END OF MULTIMAP TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
 }
 
 
