@@ -2008,7 +2008,6 @@ void multimap_test()
 	std::cout << std::endl;
 }
 
-
 int main()
 {
 	srand(time(NULL));
@@ -2018,5 +2017,6 @@ int main()
 //	queue_tests();
 //	vector_tests();
 //	map_tests();
-	multimap_test();
+//	multimap_test();
+
 }
