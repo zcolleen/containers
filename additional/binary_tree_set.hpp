@@ -21,16 +21,16 @@ protected:
 	typedef struct Node {
 
 
-		Node() : _key(Key()), _parent(NULL), _right(NULL), _left(NULL), _color(BLACK_L) {}
+		Node() : _parent(NULL), _right(NULL), _left(NULL), _key(Key()), _color(BLACK_L) {}
 
-		Node(const Node *other, struct Node *node) : _key(other->_key), _parent(node), _right(node),
-													 _left(node), _color(other->_color) {}
-		Node(const Key &key, struct Node *node) : _key(key), _parent(node), _right(node),
-																  _left(node), _color(RED_L) {}
-		const Key _key;
+		Node(const Node *other, struct Node *node) : _parent(node), _right(node),
+													 _left(node), _key(other->_key), _color(other->_color) {}
+		Node(const Key &key, struct Node *node) : _parent(node), _right(node),
+																  _left(node), _key(key), _color(RED_L) {}
 		struct Node *_parent;
 		struct Node *_right;
 		struct Node *_left;
+		const Key _key;
 		bool 		_color;
 	}				Node;
 
@@ -700,12 +700,12 @@ protected:
 		}
 	}
 
-public:
-	void show()
-	{
-		if (_root != _NULL)
-			show(_root, 5);
-	}
+//public:
+//	void show()
+//	{
+//		if (_root != _NULL)
+//			show(_root, 5);
+//	}
 
 };
 

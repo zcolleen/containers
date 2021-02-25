@@ -2918,13 +2918,13 @@ int main()
 {
 	srand(time(NULL));
 
-//	list_tests();
-//	stack_tests();
-//	queue_tests();
-//	vector_tests();
-//	map_tests();
-//	multimap_test();
+	list_tests();
+	stack_tests();
+	queue_tests();
+	vector_tests();
+	map_tests();
+	multimap_test();
 	set_tests();
-//	multiset_tests();
+	multiset_tests();
 
 }
