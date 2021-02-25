@@ -7,6 +7,7 @@
 #include "map.hpp"
 #include "multimap.hpp"
 #include "set.hpp"
+#include "multiset.hpp"
 #include <vector>
 #include <stack>
 #include <queue>
@@ -2440,6 +2441,478 @@ void set_tests()
 	std::cout << std::endl;
 }
 
+void multiset_tests()
+{
+	std::cout << BLUE << "///////////////////////MULTISET TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
+
+
+	std::cout << YELLOW << "Constructor tests: " << RESET << std::endl;
+	ft::multiset<int> ft_multiset_f;
+	std::multiset<int> std_multiset_f;
+
+	ft_multiset_f.insert(88);
+	std_multiset_f.insert(88);
+
+	ft_multiset_f.insert(89);
+	std_multiset_f.insert(89);
+
+	ft_multiset_f.insert(89);
+	std_multiset_f.insert(89);
+
+	ft_multiset_f.insert(23);
+	std_multiset_f.insert(23);
+
+	ft_multiset_f.insert(12);
+	std_multiset_f.insert(12);
+
+	ft_multiset_f.insert(78);
+	std_multiset_f.insert(78);
+
+	ft_multiset_f.insert(8);
+	std_multiset_f.insert(8);
+
+	ft_multiset_f.insert(8);
+	std_multiset_f.insert(8);
+
+	ft_multiset_f.insert(1);
+	std_multiset_f.insert(1);
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Inserting 20 values: ");
+
+	ft::multiset<int> ft_multiset_s(ft_multiset_f.begin(), ft_multiset_f.end());
+	std::multiset<int> std_multiset_s(std_multiset_f.begin(), std_multiset_f.end());
+
+	comparison_print(ft_multiset_s, std_multiset_s, "Iterator constructor: ");
+
+	ft::multiset<int> ft_multiset_th(ft_multiset_s);
+	std::multiset<int> std_multiset_th(std_multiset_s);
+
+	comparison_print(ft_multiset_th, std_multiset_th, "Copy constructor: ");
+
+	ft::multiset<int> ft_multiset_ft;
+	std::multiset<int> std_multiset_ft;
+
+	ft_multiset_ft = ft_multiset_th;
+	std_multiset_ft = std_multiset_th;
+
+	comparison_print(ft_multiset_ft, std_multiset_ft, "Assignation operator: ");
+
+
+	std::cout << RED << "      Size of container: " << ft_multiset_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_multiset_ft.size() << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Iterator tests: " << RESET << std::endl;
+
+	ft::multiset<int>::iterator ft_it = ft_multiset_ft.begin();
+	std::multiset<int>::iterator std_it = std_multiset_ft.begin();
+
+	std::cout << RED << "      Print with iterators: ";
+	while (ft_it != ft_multiset_ft.end())
+	{
+		std::cout << *ft_it << "   ";
+		ft_it++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Print with iterators: ";
+	while (std_it != std_multiset_ft.end())
+	{
+		std::cout << *std_it << "   ";
+		std_it++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::multiset<int>::reverse_iterator ft_it_r = ft_multiset_ft.rbegin();
+	std::multiset<int>::reverse_iterator std_it_r = std_multiset_ft.rbegin();
+
+	std::cout << RED << "      With reverse: ";
+	while (ft_it_r != ft_multiset_ft.rend())
+	{
+		std::cout << *ft_it_r << "   ";
+		++ft_it_r;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With reverse: ";
+	while (std_it_r != std_multiset_ft.rend())
+	{
+		std::cout << *std_it_r << "   ";
+		++std_it_r;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::multiset<int>::const_iterator ft_it_c = ft_multiset_ft.begin();
+	std::multiset<int>::const_iterator std_it_c = std_multiset_ft.begin();
+
+	std::cout << RED << "      With const: ";
+	while (ft_it_c != ft_multiset_ft.end())
+	{
+		std::cout << *ft_it_c << "   ";
+		++ft_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const: ";
+	while (std_it_c != std_multiset_ft.end())
+	{
+		std::cout << *std_it_c << "   ";
+		++std_it_c;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::multiset<int>::const_reverse_iterator ft_it_r_c = ft_multiset_ft.rbegin();
+	std::multiset<int>::const_reverse_iterator std_it_r_c = std_multiset_ft.rbegin();
+
+	std::cout << RED << "      With const reverse: ";
+	while (ft_it_r_c != ft_multiset_ft.rend())
+	{
+		std::cout << *ft_it_r_c << "   ";
+		ft_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      With const reverse: ";
+	while (std_it_r_c != std_multiset_ft.rend())
+	{
+		std::cout << *std_it_r_c << "   ";
+		std_it_r_c++;
+	}
+	std::cout << RESET << std::endl;
+
+
+
+	ft::multiset<int>::iterator ft_copy_iter(ft_multiset_ft.begin());
+	std::multiset<int>::iterator std_copy_iter(std_multiset_ft.begin());
+	ft::multiset<int>::iterator ft_copy_iter_end(ft_multiset_ft.end());
+	std::multiset<int>::iterator std_copy_iter_end(std_multiset_ft.end());
+
+	std::cout << RED << "      Going from end to begin: ";
+	--ft_copy_iter_end;
+	while (ft_copy_iter != ft_copy_iter_end)
+	{
+		std::cout << *ft_copy_iter_end << "   ";
+		ft_copy_iter_end--;
+	}
+	std::cout << *ft_copy_iter_end << " " << RESET << std::endl;
+
+
+	std::cout << GREEN << "      Going from end to begin: ";
+	--std_copy_iter_end;
+	while (std_copy_iter != std_copy_iter_end)
+	{
+		std::cout << *std_copy_iter_end << "   ";
+		std_copy_iter_end--;
+	}
+	std::cout << *std_copy_iter_end << " " << RESET << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Capacity tests: " << RESET << std::endl;
+
+	std::cout << RED << "      Size of container: " << ft_multiset_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Size of container: " << std_multiset_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Max size of container: " << ft_multiset_ft.max_size() << RESET << std::endl;
+	std::cout << GREEN << "      Max size of container: " << std_multiset_ft.max_size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_multiset_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_multiset_ft.empty() << RESET << std::endl;
+
+	ft_multiset_ft.clear();
+	std_multiset_ft.clear();
+
+	std::cout << RED << "      Cleaning container, size: " << ft_multiset_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Cleaning container, size: " << std_multiset_ft.size() << RESET << std::endl;
+
+	std::cout << RED << "      Checking if container is empty: " << ft_multiset_ft.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if container is empty: " << std_multiset_ft.empty() << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Modifiers tests: " << RESET << std::endl;
+
+	ft_multiset_ft.insert(78);
+	ft_multiset_ft.insert(90);
+	ft_multiset_ft.insert(++ft_multiset_ft.begin(), 33);
+	ft_multiset_ft.insert(78);
+	ft_multiset_ft.insert(7);
+	ft::multiset<int>::iterator ft_iter = ft_multiset_ft.insert(48);
+
+	std::cout << RED << "      Insertind values and start iterating from 48:\n      ";
+	while (ft_iter != ft_multiset_ft.end())
+	{
+		std::cout << *ft_iter << " ";
+		ft_iter++;
+	}
+	std::cout << RESET << std::endl;
+
+
+	std_multiset_ft.insert(78);
+	std_multiset_ft.insert(90);
+	std_multiset_ft.insert(++std_multiset_ft.begin(),33);
+	std_multiset_ft.insert(78);
+	std_multiset_ft.insert(7);
+	std::multiset<int>::iterator std_iter = std_multiset_ft.insert(48);
+
+	std::cout << GREEN << "      Insertind values and start iterating from 48:\n      ";
+	while (std_iter != std_multiset_ft.end())
+	{
+		std::cout << *std_iter << " ";
+		std_iter++;
+	}
+	std::cout << RESET << std::endl;
+
+	ft::multiset<int>::iterator ft_iter_s = ft_multiset_ft.insert(48);
+	std::multiset<int>::iterator std_iter_s = std_multiset_ft.insert(48);
+
+	std::cout << RED << "      Inserting excisting value, is value insertde: " << *ft_iter_s << RESET << std::endl;
+	std::cout << GREEN << "      Inserting excisting value, is value insertde: " << *std_iter_s << RESET << std::endl;
+
+	std::cout << RED << "      Checking value: " << *ft_iter_s << RESET << std::endl;
+	std::cout << GREEN << "      Checking value: " << *std_iter_s << RESET << std::endl;
+
+	std::cout << RED << "      Checking size: " << ft_multiset_ft.size() << RESET << std::endl;
+	std::cout << GREEN << "      Checking size: " << std_multiset_ft.size() << RESET << std::endl;
+
+	ft_multiset_f.clear();
+	std_multiset_f.clear();
+
+	for (int i = 0; i < 10; ++i)
+	{
+		ft_multiset_f.insert(21);
+		std_multiset_f.insert(21);
+	}
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Inserting values in cleared map: ");
+
+	size_t i = ft_multiset_f.erase(21);
+	size_t j = std_multiset_f.erase(21);
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Clearing containers with erase: ");
+
+	std::cout << RED << "      How many values cleared: " << i << RESET << std::endl;
+	std::cout << GREEN << "      How many values cleared: " << j << RESET << std::endl;
+
+	std::cout << RED << "      Checking empty: " << ft_multiset_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking empty: " << std_multiset_f.empty() << RESET << std::endl;
+
+	ft_multiset_f.insert(++ft_multiset_ft.begin(), ft_multiset_ft.end());
+	std_multiset_f.insert(++std_multiset_ft.begin(), std_multiset_ft.end());
+
+	comparison_print(ft_multiset_ft, std_multiset_ft, "First container: ");
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Inserted container with iterators after first value:\n      ");
+
+
+	ft_multiset_f.erase(ft_multiset_f.begin());
+	std_multiset_f.erase(std_multiset_f.begin());
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Erasing first element: ");
+
+	i = ft_multiset_f.erase(90);
+	j = std_multiset_f.erase(90);
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Erasing 90 value: ");
+
+	std::cout << RED << "      Checking if it realy erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Checking if it realy erased: " << j << RESET << std::endl;
+
+	i = ft_multiset_f.erase(22);
+	j = std_multiset_f.erase(22);
+
+	std::cout << RED << "      Erasing not existing, checking if it erased: " << i << RESET << std::endl;
+	std::cout << GREEN << "      Erasing not existing, checking if it erased: " << j << RESET << std::endl;
+
+	ft_multiset_f.erase(ft_multiset_f.begin(), ft_multiset_f.end());
+	std_multiset_f.erase(std_multiset_f.begin(), std_multiset_f.end());
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Erasing the rest with iterators: ");
+
+	std::cout << RED << "      Checking if its empty: " << ft_multiset_f.empty() << RESET << std::endl;
+	std::cout << GREEN << "      Checking if its empty: " << std_multiset_f.empty() << RESET << std::endl;
+
+	ft_multiset_f.insert(890);
+	ft_multiset_f.insert(770);
+	ft_multiset_f.insert(456);
+
+	std_multiset_f.insert(890);
+	std_multiset_f.insert(770);
+	std_multiset_f.insert(456);
+
+	comparison_print(ft_multiset_ft, std_multiset_ft, "Before swap: ");
+	comparison_print(ft_multiset_f, std_multiset_f, "Before swap: ");
+
+	ft_multiset_ft.swap(ft_multiset_f);
+	std_multiset_ft.swap(std_multiset_f);
+
+	comparison_print(ft_multiset_ft, std_multiset_ft, "After swap: ");
+	comparison_print(ft_multiset_f, std_multiset_f, "After swap: ");
+
+	std::cout << std::endl;
+	std::cout << YELLOW << "Lookup: " << RESET << std::endl;
+
+	size_t ft_count = ft_multiset_f.count(48);
+	size_t std_count = std_multiset_f.count(48);
+
+	std::cout << RED << "      Counting 48 key: " << ft_count << RESET << std::endl;
+	std::cout << GREEN << "      Counting 48 key: " << std_count << RESET << std::endl;
+
+	size_t ft_count_s = ft_multiset_f.count(5);
+	size_t std_count_s = std_multiset_f.count(5);
+
+	std::cout << RED << "      Counting not existing key: " << ft_count_s << RESET << std::endl;
+	std::cout << GREEN << "      Counting not existing key: " << std_count_s << RESET << std::endl;
+
+	ft::multiset<int>::iterator ft_iterator = ft_multiset_f.find(48);
+	std::multiset<int>::iterator std_iterator = std_multiset_f.find(48);
+
+	std::cout << RED << "      Finding 48 key: " << *ft_iterator << RESET << std::endl;
+	std::cout << GREEN << "      Finding 48 key: " << *std_iterator << RESET << std::endl;
+
+	ft_iterator = ft_multiset_f.find(2);
+	std_iterator = std_multiset_f.find(2);
+
+	if (ft_iterator == ft_multiset_f.end())
+		std::cout << RED << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	if (std_iterator == std_multiset_f.end())
+		std::cout << GREEN << "      Finding non excisting key: iterator is end" << RESET << std::endl;
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Maps: ");
+
+	ft::pair<ft::multiset<int>::iterator, ft::multiset<int>::iterator> ft_eq = ft_multiset_f.equal_range(48);
+	std::pair<std::multiset<int>::iterator, std::multiset<int>::iterator> std_eq = std_multiset_f.equal_range(48);
+
+	std::cout << RED << "      Equal range of 48 value: ";
+	while (ft_eq.first != ft_eq.second)
+	{
+		std::cout << *ft_eq.first << " ";
+		ft_eq.first++;
+	}
+	std::cout << *ft_eq.first << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 48 value: ";
+	while (std_eq.first != std_eq.second)
+	{
+		std::cout << *std_eq.first << " ";
+		std_eq.first++;
+	}
+	std::cout << *std_eq.first << " ";
+	std::cout << RESET << std::endl;
+
+	ft::pair<ft::multiset<int>::const_iterator , ft::multiset<int>::const_iterator > ft_eq_c = ft_multiset_f.equal_range(32);
+	std::pair<std::multiset<int>::const_iterator , std::multiset<int>::const_iterator >  std_eq_c = std_multiset_f.equal_range(32);
+
+	std::cout << RED << "      Equal range of 32 value: ";
+	while (ft_eq_c.first != ft_eq_c.second)
+	{
+		std::cout << *ft_eq_c.first << " ";
+		ft_eq_c.first++;
+	}
+	std::cout << *ft_eq_c.first << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << GREEN << "      Equal range of 32 value: ";
+	while (std_eq_c.first != std_eq_c.second)
+	{
+		std::cout << *std_eq_c.first << " ";
+		std_eq_c.first++;
+	}
+	std::cout << *std_eq_c.first << " ";
+	std::cout << RESET << std::endl;
+
+	ft_iterator = ft_multiset_f.lower_bound(33);
+	std_iterator = std_multiset_f.lower_bound(33);
+
+	std::cout << RED << "      Lower bound of 33: " << *ft_iterator << RESET << std::endl;
+	std::cout << GREEN << "      Lower bound of 33: " << *std_iterator << RESET << std::endl;
+
+	ft_iterator = ft_multiset_f.upper_bound(33);
+	std_iterator = std_multiset_f.upper_bound(33);
+
+	std::cout << RED << "      Upper bound of 33: " << *ft_iterator << RESET << std::endl;
+	std::cout << GREEN << "      Upper bound of 33: " << *std_iterator << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Observers tests: " << RESET << std::endl;
+
+	ft::multiset<int>::key_compare ft_comparator = ft_multiset_f.key_comp();
+	std::multiset<int>::key_compare std_comparator = std_multiset_f.key_comp();
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Maps: ");
+
+	std::cout << RED << "      Comparing first and last with key_compare: " << ft_comparator(*ft_multiset_f.begin(), *(--ft_multiset_f.end())) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with key_compare: " << std_comparator(*std_multiset_f.begin(), *(--std_multiset_f.end())) << RESET << std::endl;
+
+	ft::multiset<int>::value_compare ft_v_comparator = ft_multiset_f.value_comp();
+	std::multiset<int>::value_compare std_v_comparator = std_multiset_f.value_comp();
+
+	std::cout << RED << "      Comparing first and last with value_compare: " << ft_v_comparator(*ft_multiset_f.begin(), *(--ft_multiset_f.end())) << RESET << std::endl;
+	std::cout << GREEN << "      Comparing first and last with value_compare: " << std_v_comparator(*std_multiset_f.begin(), *(--std_multiset_f.end())) << RESET << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "Non-member tests: " << RESET << std::endl;
+
+	ft_multiset_s.clear();
+	std_multiset_s.clear();
+
+	ft_multiset_s.insert(ft_multiset_f.begin(), ft_multiset_f.end());
+	std_multiset_s.insert(std_multiset_f.begin(), std_multiset_f.end());
+
+	comparison_print(ft_multiset_s, std_multiset_s, "Sets: ");
+	comparison_print(ft_multiset_f, std_multiset_f, "Sets: ");
+
+	std::cout << RED << "      Equality compare: " << (ft_multiset_f == ft_multiset_s) << RESET << std::endl;
+	std::cout << GREEN << "      Equality compare: " << (std_multiset_f == std_multiset_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= compare: " << (ft_multiset_f >= ft_multiset_s) << RESET << std::endl;
+	std::cout << GREEN << "      >= compare: " << (std_multiset_f >= std_multiset_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= compare: " << (ft_multiset_f <= ft_multiset_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= compare: " << (std_multiset_f <= std_multiset_s) << RESET << std::endl;
+
+	ft_multiset_s.erase(++ft_multiset_s.begin());
+	std_multiset_s.erase(++std_multiset_s.begin());
+
+	comparison_print(ft_multiset_s, std_multiset_s, "Erasing one value: ");
+
+	std::cout << RED << "      Non equality compare: " << (ft_multiset_f != ft_multiset_s) << RESET << std::endl;
+	std::cout << GREEN << "      Non equality compare: " << (std_multiset_f != std_multiset_s) << RESET << std::endl;
+
+	std::cout << RED << "      >= Compare: " << (ft_multiset_s >= ft_multiset_f) << RESET << std::endl;
+	std::cout << GREEN << "      >= Compare: " << (std_multiset_s >= std_multiset_f) << RESET << std::endl;
+
+	std::cout << RED << "      > Compare: " << (ft_multiset_s > ft_multiset_f) << RESET << std::endl;
+	std::cout << GREEN << "      > Compare: " << (std_multiset_s > std_multiset_f) << RESET << std::endl;
+
+	ft_multiset_f.erase(++ft_multiset_f.begin(), ft_multiset_f.end());
+	std_multiset_f.erase(++std_multiset_f.begin(), std_multiset_f.end());
+
+	comparison_print(ft_multiset_f, std_multiset_f, "Erasing all values except begin from first: ");
+
+	std::cout << RED << "      < Compare: " << (ft_multiset_f < ft_multiset_s) << RESET << std::endl;
+	std::cout << GREEN << "      < Compare: " << (std_multiset_f < std_multiset_s) << RESET << std::endl;
+
+	std::cout << RED << "      <= Compare: " << (ft_multiset_f <= ft_multiset_s) << RESET << std::endl;
+	std::cout << GREEN << "      <= Compare: " << (std_multiset_f <= std_multiset_s) << RESET << std::endl;
+
+	comparison_print(ft_multiset_f, std_multiset_f, "First map: ");
+	comparison_print(ft_multiset_s, std_multiset_s, "Second map: ");
+
+	ft::swap(ft_multiset_f, ft_multiset_s);
+	std::swap(std_multiset_f, std_multiset_s);
+
+	comparison_print(ft_multiset_f, std_multiset_f, "First swapped map: ");
+	comparison_print(ft_multiset_s, std_multiset_s, "Second swapped map: ");
+
+	std::cout << std::endl;
+	std::cout << BLUE << "///////////////////////END OF MULTISET TESTS///////////////////////" << RESET << std::endl;
+	std::cout << std::endl;
+}
 
 int main()
 {
@@ -2452,5 +2925,6 @@ int main()
 //	map_tests();
 //	multimap_test();
 	set_tests();
+//	multiset_tests();
 
 }
