@@ -180,17 +180,6 @@ namespace ft {
 
 		typedef iterator const_iterator;
 
-//		typedef class const_iterator : public iterator {
-//		public:
-//			const_iterator() : iterator() {}
-//			const_iterator(const const_iterator &iter) : iterator(iter) {}
-//			explicit const_iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : iterator(ptr, N) {}
-//			const_iterator(iterator iter) : iterator(iter) {}
-//			const value_type &operator*() { return (this->ptr->_pair); }
-//			const value_type *operator->() const { return (&(this->ptr->_pair));}
-//		}									const_iterator;
-
-
 		typedef class reverse_iterator : public base_iterator
 		{
 		public:
@@ -239,16 +228,6 @@ namespace ft {
 		}								reverse_iterator;
 
 		typedef reverse_iterator const_reverse_iterator;
-
-//		typedef class const_reverse_iterator : public reverse_iterator {
-//		public:
-//			const_reverse_iterator() : iterator() {}
-//			const_reverse_iterator(const const_reverse_iterator &iter) : reverse_iterator(iter) {}
-//			explicit const_reverse_iterator(typename base_iterator::Node *ptr, typename base_iterator::Node *N) : reverse_iterator(ptr, N) {}
-//			const_reverse_iterator(reverse_iterator iter) : reverse_iterator(iter) {}
-//			const value_type &operator*() { return (this->ptr->_pair); }
-//			const value_type *operator->() const { return (&(this->ptr->_pair));}
-//		}									const_reverse_iterator;
 
 		iterator begin() { return (iterator(this->_min, this->_NULL)); }
 		const_iterator begin() const { return (const_iterator(this->_min, this->_NULL)); }
